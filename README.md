@@ -1,5 +1,4 @@
-Leadcore
+<h1>Leadcore</h1>
 
-## Description
-Next generation B2B macketing manager
+Next gen B2B marketing manager
  
