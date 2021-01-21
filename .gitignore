@@ -1,0 +1,7 @@
+backend/node_modules
+backend-test
+db
+
+.idea
+
+.env
