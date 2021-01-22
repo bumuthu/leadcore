@@ -1,0 +1,11 @@
+{
+    "database": {
+        "path": "localhost:27017/leadcore-test01"
+    },
+    "api": {
+        "port": 8080
+    },
+    "auth": {
+        "jwt-secret": ""
+    }
+}
