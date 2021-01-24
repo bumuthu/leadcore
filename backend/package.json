@@ -5,6 +5,7 @@
     "main": "src/server.ts",
     "dependencies": {
         "@types/bcrypt": "^3.0.0",
+        "@types/swagger-jsdoc": "^6.0.0",
         "@types/validator": "^13.1.3",
         "bcrypt": "^3.0.8",
         "body-parser": "^1.19.0",
@@ -16,7 +17,9 @@
         "envalid": "^6.0.2",
         "express": "^4.17.1",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.8.11"
+        "mongoose": "^5.8.11",
+        "swagger-jsdoc": "^6.0.1",
+        "swagger-ui-express": "^4.1.6"
     },
     "devDependencies": {
         "@types/cookie-parser": "^1.4.2",

@@ -5,6 +5,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import Controller from './utils/interfaces/controller.interface';
 import errorMiddleware from './utils/middleware/error.middleware';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from "swagger-ui-express";
 
 class App {
     public app: express.Application;
@@ -16,6 +18,7 @@ class App {
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
         this.initializeErrorHandling();
+        this.setupSwagger();
     }
 
     public listen() {
@@ -47,6 +50,27 @@ class App {
     private connectToTheDatabase() {
         const MONGO_PATH = config.get('database.path')
         mongoose.connect(`mongodb://${MONGO_PATH}`);
+    }
+
+    private setupSwagger() {
+        const swaggerOptions = {
+            swaggerDefinition: {
+                info: {
+                    version: "1.0.0",
+                    title: "Customer API",
+                    description: "Customer API Information",
+                    contact: {
+                        name: "Amazing Developer"
+                    },
+                    servers: ["http://localhost:5000"]
+                }
+            },
+            // ['.routes/*.js']
+            apis: ["./**/*.controller.ts"]
+        };
+
+        const swaggerDocs = swaggerJSDoc(swaggerOptions);
+        this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
     }
 }
 

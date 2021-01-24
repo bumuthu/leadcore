@@ -2,13 +2,12 @@ interface User {
     _id: string;
     firstName: string;
     lastName: string;
-    fullName: string;
+    linkedin_url: string;
+    linkedin_data: any;
     email: string;
-    password: string;
-    address?: {
-        street: string,
-        city: string,
-    };
+    role: string;
+    activity_history: any;
+    notifications: any;
 }
 
 export default User;

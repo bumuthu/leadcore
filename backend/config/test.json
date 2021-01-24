@@ -3,7 +3,7 @@
         "path": "localhost:27017/leadcore-test01"
     },
     "api": {
-        "port": 8080
+        "port": 5000
     },
     "auth": {
         "jwt-secret": ""

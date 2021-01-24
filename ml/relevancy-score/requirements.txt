@@ -1,0 +1,5 @@
+seaborn
+tensorflow
+tensorflow-hub
+matplotlib
+pandas
