@@ -162,7 +162,7 @@ export const statusLog = (
 
 export const autoScroll = async (page: Page) => {
   await page.evaluate(async () => {
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       var totalHeight = 0;
       var distance = 500;
       var timer = setInterval(() => {

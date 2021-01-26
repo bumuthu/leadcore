@@ -6,7 +6,7 @@ import {
   getCleanText,
   getLocationFromText,
   statusLog,
-} from "./utils/location";
+} from "../utils/location";
 import {
   RawProfile,
   RawExperience,
@@ -17,8 +17,8 @@ import {
   Profile,
   VolunteerExperience,
   Education,
-} from "./utils/models";
-import { ScraperUserDefinedOptions } from "./utils/models";
+} from "../utils/models";
+import { ScraperUserDefinedOptions } from "../utils/models";
 
 export class LinkedInProfileScraper {
   public scraper: InitLinkedInScraper;

@@ -1,7 +1,7 @@
 import InitLinkedInScraper from "./init-scraper";
-import { statusLog } from "./utils/location";
+import { statusLog } from "../utils/location";
 import { autoScroll } from "./init-scraper";
-import { SearchProfile, ScraperUserDefinedOptions } from "./utils/models";
+import { SearchProfile, ScraperUserDefinedOptions } from "../utils/models";
 
 export class LinkedInSearchScraper {
   public scraper: InitLinkedInScraper;

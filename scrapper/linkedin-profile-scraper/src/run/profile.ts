@@ -1,16 +1,17 @@
-import { LinkedInProfileScraper } from '../profile-scraper';
+import { LinkedInProfileScraper } from '../scraper/profile-scraper';
+import config from 'config';
 
 (async () => {
   const scraper = new LinkedInProfileScraper({
-    sessionCookieValue: "AQEDASO2tVQCq2umAAABdX9zsrYAAAF1o4A2tlYAvrZzrb9Lowa8rin56bwSjtktVXffjbabJtt8Jdk-9CS1lp4qkWth545_gnVwYWuxktLK2ffHrY7WRJyp0cq4kREkeWCOYNknGNDln8GCYFFRr6jW",
+    sessionCookieValue: config.get("linkedin.session-token"),
     keepAlive: false,
   })
 
   await scraper.scraper.setup()
 
-  const result = await scraper.run('https://www.linkedin.com/in/anna-zimmermann-madureira-5baa7742/')
+  const result = await scraper.run(config.get("scrapping.profile-url"))
   
-  console.log(result)
+  console.log("Response for "+ config.get("scrapping.profile-url") + "="+ JSON.stringify(result))
   
 })()
 

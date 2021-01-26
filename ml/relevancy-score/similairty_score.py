@@ -8,8 +8,8 @@ print(os.path.exists(MODEL_PATH))
 
 if os.path.exists(MODEL_PATH):
     embed = hub.load(MODEL_PATH)
-# else:
-#     embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
+else:
+    embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 
 inpt = input("\nClick enter to proceed: ")
 

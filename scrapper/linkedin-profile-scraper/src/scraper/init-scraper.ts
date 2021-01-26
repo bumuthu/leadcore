@@ -1,15 +1,15 @@
 import puppeteer, { Page, Browser } from "puppeteer";
 import treeKill from "tree-kill";
 
-import blockedHostsList from "./utils/blocked-hosts";
+import blockedHostsList from "../utils/blocked-hosts";
 
-import { statusLog, getHostname } from "./utils/location";
-import { SessionExpired } from "./utils/errors";
-import { ScraperUserDefinedOptions, ScraperOptions } from "./utils/models";
+import { statusLog, getHostname } from "../utils/location";
+import { SessionExpired } from "../utils/errors";
+import { ScraperUserDefinedOptions, ScraperOptions } from "../utils/models";
 
 export async function autoScroll(page: Page) {
   await page.evaluate(() => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       var totalHeight = 0;
       var distance = 500;
       var timer = setInterval(() => {

@@ -1,14 +1,15 @@
-import { LinkedInSearchScraper } from '../search-scraper';
+import { LinkedInSearchScraper } from '../scraper/search-scraper';
+import config from 'config';
 
 (async () => {
   const scraper = new LinkedInSearchScraper({
-    sessionCookieValue: "AQEDASO2tVQCq2umAAABdX9zsrYAAAF1o4A2tlYAvrZzrb9Lowa8rin56bwSjtktVXffjbabJtt8Jdk-9CS1lp4qkWth545_gnVwYWuxktLK2ffHrY7WRJyp0cq4kREkeWCOYNknGNDln8GCYFFRr6jW",
+    sessionCookieValue: config.get("linkedin.session-token"),
     keepAlive: false,
   })
 
   await scraper.scraper.setup()
 
-  await scraper.run('https://www.linkedin.com/search/results/all/?keywords=john&origin=GLOBAL_SEARCH_HEADER')
+  await scraper.run(config.get("scrapping.search-url"))
   
 })()
 
