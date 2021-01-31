@@ -1,11 +1,6 @@
 backend/node_modules
-backend-test
-
-scrapper/linkedin-profile-scraper/node_modules
-
+scraper/node_modules
 ml/relevancy-score/models
-
-db
 
 .idea
 

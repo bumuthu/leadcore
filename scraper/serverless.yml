@@ -1,0 +1,16 @@
+service: linkedin-scraper
+
+provider: 
+  name: aws
+  runtime: nodejs10.x
+  memorySize: 512
+  timeout: 15
+  stage: test
+  region: us-east-2
+
+function:
+  api:
+    handler: lambda.handler
+    events: 
+      - http: ANY {proxy+}
+      - http: ANY /
