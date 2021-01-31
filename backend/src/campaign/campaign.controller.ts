@@ -3,22 +3,21 @@ import Controller from '../utils/interfaces/controller.interface';
 import RequestWithUser from '../utils/interfaces/requestWithUser.interface';
 import authMiddleware from '../utils/middleware/auth.middleware';
 import validationMiddleware from '../utils/middleware/validation.middleware';
-import campaignModel from './campaign.model';
-import CreateCampaignDto from './campaign.dto';
+import CampaignModel from './campaign.model';
 import Campaign from './campaign.interface';
 import { CampaignNotFoundException } from '../utils/exceptions/NotFoundExceptions';
 
 
 class CampaignController implements Controller {
-    public path = '/campaign';
-    public router = Router();
-    private campaign = campaignModel;
+    path = '/campaign';
+    router = Router();
+    campaign = CampaignModel;
 
     constructor() {
         this.initializeRoutes();
     }
 
-    private initializeRoutes() {
+    initializeRoutes() {
         /**
         * @swagger
         * /campaign/all:
@@ -52,11 +51,14 @@ class CampaignController implements Controller {
         *           description: A successful response
          */        
         this.router.get(`${this.path}/:id`, this.getCampaignById);
-        this.router
-            .all(`${this.path}/*`, authMiddleware)
-            .patch(`${this.path}/:id`, validationMiddleware(CreateCampaignDto, true), this.modifyCampaign)
-            .delete(`${this.path}/:id`, this.deleteCampaign)
-            .post(this.path, authMiddleware, validationMiddleware(CreateCampaignDto), this.createCampaign);
+
+        this.router.post(`${this.path}`, this.createCampaign);
+
+        // this.router
+        //     .all(`${this.path}/*`, authMiddleware)
+        //     .patch(`${this.path}/:id`, validationMiddleware(CreateCampaignDto, true), this.modifyCampaign)
+        //     .delete(`${this.path}/:id`, this.deleteCampaign)
+        //     .post(this.path, authMiddleware, validationMiddleware(CreateCampaignDto), this.createCampaign);
     }
 
     private getAllCampaigns = async (request: Request, response: Response) => {
@@ -67,7 +69,7 @@ class CampaignController implements Controller {
 
     private getCampaignById = async (request: Request, response: Response, next: NextFunction) => {
         const id = request.params.id;
-        const camp = await this.campaign.findById(id);
+        const camp = await this.campaign.findById(id).populate('createdBy');
         if (camp) {
             response.send(camp);
         } else {
@@ -87,13 +89,8 @@ class CampaignController implements Controller {
     }
 
     private createCampaign = async (request: RequestWithUser, response: Response) => {
-        const postData: CreateCampaignDto = request.body;
-        const createdCampaign = new this.campaign({
-            ...postData,
-            author: request.user._id,
-        });
-        const savedCampaign = await createdCampaign.save();
-        await savedCampaign.populate('author', '-password').execPopulate();
+        const campaignData = request.body;
+        const savedCampaign = await this.campaign.create(campaignData);
         response.send(savedCampaign);
     }
 

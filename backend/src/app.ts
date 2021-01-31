@@ -34,7 +34,7 @@ class App {
 
     private initializeMiddlewares() {
         this.app.use(bodyParser.json());
-        this.app.use(cookieParser());
+        // this.app.use(cookieParser());
     }
 
     private initializeErrorHandling() {
@@ -49,7 +49,9 @@ class App {
 
     private connectToTheDatabase() {
         const MONGO_PATH = config.get('database.path')
-        mongoose.connect(`mongodb://${MONGO_PATH}`);
+        mongoose.connect(`${MONGO_PATH}`)
+            .then(res => console.log('Connected to db'))
+            .catch(err => console.log(err));
     }
 
     private setupSwagger() {
@@ -62,7 +64,7 @@ class App {
                     contact: {
                         name: "Amazing Developer"
                     },
-                    servers: ["http://localhost:5000"]
+                    servers: ["http://localhost:5002"]
                 }
             },
             // ['.routes/*.js']

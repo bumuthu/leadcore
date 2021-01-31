@@ -1,18 +1,16 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import User from './user.interface';
-
-const addressSchema = new mongoose.Schema({
-    city: String,
-    country: String,
-    street: String,
-});
 
 const userSchema = new mongoose.Schema(
     {
-        address: addressSchema,
-        email: String,
         firstName: String,
         lastName: String,
+        email: String,
+        linkedinUrl: String,
+        linkedinData: Schema.Types.Mixed,
+        role: String,
+        activityHistory: Schema.Types.Mixed,
+        notifications: Schema.Types.Mixed,
         password: {
             type: String,
             get: (): undefined => undefined,
@@ -26,16 +24,16 @@ const userSchema = new mongoose.Schema(
     },
 );
 
-userSchema.virtual('fullName').get(function () {
-    return `${this.firstName} ${this.lastName}`;
-});
+// userSchema.virtual('fullName').get(function () {
+//     return `${this.firstName} ${this.lastName}`;
+// });
 
-userSchema.virtual('posts', {
-    ref: 'Post',
-    localField: '_id',
-    foreignField: 'author',
-});
+// userSchema.virtual('posts', {
+//     ref: 'Post',
+//     localField: '_id',
+//     foreignField: 'author',
+// });
 
-const userModel = mongoose.model<User & mongoose.Document>('User', userSchema);
+const UserModel = mongoose.model<User & mongoose.Document>('User', userSchema);
 
-export default userModel;
+export default UserModel;

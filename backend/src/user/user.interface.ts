@@ -2,11 +2,11 @@ interface User {
     _id: string;
     firstName: string;
     lastName: string;
-    linkedin_url: string;
-    linkedin_data: any;
+    linkedinUrl: string;
+    linkedinData: any;
     email: string;
     role: string;
-    activity_history: any;
+    activityHistory: any;
     notifications: any;
 }
 

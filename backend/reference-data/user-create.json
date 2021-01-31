@@ -1,0 +1,12 @@
+{
+    "firstName": "John",
+    "lastName": "Smith",
+    "linkedinUrl": "https://www.linkedin.com/in/dilshan-hettiarachchi-8187b5148/",
+    "email": "abc@abc.com",
+    "role": "MANAGER",
+    "activityHistory": {
+        "createdDate": "",
+        "events": []
+    },
+    "notifications": []
+}

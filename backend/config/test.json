@@ -1,11 +1,18 @@
 {
     "database": {
-        "path": "localhost:27017/leadcore-test01"
+        "path": "mongodb+srv://root:LC1234@cluster0.hknzh.mongodb.net/leadcore-test01?retryWrites=true&w=majority"
     },
     "api": {
-        "port": 5000
+        "port": 5001
     },
     "auth": {
         "jwt-secret": ""
+    },
+    "scrapping": {
+        "session-token": "AQEDASO2tVQAPZ2AAAABd1LtalIAAAF3dvnuUlYAmmgERTiGkCwRLmBWSknzFQWsbsNuru5QW-99aBPSe-lUM9_fKmcCuCwXB53c-x-ec3wUOn0CJxeexh8oH2hNJcy6pd637pTnJSPLTV7AHDUySb87",
+        "urls": {
+            "base-url": "http://localhost:5000",
+            "single": "/profile/single"
+        }
     }
 }

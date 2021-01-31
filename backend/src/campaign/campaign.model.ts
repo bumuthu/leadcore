@@ -1,16 +1,17 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import Campaign from './campaign.interface';
 
 const campaignSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     name: String,
-    keywords: String,
+    keywords: [String],
+    stages: [String],
+    customers: Schema.Types.Mixed,
     createdBy: {
         ref: 'User',
         type: mongoose.Schema.Types.ObjectId,
     },
 });
 
-const campaignModel = mongoose.model<Campaign & mongoose.Document>('Campaign', campaignSchema);
+const CampaignModel = mongoose.model<Campaign & mongoose.Document>('Campaign', campaignSchema);
 
-export default campaignModel;
+export default CampaignModel;
