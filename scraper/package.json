@@ -6,9 +6,11 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=test ts-node src/server.ts",
+    "deploy": "serverless deploy",
+    "compile": "tsc",
     "prof-dev": "cross-env NODE_ENV=test ts-node src/run/profile.ts",
     "search-dev": "cross-env NODE_ENV=test ts-node src/run/search.ts",
-    "build": "npx tsc -p tsconfig.production.json",
+    "build": "/node_modules/typescript/bin/tsc",
     "test:watch": "NODE_ENV=test jest --watch --coverage",
     "test": "NODE_ENV=test jest --coverage"
   },
@@ -20,8 +22,10 @@
   "license": "ISC",
   "dependencies": {
     "all-the-cities": "^3.1.0",
+    "aws-serverless-express": "^3.4.0",
     "config": "^3.3.3",
     "cross-env": "^7.0.3",
+    "express": "^4.17.1",
     "i18n-iso-countries": "^5.4.0",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
@@ -37,13 +41,13 @@
     "@types/node": "^14.0.14",
     "@types/puppeteer": "^3.0.1",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
     "jest": "^26.1.0",
     "release-it": "^13.6.4",
     "ts-jest": "^26.1.1",
     "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.9.6",
-    "typescript-tslint-plugin": "^0.5.5"
+    "typescript-tslint-plugin": "^0.5.5",
+    "typescript": "^3.9.6"
+
   },
   "release-it": {
     "git": {

@@ -4,23 +4,24 @@ import bodyParser from 'body-parser';
 import ProfileController from './controller/profile-controller';
 
 class App {
-    public app: express.Application;
+    public static app: express.Application = express();;
 
-    constructor(controller: ProfileController) {
-        this.app = express();
-        this.initializeControllers(controller);
+    private constructor() { }
+
+    public static listen() {
+
+        App.initializeControllers();
+
+        // const PORT = config.get('api.port')
+        // App.app.listen(PORT, () => {
+        //     console.log(`App listening on the port ${PORT}`);
+        // });
     }
 
-    public listen() {
-        const PORT = config.get('api.port')
-        this.app.listen(PORT, () => {
-            console.log(`App listening on the port ${PORT}`);
-        });
-    }
-
-    private initializeControllers(controller: ProfileController) {
-        this.app.use(bodyParser.json());
-        this.app.use('/', controller.router);
+    public static initializeControllers() {
+        const controller = new ProfileController();
+        App.app.use(bodyParser.json());
+        App.app.use('/', controller.router);
     }
 }
 

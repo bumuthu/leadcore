@@ -1,16 +1,21 @@
 service: linkedin-scraper
 
+package:
+  exclude:
+    - src/**
+    - ref-data/**
+
 provider: 
   name: aws
-  runtime: nodejs10.x
-  memorySize: 512
+  runtime: nodejs12.x
+  memorySize: 512 
   timeout: 15
   stage: test
   region: us-east-2
 
-function:
+functions:
   api:
-    handler: lambda.handler
+    handler: dist/lambda.universal
     events: 
       - http: ANY {proxy+}
       - http: ANY /
