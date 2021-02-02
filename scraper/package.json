@@ -11,7 +11,8 @@
     "search-dev": "cross-env NODE_ENV=test ts-node src/run/search.ts",
     "build": "npx tsc -p tsconfig.production.json",
     "test:watch": "NODE_ENV=test jest --watch --coverage",
-    "test": "NODE_ENV=test jest --coverage"
+    "test": "NODE_ENV=test jest --coverage",
+    "config-ubunutu": "bash configure-ubuntu"
   },
   "author": "",
   "repository": {

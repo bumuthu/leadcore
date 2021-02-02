@@ -45,6 +45,7 @@
         "typescript": "^3.7.5"
     },
     "scripts": {
+        "start": "cross-env NODE_ENV=test nodemon src/server.ts",
         "dev": "cross-env NODE_ENV=test DEBUG=* nodemon src/server.ts",
         "db": "mongod --dbpath ../db/data",
         "lint": "tslint -p tsconfig.json -c tslint.json",
