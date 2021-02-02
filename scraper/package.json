@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=test ts-node src/server.ts",
+    "compile": "tsc",
     "prof-dev": "cross-env NODE_ENV=test ts-node src/run/profile.ts",
     "search-dev": "cross-env NODE_ENV=test ts-node src/run/search.ts",
     "build": "npx tsc -p tsconfig.production.json",
