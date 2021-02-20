@@ -5,6 +5,8 @@ scraper/node_modules
 scraper/.serverless
 scraper/dist
 
+auth-client/node_modules
+
 ml/relevancy-score/models
 
 .idea

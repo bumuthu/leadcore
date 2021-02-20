@@ -17,10 +17,9 @@ class CustomerController implements Controller {
     }
 
     initializeRoutes() {
-        this.router.get(`${this.path}/single/:id`, this.getCustomerById);
-        this.router.post(`${this.path}/single`, this.createCustomer);
-        this.router.post(`${this.path}/list`, this.createCustomersList);
-        // this.router.get(`${this.path}/:id/campaigns`, authMiddleware, this.getAllPostsOfUser);
+        this.router.get(`${this.path}/single/:id`, authMiddleware, this.getCustomerById);
+        this.router.post(`${this.path}/single`, authMiddleware, this.createCustomer);
+        this.router.post(`${this.path}/list`, authMiddleware, this.createCustomersList);
     }
 
     getCustomerById = async (request: Request, response: Response, next: NextFunction) => {

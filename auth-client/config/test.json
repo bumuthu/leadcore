@@ -1,0 +1,17 @@
+{
+    "aws-config": {
+        "pool-id": "us-east-2_oA3vL0NU6",
+        "client-id": "1gtgjrm2oj3u0cnkks0j3hkneg"
+    },
+    "urls": {
+        "base-url": ""
+    },
+    "sessions": {
+        "client1": {
+            "username": "bumuthu",
+            "email": "bumuthudilshanhhk@gmail.com",
+            "password": "Lc@12345",
+            "role": "ADMIN"
+        }
+    }
+}

@@ -29,7 +29,7 @@ class CampaignController implements Controller {
         *           '200':
         *           description: A successful response
          */
-        this.router.get(`${this.path}/all`, this.getAllCampaigns);
+        this.router.get(`${this.path}/all`, authMiddleware, this.getAllCampaigns);
 
         /**
         * @swagger
@@ -50,9 +50,8 @@ class CampaignController implements Controller {
         *       '200':
         *           description: A successful response
          */        
-        this.router.get(`${this.path}/:id`, this.getCampaignById);
-
-        this.router.post(`${this.path}`, this.createCampaign);
+        this.router.get(`${this.path}/:id`, authMiddleware, this.getCampaignById);
+        this.router.post(`${this.path}`, authMiddleware, this.createCampaign);
 
         // this.router
         //     .all(`${this.path}/*`, authMiddleware)

@@ -18,8 +18,8 @@ class UserController implements Controller {
     }
 
     initializeRoutes() {
-        this.router.get(`${this.path}/:id`, this.getUserById);
-        this.router.post(`${this.path}/new`, this.createUser);
+        this.router.get(`${this.path}/:id`, authMiddleware, this.getUserById);
+        this.router.post(`${this.path}/new`, authMiddleware, this.createUser);
     }
 
     createUser = async (request: Request, response: Response, next: NextFunction) => {
