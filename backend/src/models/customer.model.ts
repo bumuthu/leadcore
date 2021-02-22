@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import Customer from './customer.interface'
+import Customer from '../interfaces/customer.interface'
 
 const customerSchema = new Schema({
     linkedinData: {

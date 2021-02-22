@@ -1,4 +1,4 @@
-import LinkedinData from '../linkedin/linkedin.interface'
+import LinkedinData from './linkedin.interface'
 
 interface RelevancyScore {
     keyword: string;

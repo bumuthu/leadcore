@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import Controller from '../utils/interfaces/controller.interface';
-import userModel from '../user/user.model';
+import userModel from '../models/user.model';
 
 class ReportController implements Controller {
     public path = '/report';

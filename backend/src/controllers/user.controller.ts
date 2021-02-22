@@ -2,8 +2,8 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Controller from '../utils/interfaces/controller.interface';
 import RequestWithUser from '../utils/interfaces/requestWithUser.interface';
 import authMiddleware from '../utils/middleware/auth.middleware';
-import campaignModel from '../campaign/campaign.model';
-import UserModel from './user.model';
+import campaignModel from '../models/campaign.model';
+import UserModel from '../models/user.model';
 import { NotAuthorizedException } from '../utils/exceptions/AuthenticationExceptions';
 import { UserNotFoundException } from '../utils/exceptions/NotFoundExceptions';
 

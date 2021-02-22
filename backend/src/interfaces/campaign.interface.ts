@@ -1,5 +1,5 @@
-import Customer from "../customer/customer.interface";
-import User from "../user/user.interface";
+import Customer from "./customer.interface";
+import User from "./user.interface";
 
 export default interface Campaign {
     name: string;

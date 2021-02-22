@@ -3,8 +3,8 @@ import Controller from '../utils/interfaces/controller.interface';
 import RequestWithUser from '../utils/interfaces/requestWithUser.interface';
 import authMiddleware from '../utils/middleware/auth.middleware';
 import validationMiddleware from '../utils/middleware/validation.middleware';
-import CampaignModel from './campaign.model';
-import Campaign from './campaign.interface';
+import CampaignModel from '../models/campaign.model';
+import Campaign from '../interfaces/campaign.interface';
 import { CampaignNotFoundException } from '../utils/exceptions/NotFoundExceptions';
 
 

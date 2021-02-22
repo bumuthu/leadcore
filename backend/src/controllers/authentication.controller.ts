@@ -7,11 +7,11 @@ import Controller from '../utils/interfaces/controller.interface';
 import DataStoredInToken from '../utils/interfaces/dataStoredInToken';
 import TokenData from '../utils/interfaces/tokenData.interface';
 import validationMiddleware from '../utils/middleware/validation.middleware';
-import CreateUserDto from '../user/user.dto';
-import User from '../user/user.interface';
-import userModel from './../user/user.model';
-import AuthenticationService from './authentication.service';
-import LogInDto from './logIn.dto';
+import CreateUserDto from '../dtos/user.dto';
+import User from '../interfaces/user.interface';
+import userModel from '../models/user.model';
+import AuthenticationService from '../services/authentication.service';
+import LogInDto from '../dtos/logIn.dto';
 
 class AuthenticationController implements Controller {
     public path = '/auth';

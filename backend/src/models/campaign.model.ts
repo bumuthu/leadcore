@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import Campaign from './campaign.interface';
+import Campaign from '../interfaces/campaign.interface';
 
 const campaignSchema = new mongoose.Schema({
     name: String,

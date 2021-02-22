@@ -3,7 +3,7 @@ import { NextFunction, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import DataStoredInToken from '../interfaces/dataStoredInToken';
 import RequestWithUser from '../interfaces/requestWithUser.interface';
-import userModel from '../../user/user.model';
+import userModel from '../../models/user.model';
 const jwkToPem = require('jwk-to-pem');
 const fs = require('fs');
 

@@ -1,7 +1,7 @@
 import { UserWithThatEmailAlreadyExistsException } from '../src/utils/exceptions/AuthenticationExceptions';
 import TokenData from '../src/utils/interfaces/tokenData.interface';
-import CreateUserDto from '../src/user/user.dto';
-import AuthenticationService from '../src/authentication/authentication.service';
+import CreateUserDto from '../src/dtos/user.dto';
+import AuthenticationService from '../src/services/authentication.service';
 
 describe('The AuthenticationService', () => {
     describe('when creating a cookie', () => {

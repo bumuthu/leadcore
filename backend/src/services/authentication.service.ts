@@ -4,9 +4,9 @@ import config from 'config';
 import { UserWithThatEmailAlreadyExistsException } from '../utils/exceptions/AuthenticationExceptions';
 import DataStoredInToken from '../utils/interfaces/dataStoredInToken';
 import TokenData from '../utils/interfaces/tokenData.interface';
-import CreateUserDto from '../user/user.dto';
-import User from '../user/user.interface';
-import userModel from './../user/user.model';
+import CreateUserDto from '../dtos/user.dto';
+import User from '../interfaces/user.interface';
+import userModel from '../models/user.model';
 
 class AuthenticationService {
     public user = userModel;
