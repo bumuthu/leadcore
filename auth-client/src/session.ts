@@ -2,6 +2,7 @@ const config = require('config');
 import { PathLike } from 'fs';
 import { stringify } from 'qs';
 import { AuthenticationService } from './auth-service';
+import jwt_decode from "jwt-decode";
 
 const debug = require('debug')('session');
 
@@ -38,7 +39,9 @@ export class Session {
 
     public async login() {
         this.token = await this.authenticator.signIn(this.username, this.password);
-        debug('TOKEN', this.token)
+
+        this.decodeToken();
+        
         if (!this.token) {
             throw this.token;
         }
@@ -73,5 +76,10 @@ export class Session {
         }
 
         debug('logout username=' + this.username);
+    }
+
+    public decodeToken() {
+        let decoded = jwt_decode(this.token);
+        debug('Decoded', decoded)
     }
 }

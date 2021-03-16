@@ -37,6 +37,9 @@ export class AuthenticationService {
 
         try {
             const cognitoUser = await Auth.signIn(username, password).catch(err => console.log(err));
+
+            debug('current user = ', cognitoUser);
+
             const challenge = cognitoUser.challengeName;
             if (challenge !== PasswordChallenge.NEW_PASSWORD_REQUIRED) {
                 return cognitoUser.getSignInUserSession()?.getIdToken().getJwtToken();
