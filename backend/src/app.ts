@@ -7,6 +7,7 @@ import Controller from './utils/interfaces/controller.interface';
 import errorMiddleware from './utils/middleware/error.middleware';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from "swagger-ui-express";
+const MongoClient = require('mongodb').MongoClient;
 
 class App {
     public app: express.Application;
@@ -18,7 +19,7 @@ class App {
         this.initializeMiddlewares();
         this.initializeControllers(controllers);
         this.initializeErrorHandling();
-        this.setupSwagger();
+        // this.setupSwagger();
     }
 
     public listen() {
@@ -49,7 +50,10 @@ class App {
 
     private connectToTheDatabase() {
         const MONGO_PATH = config.get('database.path')
-        mongoose.connect(`${MONGO_PATH}`)
+
+        // const client = new MongoClient(MONGO_PATH, { useNewUrlParser: true, useUnifiedTopology: true });
+
+        mongoose.connect(MONGO_PATH, { useNewUrlParser: true, useUnifiedTopology: true })
             .then(res => console.log('Connected to db'))
             .catch(err => console.log(err));
     }

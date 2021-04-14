@@ -1,6 +1,6 @@
 {
     "database": {
-        "path": "mongodb+srv://root:LC1234@cluster0.hknzh.mongodb.net/leadcore-test01?retryWrites=true&w=majority"
+        "path": "mongodb+srv://root:Lc@12345@cluster1.ninyi.mongodb.net/lc-test1?retryWrites=true&w=majority"
     },
     "api": {
         "port": 3000
