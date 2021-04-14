@@ -1,0 +1,12 @@
+{
+    "lc-roles": [
+        {
+            "id": "MANAGER",
+            "permissions": {}
+        },
+        {
+            "id": "OWNER",
+            "permissions": {}
+        }
+    ]
+}

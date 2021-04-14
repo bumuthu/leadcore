@@ -1,5 +1,5 @@
 {
-    "name": "express-typescript",
+    "name": "leadcore-backend",
     "version": "1.0.0",
     "description": "",
     "main": "src/server.ts",
@@ -34,7 +34,6 @@
         "@types/supertest": "^2.0.8",
         "aws-sdk": "^2.834.0",
         "cross-env": "^7.0.3",
-        "husky": "^4.2.1",
         "jest": "^25.1.0",
         "node-gyp": "^6.1.0",
         "nodemon": "^2.0.2",
@@ -42,21 +41,11 @@
         "ts-jest": "^25.2.0",
         "ts-node": "^8.6.2",
         "tslint": "^6.0.0",
-        "tslint-config-airbnb": "^5.11.2",
         "typescript": "^3.7.5"
     },
     "scripts": {
         "start": "cross-env NODE_ENV=test ts-node src/server.ts",
         "dev": "cross-env NODE_ENV=test DEBUG=* ts-node src/server.ts",
-        "db": "mongod --dbpath ../db/data",
-        "lint": "tslint -p tsconfig.json -c tslint.json",
-        "test": "jest"
-    },
-    "author": "Marcin Wanago",
-    "license": "MIT",
-    "husky": {
-        "hooks": {
-            "pre-commit": "npm run lint"
-        }
+        "db": "mongod --dbpath ../db/data"
     }
 }

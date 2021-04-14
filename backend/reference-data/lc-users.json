@@ -1,0 +1,77 @@
+{
+    "lc-users": [
+        {
+            "id": "601641756cfbc69498b7dd8d",
+            "firstName": "John",
+            "lastName": "Smith",
+            "linkedinUrl": "https://www.linkedin.com/in/dilshan-hettiarachchi-8187b5148/",
+            "linkedinAccessToken": "",
+            "email": "abc@abc.com",
+            "pricingPlan": "",
+            "campaigns": [
+                {
+                    "campaignId": "601641756cfbc69498b7dd8d",
+                    "roleId": "MANAGER"
+                },
+                {
+                    "campaignId": "601641756cfbc69498b7dd8d",
+                    "roleId": "OWNER"
+                }
+            ],
+            "activityRecords": [
+                {
+                    "timestamp": "",
+                    "doneBy": "",
+                    "activityType": ""
+                },
+                {
+                    "timestamp": "",
+                    "doneBy": "",
+                    "activityType": ""
+                }
+            ],
+            "notifications": [
+                {
+                    "timestamp": "",
+                    "event": ""
+                },
+                {
+                    "timestamp": "",
+                    "event": ""
+                }
+            ]
+        },
+        {
+            "firstName": "John",
+            "lastName": "Smith",
+            "linkedinUrl": "https://www.linkedin.com/in/dilshan-hettiarachchi-8187b5148/",
+            "linkedinAccessToken": "",
+            "email": "abc@abc.com",
+            "role": "MANAGER",
+            "campaigns": [
+                "601641756cfbc69498b7dd8d",
+                "601641756cfbc69498b7dd8d"
+            ],
+            "activityHistory": [
+                {
+                    "timestamp": "",
+                    "event": ""
+                },
+                {
+                    "timestamp": "",
+                    "event": ""
+                }
+            ],
+            "notifications": [
+                {
+                    "timestamp": "",
+                    "event": ""
+                },
+                {
+                    "timestamp": "",
+                    "event": ""
+                }
+            ]
+        }
+    ]
+}

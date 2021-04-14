@@ -1,0 +1,90 @@
+{
+    "lc-campaigns": [
+        {
+            "id": "601641756cfbc69498b7dd8d",
+            "name": "Campaign 1",
+            "keywords": [
+                "Software Egineering",
+                "Machine Learning",
+                "Data Sceince"
+            ],
+            "stages": [
+                "READY",
+                "COLD",
+                "ENGAGING",
+                "WON"
+            ],
+            "ananlysis": {},
+            "roles": [
+                {
+                    "userId": "601641756cfbc69498b7dd8d",
+                    "roleId": "MANAGER"
+                }
+            ],
+            "customers": [
+                {
+                    "id": "601641756cfbc69498b7dd8d",
+                    "name": "John Smith",
+                    "score": 23.4,
+                    "worth": 1000,
+                    "media": "LINKEDIN",
+                    "stageIdx": 0
+                },
+                {
+                    "id": "601641756cfbc69498b7dd8d",
+                    "name": "John Smith",
+                    "score": 23.4,
+                    "worth": 1000,
+                    "media": "LINKEDIN",
+                    "stageIdx": 3
+                }
+            ],
+            "activityRecords": [
+                {
+                    "timestamp": "",
+                    "doneBy": "",
+                    "activityType": ""
+                },
+                {
+                    "timestamp": "",
+                    "doneBy": "",
+                    "activityType": ""
+                }
+            ]
+        },
+        {
+            "id": "601641756cfbc69498b7dd8d",
+            "name": "Campaign 1",
+            "keywords": [
+                "Software Ebgineering",
+                "Machine Learning",
+                "Data Sceince"
+            ],
+            "stages": [
+                "READY",
+                "COLD",
+                "ENGAGING",
+                "WON"
+            ],
+            "customers": [
+                {
+                    "id": "601641756cfbc69498b7dd8d",
+                    "name": "John Smith",
+                    "score": 23.4,
+                    "worth": 1000,
+                    "media": "LINKEDIN",
+                    "stageIdx": 0
+                },
+                {
+                    "id": "601641756cfbc69498b7dd8d",
+                    "name": "John Smith",
+                    "score": 23.4,
+                    "worth": 1000,
+                    "media": "LINKEDIN",
+                    "stageIdx": 3
+                }
+            ],
+            "createdBy": "601641756cfbc69498b7dd8d"
+        }
+    ]
+}

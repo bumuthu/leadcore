@@ -8,6 +8,7 @@
         "no-unused-expression": true
     },
     "rules": {
+        "indent": "off",
         "max-line-length": [
             true,
             130

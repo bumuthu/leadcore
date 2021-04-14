@@ -17,39 +17,8 @@ class CampaignController implements Controller {
         this.initializeRoutes();
     }
 
-    initializeRoutes() {
-        /**
-        * @swagger
-        * /campaign/all:
-        *   get:
-        *       tags:
-        *       - "Campaign"
-        *       description: Use to get all campaigns
-        *       responses:
-        *           '200':
-        *           description: A successful response
-         */
-        this.router.get(`${this.path}/all`, authMiddleware, this.getAllCampaigns);
-
-        /**
-        * @swagger
-        * /campaign/id:
-        *   get:
-        *       tags:
-        *       - "Campaign"
-        *       description: Use to get a campaign by ID
-        *       responses:
-        *       '200':
-        *           description: A successful response
-        *   
-        *   post:
-        *       tags:
-        *       - "Campaign"
-        *       description: Use to get a campaign by ID
-        *       responses:
-        *       '200':
-        *           description: A successful response
-         */        
+    initializeRoutes() { 
+        this.router.get(`${this.path}/all`, authMiddleware, this.getAllCampaigns);       
         this.router.get(`${this.path}/:id`, authMiddleware, this.getCampaignById);
         this.router.post(`${this.path}`, authMiddleware, this.createCampaign);
 
