@@ -3,7 +3,7 @@
         "path": "mongodb+srv://root:Lc@12345@cluster1.ninyi.mongodb.net/lc-test1?retryWrites=true&w=majority"
     },
     "api": {
-        "port": 3001
+        "port": 5001
     },
     "auth": {
         "jwt-secret": ""
