@@ -3,7 +3,7 @@
         "path": "mongodb+srv://root:LC1234@cluster0.hknzh.mongodb.net/leadcore-test01?retryWrites=true&w=majority"
     },
     "api": {
-        "port": 5001
+        "port": 3000
     },
     "auth": {
         "jwt-secret": ""
