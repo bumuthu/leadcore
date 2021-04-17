@@ -8,6 +8,6 @@
         "search-url": "https://www.linkedin.com/search/results/all/?keywords=john&origin=GLOBAL_SEARCH_HEADER"
     },
     "api": {
-        "port": 5000
+        "port": 3000
     }
 }

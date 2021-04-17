@@ -1,0 +1,11 @@
+version: '3'
+services:
+    api:
+        image: leadcore/api
+        ports:
+            - 5001:3000
+    scraper:
+        image: leadcore/scraper
+        ports:
+            - 5002:3000
+        

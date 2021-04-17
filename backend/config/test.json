@@ -3,7 +3,7 @@
         "path": "mongodb+srv://root:Lc@12345@cluster1.ninyi.mongodb.net/lc-test1?retryWrites=true&w=majority"
     },
     "api": {
-        "port": 5001
+        "port": 3000
     },
     "auth": {
         "jwt-secret": ""
@@ -11,7 +11,7 @@
     "scrapping": {
         "session-token": "AQEDASO2tVQAPZ2AAAABd1LtalIAAAF3dvnuUlYAmmgERTiGkCwRLmBWSknzFQWsbsNuru5QW-99aBPSe-lUM9_fKmcCuCwXB53c-x-ec3wUOn0CJxeexh8oH2hNJcy6pd637pTnJSPLTV7AHDUySb87",
         "urls": {
-            "base-url": "http://localhost:5000",
+            "base-url": "http://localhost:5002",
             "single": "/profile/single"
         }
     }
