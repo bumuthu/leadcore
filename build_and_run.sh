@@ -1,3 +1,5 @@
+git pull 
+
 docker stop $(docker ps -aq)
 docker rm $(docker ps -aq)
 
@@ -7,4 +9,4 @@ cd ../backend
 docker build -t leadcore/api .
 cd ..
 
-docker-compose -d up
+docker-compose up -d
