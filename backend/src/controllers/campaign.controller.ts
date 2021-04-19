@@ -5,7 +5,7 @@ import authMiddleware from '../utils/middleware/auth.middleware';
 import validationMiddleware from '../utils/middleware/validation.middleware';
 import CampaignModel from '../models/campaign.model';
 import Campaign from '../interfaces/campaign.interface';
-import { CampaignNotFoundException } from '../utils/exceptions/NotFoundExceptions';
+import { DataNotFoundException } from '../utils/exceptions/NotFoundExceptions';
 
 
 class CampaignController implements Controller {
@@ -41,7 +41,7 @@ class CampaignController implements Controller {
         if (camp) {
             response.send(camp);
         } else {
-            next(new CampaignNotFoundException(id));
+            next(new DataNotFoundException('Campaign', id));
         }
     }
 
@@ -52,7 +52,7 @@ class CampaignController implements Controller {
         if (campaign) {
             response.send(campaign);
         } else {
-            next(new CampaignNotFoundException(id));
+            next(new DataNotFoundException('Campaign', id));
         }
     }
 
@@ -68,7 +68,7 @@ class CampaignController implements Controller {
         if (successResponse) {
             response.send(200);
         } else {
-            next(new CampaignNotFoundException(id));
+            next(new DataNotFoundException('Campaign', id));
         }
     }
 }

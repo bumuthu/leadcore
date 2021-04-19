@@ -7,7 +7,7 @@
             "linkedinUrl": "https://www.linkedin.com/in/dilshan-hettiarachchi-8187b5148/",
             "linkedinAccessToken": "",
             "email": "abc@abc.com",
-            "pricingPlan": "",
+            "pricingPlanId": "",
             "campaigns": [
                 {
                     "campaignId": "601641756cfbc69498b7dd8d",
@@ -16,6 +16,14 @@
                 {
                     "campaignId": "601641756cfbc69498b7dd8d",
                     "roleId": "OWNER"
+                }
+            ],
+            "conversation": [
+                {
+                    "timestamp": "2021-04-18T05:45:49.909Z",
+                    "sender": "string",
+                    "reciever": "string",
+                    "message": "string"
                 }
             ],
             "activityRecords": [
@@ -33,13 +41,17 @@
             "notifications": [
                 {
                     "timestamp": "",
-                    "event": ""
+                    "doneBy": "",
+                    "activityType": ""
                 },
                 {
                     "timestamp": "",
-                    "event": ""
+                    "doneBy": "",
+                    "activityType": ""
                 }
-            ]
+            ],
+            "analysis": {},
+            "linkedinData": {}
         },
         {
             "firstName": "John",

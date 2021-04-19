@@ -1,20 +1,28 @@
 import mongoose, { Schema } from 'mongoose';
 import User from '../interfaces/user.interface';
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
     {
         firstName: String,
         lastName: String,
         email: String,
         linkedinUrl: String,
+        linkedinAccessToken: String,
+        campaigns: [new Schema({
+            campaignId: String,
+            roleId: String
+        })],
+        conversation: [
+            new Schema({
+                timestamp: Schema.Types.Date,
+                sender: Schema.Types.ObjectId,
+                reciever: Schema.Types.ObjectId,
+                message: String
+            })
+        ],
         linkedinData: Schema.Types.Mixed,
-        role: String,
         activityHistory: Schema.Types.Mixed,
         notifications: Schema.Types.Mixed,
-        password: {
-            type: String,
-            get: (): undefined => undefined,
-        },
     },
     {
         toJSON: {

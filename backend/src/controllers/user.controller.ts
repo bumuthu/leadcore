@@ -5,7 +5,7 @@ import authMiddleware from '../utils/middleware/auth.middleware';
 import campaignModel from '../models/campaign.model';
 import UserModel from '../models/user.model';
 import { NotAuthorizedException } from '../utils/exceptions/AuthenticationExceptions';
-import { UserNotFoundException } from '../utils/exceptions/NotFoundExceptions';
+import { DataNotFoundException } from '../utils/exceptions/NotFoundExceptions';
 
 class UserController implements Controller {
     path = '/user';
@@ -20,35 +20,47 @@ class UserController implements Controller {
     initializeRoutes() {
         this.router.get(`${this.path}/:id`, authMiddleware, this.getUserById);
         this.router.post(`${this.path}/new`, authMiddleware, this.createUser);
+        this.router.put(`${this.path}/:id`, authMiddleware, this.modifyUser);
+        this.router.delete(`${this.path}/:id`, authMiddleware, this.deleteUser);
     }
 
     createUser = async (request: Request, response: Response, next: NextFunction) => {
-        const userData = request.body;
-        const savedUser = await this.user.create(userData);
+        let userData = request.body;
+        console.log(userData)
+        let savedUser = await this.user.create(userData);
+        console.log(savedUser);
         response.send(savedUser);
     }
 
     getUserById = async (request: Request, response: Response, next: NextFunction) => {
         const id = request.params.id;
         const user = await this.user.findById(id);
-        // if (request.query.withPosts === 'true') {
-        //     userQuery.populate('campaigns').exec();
-        // }
-        // const user = await userQuery;
         if (user) {
             response.send(user);
         } else {
-            next(new UserNotFoundException(id));
+            next(new DataNotFoundException('User', id));
         }
     }
 
-    getAllPostsOfUser = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-        const userId = request.params.id;
-        if (userId === request.user._id.toString()) {
-            const campaigns = await this.campaign.find({ author: userId });
-            response.send(campaigns);
+    modifyUser = async (request: Request, response: Response, next: NextFunction) => {
+        const id = request.params.id;
+        const userData = request.body;
+        const savedUser = await this.user.findByIdAndUpdate(id, userData);
+        if (savedUser) {
+            response.send(savedUser);
+        } else {
+            next(new DataNotFoundException('User', id));
         }
-        next(new NotAuthorizedException());
+    }
+
+    deleteUser = async (request: Request, response: Response, next: NextFunction) => {
+        const id = request.params.id;
+        const savedUser = await this.user.findByIdAndDelete(id);
+        if (savedUser) {
+            response.send(savedUser);
+        } else {
+            next(new DataNotFoundException('User', id));
+        }
     }
 }
 

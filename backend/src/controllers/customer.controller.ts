@@ -3,7 +3,7 @@ import Controller from '../utils/interfaces/controller.interface';
 import CustomerModel from '../models/customer.model';
 import RequestWithUser from '../utils/interfaces/requestWithUser.interface';
 import authMiddleware from '../utils/middleware/auth.middleware';
-import { UserNotFoundException } from '../utils/exceptions/NotFoundExceptions';
+import { DataNotFoundException } from '../utils/exceptions/NotFoundExceptions';
 import CustomerService from '../services/customer.service';
 
 class CustomerController implements Controller {
@@ -28,7 +28,7 @@ class CustomerController implements Controller {
         if (customer) {
             response.send(customer);
         } else {
-            next(new UserNotFoundException(id));
+            next(new DataNotFoundException('Customer', id));
         }
     }
 
