@@ -1,0 +1,640 @@
+swagger: "2.0"
+info:
+  description: "Leadcore, the next-gen CRM"
+  version: "1.0.0"
+  title: "Leadcore API"
+
+host: "3.131.29.134:5001"
+basePath: "/api/v1"
+
+tags:
+- name: "auth"
+- name: "user"
+- name: "customer"
+- name: "campaign"
+
+
+schemes:
+- "https"
+- "http"
+
+paths:
+
+  /auth/login:
+    post:
+      tags:
+      - "auth"
+      summary: "Logs user into the system"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          properties:
+            username:
+              type: "string"
+            password:
+              type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid username/password supplied"
+          
+          
+  /auth/register:
+    post:
+      tags:
+      - "auth"
+      summary: "Registers user into the system"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid username/password supplied"
+          
+          
+  /auth/logout:
+    post:
+      tags:
+      - "auth"
+      summary: "Logout user from the system"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          properties:
+            username:
+              type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid username/password supplied"
+
+  /user/{userId}:
+    get:
+      tags:
+      - "user"
+      summary: "Get user by ID"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+        "400":
+          description: "Invalid tag value"
+          
+    put:
+      tags:
+      - "user"
+      summary: "Create new user"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      - name: "userId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          
+    delete:
+      tags:
+      - "user"
+      summary: "Suspend an user"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          
+  /user/new:
+    post:
+      tags:
+      - "user"
+      summary: "Create new user"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "successful operation"
+
+
+  /customer/single/{customerId}:
+    get:
+      tags:
+      - "customer"
+      summary: "Get customer by ID"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Customer"
+          
+    put:
+      tags:
+      - "customer"
+      summary: "Update customer by ID"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerId"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Customer"
+      responses:
+        "200":
+          description: "successful operation"
+          
+    delete:
+      tags:
+      - "customer"
+      summary: "Delete customer by ID"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+      
+  /customer/single:
+    post:
+      tags:
+      - "customer"
+      summary: "Add a new customer"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Customer"
+      responses:
+        "200":
+          description: "successful operation"
+        
+  /customer/list/{customerIds}:
+    get:
+      tags:
+      - "customer"
+      summary: "Get multiple customers"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerIds"
+        in: "path"
+        type: "string"
+        required: true
+      responses:
+        "200":
+          description: "successful operation"
+          
+  /customer/list:   
+    post:
+      tags:
+      - "customer"
+      summary: "Add multiple new customers"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/Customer"
+      responses:
+        "200":
+          description: "successful operation"
+          
+
+  /campaign/{campaignId}:
+    get:
+      tags:
+      - "campaign"
+      summary: "Get campaign by ID"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "campaignId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Campaign"
+              
+    put:
+      tags:
+      - "campaign"
+      summary: "Update an existing campaign"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "campaignId"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Campaign"
+      responses:
+        "200":
+          description: "successful operation"
+        
+    delete:
+      tags:
+      - "campaign"
+      summary: "Suspend an existing campaign"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "campaignId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+         
+  /campaign/new:
+    post:
+      tags:
+      - "campaign"
+      summary: "Add a new campaign"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Campaign"
+      responses:
+        "200":
+          description: "successful operation"
+        
+
+        
+        
+        
+definitions:
+
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      firstName:
+        type: "string"      
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      pricingPlanId:
+        type: "string"
+      linkedinUrl:
+        type: "string"
+      linkedinAccessToken:
+        type: "string"
+      campaigns:
+        type: "array"
+        items: 
+          type: "object"
+          properties: 
+            campaignId: 
+              type: "string"
+            roleId:
+              type: "string"
+      conversation:
+        type: "array"
+        items:
+          $ref: "#/definitions/Message"
+      activityRecords:
+        type: "array"
+        items:
+          $ref: "#/definitions/Activity"
+      notifications:
+        type: "array"
+        items:
+          $ref: "#/definitions/Activity"
+      analysis: 
+        type: "object"
+        description: "After the analysis, this would be a complex object"
+      linkedinData:
+        type: "object"
+        description: "Scrapped data by the Linkedin scrapper"
+
+     
+  Customer:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      score:
+        type: "number"
+        format: "float"
+      worth:
+        type: "integer"
+      media:
+        type: "string"
+        enum: 
+        - "LINKEDIN"
+        - "EMAIL"
+        - "PHONE"
+        default: "LINKEDIN"
+      stageIdx:
+        type: "integer"
+      email:
+        type: "string"
+      conversation:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            timestamp: 
+              type: "string"
+              format: "date-time"
+            sender:
+              type: "string"
+              description: "User ID of the one who sends the message"
+            reciever:
+              type: "string"
+              description: "User ID of the one who recieves the message"
+            message:
+              type: "string"
+              description: "Message body"
+      nextMessageSuggestions:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            message:
+              type: "string"
+              description: "Message body"     
+      analysis: 
+        type: "object"
+        description: "After the analysis, values are filled"
+        properties:
+          relavancy:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                topic:
+                  type: "string"
+                score:
+                  type: "number"
+                  format: "float"
+          relavancyScore:
+            type: "number"
+            format: "float"
+          activeScore:
+            type: "number"
+            format: "float"
+          experiences:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                title: 
+                  type: "string"
+                company:
+                  type: "string"
+                duration:
+                  type: "object"
+                  properties:
+                    days:
+                      type: "integer"
+                    months:
+                      type: "integer"
+                    years:
+                      type: "integer"
+                endDateIsPresent:
+                  type: "boolean"
+          education:
+            type: "array"
+            items: 
+              type: "object"
+              properties: 
+                schoolName:
+                  type: "string"
+                degreeName: 
+                  type: "string"
+                fieldOfStudy:
+                  type: "string"
+                duration:
+                  type: "object"
+                  properties:
+                    days:
+                      type: "integer"
+                    months:
+                      type: "integer"
+                    years:
+                      type: "integer"
+                endDateIsPresent:
+                  type: "boolean"
+                  
+      linkedinData:
+        type: "object"
+        description: "Scrapped data by the Linkedin scrapper"
+        
+        
+  Campaign:
+    type: "object"
+    properties:
+      id: 
+        type: "string"
+      name:
+        type: "string"
+      keywords:
+        type: "array"
+        items: 
+          type: "string"
+      stages: 
+        type: "array"
+        items: 
+          type: "string"
+      analysis:
+        type: "object"
+        description: "Campaign level anatical data"
+      roles:
+        type: "array"
+        items: 
+          type: "object"
+          properties: 
+            userId: 
+              type: "string"
+            roleId:
+              type: "string"
+      customers:
+        type: "array"
+        items: 
+          type: "object"
+          properties:
+            id:
+              type: "string"
+            name: 
+              type: "string"
+            score:
+              type: "number"
+              format: "float"
+            worth:
+              type: "integer"
+            media:
+              type: "string"
+              enum: 
+              - "LINKEDIN"
+              - "EMAIL"
+              - "PHONE"
+              default: "LINKEDIN"
+            stageIdx:
+              type: "integer"
+      activityRecords:
+        type: "array"
+        items:
+          $ref: "#/definitions/Activity"
+        
+        
+  Activity:
+    type: "object"
+    properties:
+      timestamp: 
+        type: "string"
+        format: "date-time"
+      doneBy:
+        type: "string"
+        description: "User ID of the one who performed the activity"
+      activityType:
+        type: "string"
+        description: "One of activities listed here"
+        enum:
+        - "CREATED_CAMPAIGN"
+        - "MODIFIED_CAMPAIGN"
+        - "IMPORTED_USER"
+        - "MOVED_USER"
+
+
+  Message:
+    type: "object"
+    properties:
+      timestamp: 
+        type: "string"
+        format: "date-time"
+      sender:
+        type: "string"
+        description: "User ID of the one who sends the message"
+      reciever:
+        type: "string"
+        description: "User ID of the one who recieves the message"
+      message:
+        type: "string"
+        description: "Message body"
+        
+  Role:
+    type: "object"
+    properties:
+      id: 
+        type: "string"
+      permissions:
+        type: "array"
+        description: "Describes what can and cannot do witha set of actions"
+        items:
+          type: "string"
+          
+  Pricing:
+    type: "object"
+    properties:
+      id: 
+        type: "string"
+      features:
+        type: "array"
+        description: "Describes which features are provided"
+        items:
+          type: "string"
+            
+            

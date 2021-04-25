@@ -1,0 +1,79 @@
+service: lc
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-2
+  stage: dev
+  lambdaHashingVersion: '20201221'
+
+plugins:
+  - serverless-webpack
+
+package:
+  include:
+    - src/**/*
+  exclude:
+    - node_modules/**/*
+    - .serverless/**/*
+    - .vscode/**/*
+
+functions:
+  ### Customer related endpoints
+  get-customer: 
+    handler: src/controllers/customer-controller.getCustomerById
+    events:
+      - http:
+          method: get
+          path: api/v1/customer/single/{customerId}
+  # update-customer: 
+  #   handler: src/controllers/customer-controller.updateCustomerById
+  #   events:
+  #     - http:
+  #         method: put
+  #         path: api/v1/customer/single/{customerId}
+
+  ### Campaign related endpoints
+  get-campaign:
+    handler: src/controllers/campaign-controller.getCampaignById
+    events:
+      - http:
+          method: get
+          path: api/v1/campaign/{campaignId}
+  update-campaign:
+    handler: src/controllers/campaign-controller.updateCampaignById
+    events:
+      - http:
+          method: put
+          path: api/v1/campaign/{campaignId}
+  post-campaign:
+    handler: src/controllers/campaign-controller.createCampaign
+    events:
+      - http:
+          method: post
+          path: api/v1/campaign/new
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+# functions:
+#   customer:
+#     handler:
+#     events:
+  
+#   campaigns:
+#     handler:
+#     events:
+
+#   users:
+#     handler:
+#     events:
+
+#   auth:
+#     handler:
+#     events:
+
+
+  

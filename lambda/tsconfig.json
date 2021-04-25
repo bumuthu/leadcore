@@ -3,12 +3,13 @@
   "compilerOptions": {
     "lib": ["ESNext"],
     "moduleResolution": "node",
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "removeComments": true,
     "sourceMap": true,
     "target": "ES2019",
-    "outDir": "lib"
+    "outDir": "lib",
+    "esModuleInterop": true
   },
   "include": ["src/**/*.ts"],
   "exclude": [
