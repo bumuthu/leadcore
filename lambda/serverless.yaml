@@ -19,21 +19,69 @@ package:
     - .vscode/**/*
 
 functions:
-  ### Customer related endpoints
+  ### Reference Data
+  get-refdata:
+    handler: src/controllers/refdata-controller.getRefData
+    events:
+      - http:
+          method: get
+          path: api/v1/refdata
+
+  ### User
+  get-user:
+    handler: src/controllers/user-controller.getUserById
+    events:
+      - http:
+          method: get
+          path: api/v1/user/{userId}
+  update-user:
+    handler: src/controllers/user-controller.updateUserById
+    events:
+      - http:
+          method: put
+          path: api/v1/user/{userId}
+  create-user:
+    handler: src/controllers/user-controller.createUser
+    events:
+      - http:
+          method: post
+          path: api/v1/user/new
+
+  ### Team
+  get-team:
+    handler: src/controllers/team-controller.getTeamById
+    events:
+      - http:
+          method: get
+          path: api/v1/team/{teamId}
+  update-team:
+    handler: src/controllers/team-controller.updateTeamById
+    events:
+      - http:
+          method: put
+          path: api/v1/team/{teamId}
+  create-team:
+    handler: src/controllers/team-controller.createTeam
+    events:
+      - http:
+          method: post
+          path: api/v1/team/new
+
+  ### Customer
   get-customer: 
     handler: src/controllers/customer-controller.getCustomerById
     events:
       - http:
           method: get
           path: api/v1/customer/single/{customerId}
-  # update-customer: 
-  #   handler: src/controllers/customer-controller.updateCustomerById
-  #   events:
-  #     - http:
-  #         method: put
-  #         path: api/v1/customer/single/{customerId}
+  update-customer: 
+    handler: src/controllers/customer-controller.updateCustomerById
+    events:
+      - http:
+          method: put
+          path: api/v1/customer/single/{customerId}
 
-  ### Campaign related endpoints
+  ### Campaign
   get-campaign:
     handler: src/controllers/campaign-controller.getCampaignById
     events:
@@ -52,28 +100,11 @@ functions:
       - http:
           method: post
           path: api/v1/campaign/new
+ 
 
 custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
-
-# functions:
-#   customer:
-#     handler:
-#     events:
-  
-#   campaigns:
-#     handler:
-#     events:
-
-#   users:
-#     handler:
-#     events:
-
-#   auth:
-#     handler:
-#     events:
-
 
   

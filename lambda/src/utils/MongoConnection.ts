@@ -1,13 +1,11 @@
-import { MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 
 const connectToTheDatabase = async () => {
     const MONGO_PATH = 'mongodb+srv://root:Lc@12345@cluster1.ninyi.mongodb.net/lc-test1?retryWrites=true&w=majority';
 
-    const mongoClient = new MongoClient(MONGO_PATH, { useNewUrlParser: true, useUnifiedTopology: true });
-    await mongoClient.connect();
-    console.log('DB connected')
-
-    return mongoClient.db('lc-test1');
+    await mongoose.connect(MONGO_PATH, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+            .then(res => console.log('Connected to db'))
+            .catch(err => console.log(err));
 }
 
 export default connectToTheDatabase;

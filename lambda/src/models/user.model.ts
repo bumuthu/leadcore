@@ -1,36 +1,27 @@
 import mongoose, { Schema } from 'mongoose';
-import User from '../interfaces/user.interface';
 
-const userSchema = new Schema(
-    {
-        firstName: String,
-        lastName: String,
-        email: String,
-        linkedinUrl: String,
-        linkedinAccessToken: String,
-        campaigns: [new Schema({
-            campaignId: String,
-            roleId: String
-        })],
-        conversation: [
-            new Schema({
-                timestamp: Schema.Types.Date,
-                sender: Schema.Types.ObjectId,
-                reciever: Schema.Types.ObjectId,
-                message: String
-            })
-        ],
-        linkedinData: Schema.Types.Mixed,
-        activityHistory: Schema.Types.Mixed,
-        notifications: Schema.Types.Mixed,
-    },
-    {
-        toJSON: {
-            virtuals: true,
-            getters: true,
-        },
-    },
-);
+const userSchema = new Schema({
+    _id: Schema.Types.ObjectId,
+    firstName: String,
+    lastName: String,
+    email: String,
+    linkedinUrl: String,
+    linkedinAccessToken: String,
+    teams: [
+        new Schema({
+            team: { type: Schema.Types.ObjectId, ref: 'Team' },
+            role: { type: Schema.Types.ObjectId, ref: 'Role' },
+            campaigns: [new Schema({
+                campaign: { type: Schema.Types.ObjectId, ref: 'Campaign' },
+                role: { type: Schema.Types.ObjectId, ref: 'Role' }
+            })]
+        })
+    ],
+    activityRecords: { type: Schema.Types.ObjectId, ref: 'Activity' },
+    notifications: { type: Schema.Types.ObjectId, ref: 'Activity' },
+    analysis: Schema.Types.Mixed,
+    linkedinData: Schema.Types.Mixed
+});
 
 // userSchema.virtual('fullName').get(function () {
 //     return `${this.firstName} ${this.lastName}`;
@@ -42,6 +33,6 @@ const userSchema = new Schema(
 //     foreignField: 'author',
 // });
 
-const UserModel = mongoose.model<User & mongoose.Document>('User', userSchema);
+const UserModel = mongoose.model('User', userSchema);
 
 export default UserModel;

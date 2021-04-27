@@ -1,53 +1,50 @@
 import 'source-map-support/register';
 import ResponseGenerator from 'src/utils/ResponseGenerator';
 import connectToTheDatabase from '../utils/MongoConnection';
-import { ObjectId } from 'bson';
+import CampaignModel from 'src/models/campaign.model';
 
 const responseGenerator = new ResponseGenerator();
 
 export const getCampaignById = async (event, _context) => {
-    const campaignsCollecation = (await connectToTheDatabase()).collection('campaigns');
+    await connectToTheDatabase()
 
     const id = event.pathParameters.campaignId;
 
     try {
-        const campaign = await campaignsCollecation.findOne({ _id: new ObjectId(id) });
-        return responseGenerator.doSuccessfullResponse(campaign);
+        const campaign = await CampaignModel.findById(id);
+        return responseGenerator.handleSuccessfullResponse(campaign);
     } catch {
-        return responseGenerator.doDataNotFound('Campaign', id);
+        return responseGenerator.handleDataNotFound('Campaign', id);
     }
-
 }
 
 export const updateCampaignById = async (event, _context) => {
-    const campaignsCollecation = (await connectToTheDatabase()).collection('campaigns');
+    await connectToTheDatabase();
 
     const id = event.pathParameters.campaignId;
     const updatedCampaign = JSON.parse(event.body);
 
     try {
-        const campaign = await campaignsCollecation.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: updatedCampaign }, { returnOriginal: false });
-        return responseGenerator.doSuccessfullResponse(campaign);
+        const campaign = await CampaignModel.findByIdAndUpdate(id, updatedCampaign, { new: true });
+        return responseGenerator.handleSuccessfullResponse(campaign);
     }
     catch {
-        return responseGenerator.doDataNotFound('Campaign', id);
+        return responseGenerator.handleDataNotFound('Campaign', id);
     }
-
 }
 
 export const createCampaign = async (event, _context) => {
-    const campaignsCollecation = (await connectToTheDatabase()).collection('campaigns');
+    await connectToTheDatabase();
 
     const newCampaign = JSON.parse(event.body);
 
     try {
-        const campaign = await campaignsCollecation.insertOne(newCampaign);
-        return responseGenerator.doSuccessfullResponse(campaign);
+        const campaign = await CampaignModel.create(newCampaign);
+        return responseGenerator.handleSuccessfullResponse(campaign);
     }
     catch {
-        return responseGenerator.couldntInsert('Campaign');
+        return responseGenerator.handleCouldntInsert('Campaign');
     }
-
 }
 
 

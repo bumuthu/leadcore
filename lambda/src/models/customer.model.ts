@@ -1,37 +1,24 @@
 import mongoose, { Schema } from "mongoose";
-import Customer from '../interfaces/customer.interface'
 
 const customerSchema = new Schema({
-    linkedinData: {
-        type: Schema.Types.Mixed
-    },
-    profileUrl: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String
-    },
-    media: {
-        type: String
-    },
-    worth: {
-        type: Number
-    },
-    conversation: {
-        type: []
-    },
-    pipelineStatus: {
-        type: String
-    },
-    events: {
-        type: [Schema.Types.Mixed]
-    },
-    analysis: {
-        type: Schema.Types.Mixed
-    }
+    _id: Schema.Types.ObjectId,
+    firstName: String,
+    lastName: String,
+    score: Number,
+    worth: Number,
+    media: String,
+    stageIdx: Number,
+    email: String,
+    conversation: [ new Schema({
+        timestamp: Schema.Types.Date,
+        sender: { type: Schema.Types.ObjectId, ref: 'User' },
+        message: String
+    })],
+    nextMessageSuggestions: String,
+    analysis: Schema.Types.Mixed,
+    linkedinData: Schema.Types.Mixed
 });
 
-const CustomerModel = mongoose.model<Customer & mongoose.Document>('Customer', customerSchema);
+const CustomerModel = mongoose.model('Customer', customerSchema);
 
 export default CustomerModel;
