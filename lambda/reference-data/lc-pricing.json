@@ -1,0 +1,142 @@
+{
+    "lc-pricing": [
+        {
+            "name": "BASIC",
+            "price": "19.99",
+            "features": [
+                {
+                    "name": "CAMPAIGN_LIMIT",
+                    "value": 1,
+                    "description": ""
+                },
+                {
+                    "name": "DIRECT_CUSTOMER_IMPORT",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "LINKEDIN_SEARCH_CUSTOMER_IMPORT",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "SALES_NAVIGATOR_CUSTOMER_IMPORT",
+                    "value": false,
+                    "description": ""
+                },
+                {
+                    "name": "MEMBERS_LIMIT",
+                    "value": 1,
+                    "description": ""
+                },
+                {
+                    "name": "LINKEDIN_CONVERSATION",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "EMAIL_CONVERSATION",
+                    "value": false,
+                    "description": ""
+                },
+                {
+                    "name": "PHONE_CONVERSATION",
+                    "value": false,
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "PERSANAL",
+            "price": "29.99",
+            "features": [
+                {
+                    "name": "CAMPAIGN_LIMIT",
+                    "value": 100,
+                    "description": ""
+                },
+                {
+                    "name": "DIRECT_CUSTOMER_IMPORT",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "LINKEDIN_SEARCH_CUSTOMER_IMPORT",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "SALES_NAVIGATOR_CUSTOMER_IMPORT",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "MEMBERS_LIMIT",
+                    "value": 1,
+                    "description": ""
+                },
+                {
+                    "name": "LINKEDIN_CONVERSATION",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "EMAIL_CONVERSATION",
+                    "value": false,
+                    "description": ""
+                },
+                {
+                    "name": "PHONE_CONVERSATION",
+                    "value": false,
+                    "description": ""
+                }
+            ]
+        },
+        {
+            "name": "TEAM",
+            "price": "49.99",
+            "features": [
+                {
+                    "name": "CAMPAIGN_LIMIT",
+                    "value": 100,
+                    "description": ""
+                },
+                {
+                    "name": "DIRECT_CUSTOMER_IMPORT",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "LINKEDIN_SEARCH_CUSTOMER_IMPORT",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "SALES_NAVIGATOR_CUSTOMER_IMPORT",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "MEMBERS_LIMIT",
+                    "value": 10,
+                    "description": ""
+                },
+                {
+                    "name": "LINKEDIN_CONVERSATION",
+                    "value": true,
+                    "description": ""
+                },
+                {
+                    "name": "EMAIL_CONVERSATION",
+                    "value": false,
+                    "description": ""
+                },
+                {
+                    "name": "PHONE_CONVERSATION",
+                    "value": false,
+                    "description": ""
+                }
+            ]
+        }
+    ]
+}

@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
 const customerSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     firstName: String,
     lastName: String,
     score: Number,
@@ -14,7 +13,7 @@ const customerSchema = new Schema({
         sender: { type: Schema.Types.ObjectId, ref: 'User' },
         message: String
     })],
-    nextMessageSuggestions: String,
+    nextMessageSuggestions: [String],
     analysis: Schema.Types.Mixed,
     linkedinData: Schema.Types.Mixed
 });

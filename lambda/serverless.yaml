@@ -13,6 +13,7 @@ plugins:
 package:
   include:
     - src/**/*
+    - reference-data/*
   exclude:
     - node_modules/**/*
     - .serverless/**/*
@@ -26,6 +27,13 @@ functions:
       - http:
           method: get
           path: api/v1/refdata
+
+  reset-refdata:
+    handler: src/controllers/refdata-controller.resetRefData
+    events:
+      - http:
+          method: get
+          path: api/v1/refdata/reset
 
   ### User
   get-user:
@@ -80,6 +88,24 @@ functions:
       - http:
           method: put
           path: api/v1/customer/single/{customerId}
+  create-customer: 
+    handler: src/controllers/customer-controller.createCustomer
+    events:
+      - http:
+          method: post
+          path: api/v1/customer/single/new
+  get-customers-list: 
+    handler: src/controllers/customer-controller.getCustomersListByIds
+    events:
+      - http:
+          method: get
+          path: api/v1/customer/list/{customerIds}
+  create-customers-list: 
+    handler: src/controllers/customer-controller.createCustomersList
+    events:
+      - http:
+          method: post
+          path: api/v1/customer/list/new
 
   ### Campaign
   get-campaign:

@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
 const userSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     firstName: String,
     lastName: String,
     email: String,
@@ -17,8 +16,20 @@ const userSchema = new Schema({
             })]
         })
     ],
-    activityRecords: { type: Schema.Types.ObjectId, ref: 'Activity' },
-    notifications: { type: Schema.Types.ObjectId, ref: 'Activity' },
+    activityRecords: [
+        new Schema({
+            timestamp: Schema.Types.Date,
+            doneBy: { type: Schema.Types.ObjectId, ref: 'User' },
+            activityType: String
+        })
+    ],
+    notifications: [
+        new Schema({
+            timestamp: Schema.Types.Date,
+            doneBy: { type: Schema.Types.ObjectId, ref: 'User' },
+            activityType: String
+        })
+    ],
     analysis: Schema.Types.Mixed,
     linkedinData: Schema.Types.Mixed
 });

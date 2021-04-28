@@ -1,12 +1,15 @@
 import mongoose, { Schema } from 'mongoose';
 
 const pricingSchema = new mongoose.Schema({
-    _id: String,
     name: String,
-    features: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Feature'
-    }]
+    price: String,
+    features: [
+        new Schema({
+            name: String,
+            value: Schema.Types.Mixed,
+            description: String
+        })
+    ]
 });
 
 const PricingModel = mongoose.model('Pricing', pricingSchema);

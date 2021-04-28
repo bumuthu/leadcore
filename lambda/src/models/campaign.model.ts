@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
 const campaignSchema = new mongoose.Schema({
-    _id: Schema.Types.ObjectId,
     status: String,
     name: String,
     keywords: [String],
@@ -18,7 +17,10 @@ const campaignSchema = new mongoose.Schema({
         }
     })],
     customers: [new Schema({
-        _id: Schema.Types.ObjectId,
+        customer: {
+            type: Schema.Types.ObjectId,
+            ref: 'Customer'
+        },
         firstName: String,
         lastName: String,
         score: Number,
@@ -26,10 +28,11 @@ const campaignSchema = new mongoose.Schema({
         media: String,
         stageIdx: Number
     })],
-    activityRecords: {
-        ref: 'User',
-        type: mongoose.Schema.Types.ObjectId,
-    },
+    activityRecords: [new Schema({
+        timestamp: Schema.Types.Date,
+        doneBy: { ref: 'User', type: Schema.Types.ObjectId, },
+        activityType: String
+    })]
 });
 
 const CampaignModel = mongoose.model('Campaign', campaignSchema);

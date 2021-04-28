@@ -1,0 +1,539 @@
+{
+	"info": {
+		"_postman_id": "25fa48f2-0b19-412e-a14b-ce4612c996ef",
+		"name": "lc-test01",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "RefData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RefData",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/refdata/reset",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"refdata",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Team",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/team/60895b65dfc9e9000928065c",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"team",
+						"60895b65dfc9e9000928065c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Team",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"pricing\": \"6089547615d8960008a2358c\",\r\n  \"type\": \"INDIVIDUAL\",\r\n  \"users\": [\r\n    \"608863cf46869a00096194d8\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/team/new",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"team",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Team",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"pricing\": \"6089547615d8960008a2358c\",\r\n  \"type\": \"TEAM\",\r\n  \"users\": [\r\n    \"608863cf46869a00096194d8\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/team/60895b65dfc9e9000928065c",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"team",
+						"60895b65dfc9e9000928065c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJJcEgxVXFrVm1tMXROV2QrRDFMZTNmeEdrdDFlZ09NWHllQ3piWWFKdit3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzY2JjOTQ1My00Yzc3LTRhYjEtYjJmNy05YWJkMDViMmVjODEiLCJhdWQiOiIxZ3RnanJtMm9qM3UwY25ra3MwajNoa25lZyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZXZlbnRfaWQiOiJmZmM5OTU0OS00MTdkLTQ5ZDUtODhmNy03NjEyZjAzYjU2ODYiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTYxODQyMzM1MSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfb0EzdkwwTlU2IiwiY29nbml0bzp1c2VybmFtZSI6ImJ1bXV0aHUiLCJleHAiOjE2MTg0MjY5NTEsImlhdCI6MTYxODQyMzM1MSwiZW1haWwiOiJidW11dGh1ZGlsc2hhbmhoa0BnbWFpbC5jb20ifQ.XfgRe2-kYQQMpB2fiRQ2c2MBHDz7y5d8siK-Qgvu4uZ2jJW8lRs2Knc_B-jGpNGE8UUGlQzeHh84PCn1coe1Z-sz68Yt2RuxGowkqnpIfo-waXjKZPphGBNCmfTRS4uAYNFP_gMn4En0tbCJpokdFwjLKL3vHMc21KZrKoTgXzn9qiKJhuazxjMd-jWFB1hJlzy_h0VsG9sLrvAFtFdu7ga85pFXoFi9Ft8TAeDqahyyg_TzsD3Y-jckKSd-XYJzA5M2EDOKFBgWy6txUBjI7Y8LWXGY4UtVsrEKEAQyDaPWKg6bzvQ7EAjCuJ4GTEZJAZIc3Uinrf90HKp_l5FzLg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/608986499a61670008efd69c",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"user",
+						"608986499a61670008efd69c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJJcEgxVXFrVm1tMXROV2QrRDFMZTNmeEdrdDFlZ09NWHllQ3piWWFKdit3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzY2JjOTQ1My00Yzc3LTRhYjEtYjJmNy05YWJkMDViMmVjODEiLCJhdWQiOiIxZ3RnanJtMm9qM3UwY25ra3MwajNoa25lZyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZXZlbnRfaWQiOiI2ZjQ1OTQzMS02ZTM2LTRlYTAtOWZlNi0wM2YzMjIzYzM3MGUiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTYxNzg5MDUxOSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfb0EzdkwwTlU2IiwiY29nbml0bzp1c2VybmFtZSI6ImJ1bXV0aHUiLCJleHAiOjE2MTc4OTQxMTksImlhdCI6MTYxNzg5MDUxOSwiZW1haWwiOiJidW11dGh1ZGlsc2hhbmhoa0BnbWFpbC5jb20ifQ.MN0oC2Oe9Y5WQlTVnHsH8iMMzF6UdEU8CdS2hCotPUKVTVmbwjwyL3kRl9pLu9ZlMMRvcC0PWve3ecnHoYEYBxkhRMq3cdUEpOhqMOo1pbjg54CFYS6Ui5AKxp5JsEhGWSmG5eCMF42XrgZP9D2fjND5LUp8aaCVFwozYgugNhr3XUTrbcrfRLAEuXiOXEcdK9EkH16awBoMHDGtyW9U6-mjJy7SMoOQjez0RcMzFUyB89brSFAv6QrjOwXvZSQUY8r9S0atxxNiNIstF5Xi2MoSISRrVwwdMcBsVxtIW19QYXahrH36n2udu1JvRo4NwY_YOcc6HoN4kIrJ2CQvGw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"string\",\r\n  \"linkedinUrl\": \"string\",\r\n  \"linkedinAccessToken\": \"string\",\r\n  \"teams\": [],\r\n  \"activityRecords\": [],\r\n  \"notifications\": [],\r\n  \"analysis\": {},\r\n  \"linkedinData\": {}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/new",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"user",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"updated string\",\r\n  \"lastName\": \"updated string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/608986499a61670008efd69c",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"user",
+						"608986499a61670008efd69c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/single/6089a0a4e1c28b000973f6f4",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"customer",
+						"single",
+						"6089a0a4e1c28b000973f6f4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"fistName\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"score\": 0,\r\n  \"worth\": 0,\r\n  \"media\": \"LINKEDIN\",\r\n  \"stageIdx\": 0,\r\n  \"email\": \"string\",\r\n  \"conversation\": [\r\n    {\r\n      \"timestamp\": \"2021-04-28T16:54:46.053Z\",\r\n      \"sender\": \"608986499a61670008efd69c\",\r\n      \"message\": \"string\"\r\n    }\r\n  ],\r\n  \"nextMessageSuggestions\": [\"string\"],\r\n  \"analysis\": {\r\n    \"relavancy\": [\r\n      {\r\n        \"topic\": \"string\",\r\n        \"score\": 0\r\n      }\r\n    ],\r\n    \"relavancyScore\": 0,\r\n    \"activeScore\": 0,\r\n    \"experiences\": [\r\n      {\r\n        \"title\": \"string\",\r\n        \"company\": \"string\",\r\n        \"duration\": {\r\n          \"days\": 0,\r\n          \"months\": 0,\r\n          \"years\": 0\r\n        },\r\n        \"endDateIsPresent\": true\r\n      }\r\n    ],\r\n    \"education\": [\r\n      {\r\n        \"schoolName\": \"string\",\r\n        \"degreeName\": \"string\",\r\n        \"fieldOfStudy\": \"string\",\r\n        \"duration\": {\r\n          \"days\": 0,\r\n          \"months\": 0,\r\n          \"years\": 0\r\n        },\r\n        \"endDateIsPresent\": true\r\n      }\r\n    ]\r\n  },\r\n  \"linkedinData\": {}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/single/new",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"customer",
+						"single",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"updated first name\",\r\n    \"lastName\": \"updated last name\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/single/6089a0a4e1c28b000973f6f4",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"customer",
+						"single",
+						"6089a0a4e1c28b000973f6f4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customers List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/list/fgbkgdmkb,g4bgf988,fgngrhnty",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"customer",
+						"list",
+						"fgbkgdmkb,g4bgf988,fgngrhnty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Customers List",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/list/new",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"customer",
+						"list",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Campaign",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/campaign/6089bce21fd50b0009cc14c5",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"campaign",
+						"6089bce21fd50b0009cc14c5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Campaign",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJJcEgxVXFrVm1tMXROV2QrRDFMZTNmeEdrdDFlZ09NWHllQ3piWWFKdit3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzY2JjOTQ1My00Yzc3LTRhYjEtYjJmNy05YWJkMDViMmVjODEiLCJhdWQiOiIxZ3RnanJtMm9qM3UwY25ra3MwajNoa25lZyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZXZlbnRfaWQiOiJkZDI0ZDg5Zi1mOGNmLTRhMTItYmMzYy04MzVlMTFjYTEyM2EiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTYxODY3NTczMCwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfb0EzdkwwTlU2IiwiY29nbml0bzp1c2VybmFtZSI6ImJ1bXV0aHUiLCJleHAiOjE2MTg3NjIxMzAsImlhdCI6MTYxODY3NTczMCwiZW1haWwiOiJidW11dGh1ZGlsc2hhbmhoa0BnbWFpbC5jb20ifQ.djvwrG4R7khQLP41elxnAZmgkAbk22W-ZQcewpNtSvsgP3f9anHBfK4LfqqvqPL58IJBGcuwvqKdyeoY02umn8qqjbM-Y5V2JQ7Mef8RckdiB4J_3sXFBtnBlZnlYtP8GhBD-VYkfQkUsDvodd40J7WCFBe-u3Dohm4I47Zfrs0h1RN8WL-7BEMujkQ28cNDsgi8VpJwH9fb0jvhdX68rUOqKZHX8XEFpMKFw8SGKOI4Us0h8d8Q99j1rOrWny_7GcP2F_yOm3a0N3kA8-yLDvStAkHqxp5T7YIvdJh9-NuoCUOuP5POf9iLrbSmmsj0ib6dG_ytEw3-PHtTRDpvYA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"status\": \"ACTIVE\",\r\n  \"name\": \"string\",\r\n  \"keywords\": [\r\n    \"string\"\r\n  ],\r\n  \"stages\": [\r\n    \"string\"\r\n  ],\r\n  \"analysis\": {},\r\n  \"roles\": [\r\n    {\r\n      \"userId\": \"608986499a61670008efd69c\",\r\n      \"roleId\": \"6089547615d8960008a2358b\"\r\n    }\r\n  ],\r\n  \"customers\": [\r\n    {\r\n      \"customer\": \"6089a0a4e1c28b000973f6f4\",\r\n      \"firstName\": \"string\",\r\n      \"lastName\": \"string\",\r\n      \"score\": 0,\r\n      \"worth\": 0,\r\n      \"media\": \"LINKEDIN\",\r\n      \"stageIdx\": 0\r\n    }\r\n  ],\r\n  \"activityRecords\": [\r\n    {\r\n      \"timestamp\": \"2021-04-28T19:30:14.786Z\",\r\n      \"doneBy\": \"608986499a61670008efd69c\",\r\n      \"activityType\": \"CREATED_CAMPAIGN\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/campaign/new",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"campaign",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Campaign",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJJcEgxVXFrVm1tMXROV2QrRDFMZTNmeEdrdDFlZ09NWHllQ3piWWFKdit3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzY2JjOTQ1My00Yzc3LTRhYjEtYjJmNy05YWJkMDViMmVjODEiLCJhdWQiOiIxZ3RnanJtMm9qM3UwY25ra3MwajNoa25lZyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZXZlbnRfaWQiOiJiNWRkNTZlZC1mYmZmLTRlZWEtYjVjZC0xNzBiZTgwNmQ0MTUiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTYxNzkxMjExNywiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfb0EzdkwwTlU2IiwiY29nbml0bzp1c2VybmFtZSI6ImJ1bXV0aHUiLCJleHAiOjE2MTc5MTU3MTcsImlhdCI6MTYxNzkxMjExNywiZW1haWwiOiJidW11dGh1ZGlsc2hhbmhoa0BnbWFpbC5jb20ifQ.T8zLFAiik1OvYZvoANqVwUs9EKADJdMg8k51vy3gcN37LWWap8nPt4fzOooAIdx2eFBpaj-gIvoAa2sKZ8F8SZP4THyRE4fh1etDV8XfhcQBmSpd5xGxmT7sVNtyqQ8MpLI2YNyk7k9WXzcY72xIbmJT5Cd8jn6E-F2yQMGcY0anODyQl3e8cgVZed3c4eCiOezV5E-trRUo8ZD3JDs8VXQPYvxkHH6tVA5rNJK_sXoZEnv7f9TMLkvLE674SK1Vtw6chMChrKnO_CoCmLTb_xNceqUwzr-i9XIC_OUTn3aG0R2dOtgv51NQCfbcB3FZN9D9SB7BqxyLngEAkZIr1g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Campaign updated\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/campaign/6089bce21fd50b0009cc14c5",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"campaign",
+						"6089bce21fd50b0009cc14c5"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
