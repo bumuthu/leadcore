@@ -4,7 +4,9 @@ const campaignSchema = new mongoose.Schema({
     status: String,
     name: String,
     keywords: [String],
-    stages: [String],
+    stages: [new Schema({
+        name: String
+    })],
     analysis: Schema.Types.Mixed,
     roles: [new Schema({
         role: {
@@ -26,7 +28,7 @@ const campaignSchema = new mongoose.Schema({
         score: Number,
         worth: Number,
         media: String,
-        stageIdx: Number
+        stageId: Schema.Types.ObjectId
     })],
     activityRecords: [new Schema({
         timestamp: Schema.Types.Date,

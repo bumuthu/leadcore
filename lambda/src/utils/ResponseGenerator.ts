@@ -28,4 +28,10 @@ export default class ResponseGenerator {
         this.code = 400;
         return this.getResponse();
     }
+
+    public handleGenericError(err: string) {
+        this.message = `server returns error ${err}`;
+        this.code = 400;
+        return this.getResponse();
+    }
 }

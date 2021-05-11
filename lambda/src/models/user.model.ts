@@ -5,7 +5,11 @@ const userSchema = new Schema({
     lastName: String,
     email: String,
     linkedinUrl: String,
-    linkedinAccessToken: String,
+    linkedinToken: {
+        accessToken: String,
+        expiresIn: Number,
+        authorizedAt: Schema.Types.Date
+    },
     teams: [
         new Schema({
             team: { type: Schema.Types.ObjectId, ref: 'Team' },

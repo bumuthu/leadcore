@@ -6,9 +6,13 @@ const customerSchema = new Schema({
     score: Number,
     worth: Number,
     media: String,
-    stageIdx: Number,
+    campaigns: [new Schema({
+        campaign: { type: Schema.Types.ObjectId, ref: 'Campaign' },
+        stageId: Schema.Types.ObjectId
+    })],
+    team: { type: Schema.Types.ObjectId, ref: 'Team' },
     email: String,
-    conversation: [ new Schema({
+    conversation: [new Schema({
         timestamp: Schema.Types.Date,
         sender: { type: Schema.Types.ObjectId, ref: 'User' },
         message: String

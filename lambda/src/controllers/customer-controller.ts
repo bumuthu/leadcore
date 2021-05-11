@@ -2,11 +2,12 @@ import 'source-map-support/register';
 import ResponseGenerator from 'src/utils/ResponseGenerator';
 import connectToTheDatabase from '../utils/MongoConnection';
 import CustomerModel from 'src/models/customer.model';
+import CampaignModel from 'src/models/campaign.model';
 
 const responseGenerator = new ResponseGenerator();
 
 export const getCustomerById = async (event, _context) => {
-	await connectToTheDatabase();
+    await connectToTheDatabase();
 
     const id = event.pathParameters.customerId;
 
@@ -20,14 +21,44 @@ export const getCustomerById = async (event, _context) => {
 }
 
 export const updateCustomerById = async (event, _context) => {
-	await connectToTheDatabase();
+    await connectToTheDatabase();
 
     const id = event.pathParameters.customerId;
     const updatedCustomer = JSON.parse(event.body);
 
     try {
-        const customer = await CustomerModel.findOneAndUpdate(id, updatedCustomer, { new: true });
+        if (updatedCustomer.team) {
+            delete updatedCustomer.team;
+        }
+        if (updatedCustomer.campaigns) {
+            delete updatedCustomer.campaigns;
+        }
+
+        const customer: any = await CustomerModel.findByIdAndUpdate(id, updatedCustomer, { new: true });
+
+        if (customer.campaigns && customer.campaigns.length > 0) {
+            for (let i = 0; i < customer.campaigns.length; i++) {
+                let campaignId = customer.campaigns[i].campaign;
+
+                const campaign: any = await CampaignModel.findById(campaignId);
+
+                let customerLiteIdx = campaign.customers.findIndex(cus => cus.customer == id);
+                let customerLite = campaign.customers[customerLiteIdx];
+
+                customerLite.firstName = updatedCustomer.firstName;
+                customerLite.lastName = updatedCustomer.lastName;
+                customerLite.score = updatedCustomer.score;
+                customerLite.worth = updatedCustomer.worth;
+                customerLite.media = updatedCustomer.media;
+                customerLite.stageId = updatedCustomer.stageId;
+
+                campaign.customers[customerLiteIdx] = customerLite;
+
+                await CampaignModel.findByIdAndUpdate(campaign['_id'], { customers: campaign.customers }, { new: true })
+            }
+        }
         return responseGenerator.handleSuccessfullResponse(customer);
+
     } catch (e) {
         console.log(e);
         return responseGenerator.handleDataNotFound('Customer', id);
@@ -35,21 +66,41 @@ export const updateCustomerById = async (event, _context) => {
 }
 
 export const createCustomer = async (event, _context) => {
-	await connectToTheDatabase();
+    await connectToTheDatabase();
 
     const newCustomer = JSON.parse(event.body);
+    console.log(newCustomer);
 
     try {
+        newCustomer.camapigns = []
         const customer = await CustomerModel.create(newCustomer);
+
+        // if (newCustomer.campaigns.length == 1) {
+        //     const campaignId = newCustomer.campaigns[0].campaign;
+        //     const stageId = newCustomer.campaigns[0].stageId;
+
+        //     let campaign = await CampaignModel.findById(campaignId);
+        //     (campaign as any).customers.push({
+        //         customer: customer['_id'],
+        //         firstName: newCustomer.firstName,
+        //         lastName: newCustomer.lastName,
+        //         score: newCustomer.score,
+        //         worth: newCustomer.worth,
+        //         media: newCustomer.media,
+        //         stageId: stageId,
+        //     })
+        //     await CampaignModel.findByIdAndUpdate(campaignId, campaign, {new : true});
+        // }
+
         return responseGenerator.handleSuccessfullResponse(customer);
-    } catch (e){
+    } catch (e) {
         console.log(e);
         return responseGenerator.handleCouldntInsert('Customer');
     }
 }
 
 export const getCustomersListByIds = async (event, _context) => {
-	await connectToTheDatabase();
+    await connectToTheDatabase();
 
     const ids = event.pathParameters.customerIds.split(',');
     console.log(ids)
@@ -63,14 +114,38 @@ export const getCustomersListByIds = async (event, _context) => {
 }
 
 export const createCustomersList = async (event, _context) => {
-	await connectToTheDatabase();
+    await connectToTheDatabase();
 
     const newCustomers = JSON.parse(event.body).customers;
 
     try {
-        const customer = await CustomerModel.create(newCustomers);
-        return responseGenerator.handleSuccessfullResponse(customer);
-    } catch (e){
+        let response = [];
+
+        for (let i = 0; i < newCustomers.length; i++) {
+
+            let customer: any = await CustomerModel.create(newCustomers[i]);
+            response.push(customer);
+
+            if (customer.campaigns.length == 1) {
+                const campaignId = customer.campaigns[0].campaign;
+                const stageId = customer.campaigns[0].stageId;
+
+                let campaign = await CampaignModel.findById(campaignId);
+                (campaign as any).customers.push({
+                    customer: customer['_id'],
+                    firstName: customer.firstName,
+                    lastName: customer.lastName,
+                    score: customer.score,
+                    worth: customer.worth,
+                    media: customer.media,
+                    stageId: stageId,
+                })
+                await CampaignModel.findByIdAndUpdate(campaignId, campaign, { new: true });
+            }
+        }
+
+        return responseGenerator.handleSuccessfullResponse(response);
+    } catch (e) {
         console.log(e);
         return responseGenerator.handleCouldntInsert('Customer');
     }
