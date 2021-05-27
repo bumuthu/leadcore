@@ -26,25 +26,36 @@ export const getAccessToken = async (event, _context) => {
             }
         };
 
+        console.log(ACCESS_TOKEN_URL,
+            `grant_type=authorization_code & 
+            code=${authToken} & 
+            redirect_uri=${redirectUrl} & 
+            client_id=${CLIENT_ID} & 
+            client_secret=${CLIENT_SECRET}`,
+            options);
+
+            
         const accessToken = await axios.post(
             ACCESS_TOKEN_URL,
-            `grant_type="authorization_code" & 
+            `grant_type=authorization_code & 
             code=${authToken} & 
             redirect_uri=${redirectUrl} & 
             client_id=${CLIENT_ID} & 
             client_secret=${CLIENT_SECRET}`,
             options
         );
-            
-        const user = await UserModel.findByIdAndUpdate(userId, {
-            linkedinToken: {
-                accessToken: accessToken.data.access_token,
-                expiresIn: accessToken.data.expires_in,
-                authorizedAt: new Date()
-            }
-        }, { new: true });
 
-        return responseGenerator.handleSuccessfullResponse(user);
+        console.log(accessToken)
+            
+        // const user = await UserModel.findByIdAndUpdate(userId, {
+        //     linkedinToken: {
+        //         accessToken: accessToken.data.access_token,
+        //         expiresIn: accessToken.data.expires_in,
+        //         authorizedAt: new Date()
+        //     }
+        // }, { new: true });
+
+        return responseGenerator.handleSuccessfullResponse(accessToken);
 
     } catch (e) {
         console.log(e);
