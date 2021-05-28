@@ -30,8 +30,14 @@ export default class ResponseGenerator {
     }
 
     public handleGenericError(err: string) {
-        this.message = `server returns error ${err}`;
+        this.message = `server returns error: \n${err}`;
         this.code = 400;
+        return this.getResponse();
+    }
+
+    public handleBusinessLoginError(err: string) {
+        this.message = `server returns error: \n${err}`;
+        this.code = 500;
         return this.getResponse();
     }
 }
