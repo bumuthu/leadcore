@@ -11,7 +11,22 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/refdata/",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"refdata",
+						""
+					]
 				}
 			},
 			"response": []
@@ -48,7 +63,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/team/60895b65dfc9e9000928065c",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/team/60a13d2edb11ae0009e5cb0f",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -62,7 +77,7 @@
 						"api",
 						"v1",
 						"team",
-						"60895b65dfc9e9000928065c"
+						"60a13d2edb11ae0009e5cb0f"
 					]
 				}
 			},
@@ -75,7 +90,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"pricing\": \"6089547615d8960008a2358c\",\r\n  \"type\": \"INDIVIDUAL\",\r\n  \"users\": [\r\n    \"608863cf46869a00096194d8\"\r\n  ]\r\n}",
+					"raw": "{\r\n  \"pricing\": \"6089547615d8960008a2358c\",\r\n  \"type\": \"INDIVIDUAL\",\r\n  \"users\": [\r\n    \"608863cf46869a00096194d8\"\r\n  ],\r\n  \"customer\": []\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -140,6 +155,9 @@
 		},
 		{
 			"name": "User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -153,8 +171,17 @@
 				},
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/608986499a61670008efd69c",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/609a4cc83738b7000923e1e8",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -168,7 +195,7 @@
 						"api",
 						"v1",
 						"user",
-						"608986499a61670008efd69c"
+						"609a4cc83738b7000923e1e8"
 					]
 				}
 			},
@@ -191,7 +218,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"string\",\r\n  \"linkedinUrl\": \"string\",\r\n  \"linkedinAccessToken\": \"string\",\r\n  \"teams\": [],\r\n  \"activityRecords\": [],\r\n  \"notifications\": [],\r\n  \"analysis\": {},\r\n  \"linkedinData\": {}\r\n}",
+					"raw": "{\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"string\",\r\n  \"linkedinUrl\": \"string\",\r\n  \"teams\": []\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -234,7 +261,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/608986499a61670008efd69c",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/609a4acf609e5a0008cef99c",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -248,7 +275,7 @@
 						"api",
 						"v1",
 						"user",
-						"608986499a61670008efd69c"
+						"609a4acf609e5a0008cef99c"
 					]
 				}
 			},
@@ -263,7 +290,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/single/6089a0a4e1c28b000973f6f4",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/single/60a13e3f4827d80008f10c87",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -278,7 +305,7 @@
 						"v1",
 						"customer",
 						"single",
-						"6089a0a4e1c28b000973f6f4"
+						"60a13e3f4827d80008f10c87"
 					]
 				}
 			},
@@ -291,7 +318,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"fistName\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"score\": 0,\r\n  \"worth\": 0,\r\n  \"media\": \"LINKEDIN\",\r\n  \"stageIdx\": 0,\r\n  \"email\": \"string\",\r\n  \"conversation\": [\r\n    {\r\n      \"timestamp\": \"2021-04-28T16:54:46.053Z\",\r\n      \"sender\": \"608986499a61670008efd69c\",\r\n      \"message\": \"string\"\r\n    }\r\n  ],\r\n  \"nextMessageSuggestions\": [\"string\"],\r\n  \"analysis\": {\r\n    \"relavancy\": [\r\n      {\r\n        \"topic\": \"string\",\r\n        \"score\": 0\r\n      }\r\n    ],\r\n    \"relavancyScore\": 0,\r\n    \"activeScore\": 0,\r\n    \"experiences\": [\r\n      {\r\n        \"title\": \"string\",\r\n        \"company\": \"string\",\r\n        \"duration\": {\r\n          \"days\": 0,\r\n          \"months\": 0,\r\n          \"years\": 0\r\n        },\r\n        \"endDateIsPresent\": true\r\n      }\r\n    ],\r\n    \"education\": [\r\n      {\r\n        \"schoolName\": \"string\",\r\n        \"degreeName\": \"string\",\r\n        \"fieldOfStudy\": \"string\",\r\n        \"duration\": {\r\n          \"days\": 0,\r\n          \"months\": 0,\r\n          \"years\": 0\r\n        },\r\n        \"endDateIsPresent\": true\r\n      }\r\n    ]\r\n  },\r\n  \"linkedinData\": {}\r\n}",
+					"raw": "{\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"score\": 0,\r\n  \"worth\": 0,\r\n  \"media\": \"LINKEDIN\",\r\n  \"team\": \"609a4cc83738b7000923e1e7\",\r\n  \"email\": \"string\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -335,7 +362,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/single/6089a0a4e1c28b000973f6f4",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/single/609a5027c357dd00081de187",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -350,7 +377,7 @@
 						"v1",
 						"customer",
 						"single",
-						"6089a0a4e1c28b000973f6f4"
+						"609a5027c357dd00081de187"
 					]
 				}
 			},
@@ -362,7 +389,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/list/fgbkgdmkb,g4bgf988,fgngrhnty",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/customer/list/609a51101da2c30008b70046,609a51101da2c30008b70046",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -377,7 +404,7 @@
 						"v1",
 						"customer",
 						"list",
-						"fgbkgdmkb,g4bgf988,fgngrhnty"
+						"609a51101da2c30008b70046,609a51101da2c30008b70046"
 					]
 				}
 			},
@@ -390,7 +417,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "",
+					"raw": "{\r\n    \"customers\": [\r\n        {\r\n            \"fistName\": \"string 1\",\r\n            \"lastName\": \"string\",\r\n            \"score\": 0,\r\n            \"worth\": 0,\r\n            \"media\": \"LINKEDIN\",\r\n            \"team\": \"609a4cc83738b7000923e1e7\",\r\n            \"campaigns\": [\r\n                {\r\n                    \"campaign\": \"609a4e7ac82d0d00077d4ef7\",\r\n                    \"stageId\": \"609a4e7ac82d0d00077d4ef8\"\r\n                }\r\n            ],\r\n            \"email\": \"string\"\r\n        },\r\n        {\r\n            \"fistName\": \"string 2\",\r\n            \"lastName\": \"string\",\r\n            \"score\": 0,\r\n            \"worth\": 0,\r\n            \"media\": \"LINKEDIN\",\r\n            \"team\": \"609a4cc83738b7000923e1e7\",\r\n            \"campaigns\": [\r\n                {\r\n                    \"campaign\": \"609a4e7ac82d0d00077d4ef7\",\r\n                    \"stageId\": \"609a4e7ac82d0d00077d4ef8\"\r\n                }\r\n            ],\r\n            \"email\": \"string\"\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -425,7 +452,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/campaign/6089bce21fd50b0009cc14c5",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/campaign/609a4e7ac82d0d00077d4ef7",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -439,7 +466,7 @@
 						"api",
 						"v1",
 						"campaign",
-						"6089bce21fd50b0009cc14c5"
+						"609a4e7ac82d0d00077d4ef7"
 					]
 				}
 			},
@@ -462,7 +489,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"status\": \"ACTIVE\",\r\n  \"name\": \"string\",\r\n  \"keywords\": [\r\n    \"string\"\r\n  ],\r\n  \"stages\": [\r\n    \"string\"\r\n  ],\r\n  \"analysis\": {},\r\n  \"roles\": [\r\n    {\r\n      \"userId\": \"608986499a61670008efd69c\",\r\n      \"roleId\": \"6089547615d8960008a2358b\"\r\n    }\r\n  ],\r\n  \"customers\": [\r\n    {\r\n      \"customer\": \"6089a0a4e1c28b000973f6f4\",\r\n      \"firstName\": \"string\",\r\n      \"lastName\": \"string\",\r\n      \"score\": 0,\r\n      \"worth\": 0,\r\n      \"media\": \"LINKEDIN\",\r\n      \"stageIdx\": 0\r\n    }\r\n  ],\r\n  \"activityRecords\": [\r\n    {\r\n      \"timestamp\": \"2021-04-28T19:30:14.786Z\",\r\n      \"doneBy\": \"608986499a61670008efd69c\",\r\n      \"activityType\": \"CREATED_CAMPAIGN\"\r\n    }\r\n  ]\r\n}",
+					"raw": "{\r\n    \"name\": \"string\",\r\n    \"keywords\": [\r\n        \"string\"\r\n    ],\r\n    \"stages\": [\r\n        {\r\n            \"name\": \"stage 1\"\r\n        },\r\n        {\r\n            \"name\": \"stage 2\"\r\n        },\r\n        {\r\n            \"name\": \"stage 3\"\r\n        },\r\n        {\r\n            \"name\": \"stage 4\"\r\n        }\r\n    ],\r\n    \"roles\": [\r\n        {\r\n            \"userId\": \"609a4cc83738b7000923e1e8\",\r\n            \"roleId\": \"6089547615d8960008a2358b\"\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -507,7 +534,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Campaign updated\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Campaign updated\",\r\n    \"customers\": [\r\n        \"6089a0a4e1c28b000973f6f4\"\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -515,7 +542,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/campaign/6089bce21fd50b0009cc14c5",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/campaign/609a366672a0db0008fa9d71",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -529,7 +556,95 @@
 						"api",
 						"v1",
 						"campaign",
-						"6089bce21fd50b0009cc14c5"
+						"609a366672a0db0008fa9d71"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PipelineStageChange",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"campaignId\": \"609a4e7ac82d0d00077d4ef7\",\r\n  \"customerId\": \"609a78b4c0956600091b9ed8\",\r\n  \"newStageId\": \"609a4e7ac82d0d00077d4ef9\",\r\n  \"doneBy\": \"609a4cc83738b7000923e1e8\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/campaign/pipeline/stageChange",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"campaign",
+						"pipeline",
+						"stageChange"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Access Token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/auth/linkedinAccessToken?userId=609a4cc83738b7000923e1e8&authToken=AQR-4nIyUCE6jwkNSRYIezN3Av753tlYwrwsww1NZ-IMpTXfXPH-AfSKpR2Igc6T7siW_xa8zp-38b2_gw1QWeg2Bib_ZXZnABkjx7AjEMHYTUakur1cxsDkYe_hzu8eTXf0eHGu-SR8TQboiDCzMO33_8rz6L1DP1RwCoAVc6vFiljSuH0Ah8yR46_xRdnTIguVcuWFsM00UG62U7U&redirectUrl=https://app-leadcore.netlify.app/authorization",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"auth",
+						"linkedinAccessToken"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "609a4cc83738b7000923e1e8"
+						},
+						{
+							"key": "authToken",
+							"value": "AQR-4nIyUCE6jwkNSRYIezN3Av753tlYwrwsww1NZ-IMpTXfXPH-AfSKpR2Igc6T7siW_xa8zp-38b2_gw1QWeg2Bib_ZXZnABkjx7AjEMHYTUakur1cxsDkYe_hzu8eTXf0eHGu-SR8TQboiDCzMO33_8rz6L1DP1RwCoAVc6vFiljSuH0Ah8yR46_xRdnTIguVcuWFsM00UG62U7U"
+						},
+						{
+							"key": "redirectUrl",
+							"value": "https://app-leadcore.netlify.app/authorization"
+						}
 					]
 				}
 			},

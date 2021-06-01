@@ -7,7 +7,11 @@ export default class ResponseGenerator {
             statusCode: this.code,
             body: JSON.stringify({
                 message: this.message,
-            })
+            }),
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": true,
+              }
         };
     }
 

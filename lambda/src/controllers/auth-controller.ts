@@ -3,7 +3,7 @@ import ResponseGenerator from 'src/utils/ResponseGenerator';
 import connectToTheDatabase from '../utils/MongoConnection';
 import UserModel from 'src/models/user.model';
 import axios from 'axios';
-import { Session } from 'src/services/auth-session';
+// import { Session } from 'src/services/auth-session';
 
 const ACCESS_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
 const CLIENT_ID = '8611dl35uynhm6';
@@ -29,7 +29,6 @@ export const getAccessToken = async (event, _context) => {
     };
 
     try {
-
         console.log('REQUEST', `grant_type=authorization_code&code=${authToken}&redirect_uri=${redirectUrl}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`);
 
         const accessToken: any = await api.post(
@@ -67,38 +66,38 @@ export const getAccessToken = async (event, _context) => {
 }
 
 
-export const signIn = async (event, _context) => {
+// export const signIn = async (event, _context) => {
 
-    const authDetails = JSON.parse(event.body);
+//     const authDetails = JSON.parse(event.body);
 
-    try {
-        const userSession = new Session();
-        const token = userSession.signIn(authDetails.username, authDetails.password);
+//     try {
+//         const userSession = new Session();
+//         const token = userSession.signIn(authDetails.username, authDetails.password);
 
-        return responseGenerator.handleSuccessfullResponse({
-            message: {
-                token: token
-            }
-        });
+//         return responseGenerator.handleSuccessfullResponse({
+//             message: {
+//                 token: token
+//             }
+//         });
 
-    } catch (err) {
-        responseGenerator.handleGenericError(JSON.stringify(err))
-    }
-}
+//     } catch (err) {
+//         responseGenerator.handleGenericError(JSON.stringify(err))
+//     }
+// }
 
 
-export const signUp = async (event, _context) => {
+// export const signUp = async (event, _context) => {
 
-    const authDetails = JSON.parse(event.body);
+//     const authDetails = JSON.parse(event.body);
 
-    try {
-        const userSession = new Session();
-        const userRes = userSession.signUp(authDetails.username, authDetails.email, authDetails.password);
+//     try {
+//         const userSession = new Session();
+//         const userRes = userSession.signUp(authDetails.username, authDetails.email, authDetails.password);
 
-        return responseGenerator.handleSuccessfullResponse(userRes);
+//         return responseGenerator.handleSuccessfullResponse(userRes);
 
-    } catch (err) {
-        responseGenerator.handleGenericError(JSON.stringify(err))
-    }
-}
+//     } catch (err) {
+//         responseGenerator.handleGenericError(JSON.stringify(err))
+//     }
+// }
 

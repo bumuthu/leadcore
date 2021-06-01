@@ -27,6 +27,7 @@ functions:
       - http:
           method: get
           path: api/v1/refdata
+          cors: true
 
   reset-refdata:
     handler: src/controllers/refdata-controller.resetRefData
@@ -34,6 +35,7 @@ functions:
       - http:
           method: get
           path: api/v1/refdata/reset
+          cors: true
 
   ### Auth
   get-access-token:
@@ -42,6 +44,7 @@ functions:
       - http:
           method: get
           path: api/v1/auth/linkedinAccessToken
+          cors: true
 
   # sign-in:
   #   handler: src/controllers/auth-controller.signIn
@@ -64,18 +67,23 @@ functions:
       - http:
           method: get
           path: api/v1/user/{userId}
+          cors: true
+          
   update-user:
     handler: src/controllers/user-controller.updateUserById
     events:
       - http:
           method: put
           path: api/v1/user/{userId}
+          cors: true
+
   create-user:
     handler: src/controllers/user-controller.createUser
     events:
       - http:
           method: post
           path: api/v1/user/new
+          cors: true
 
   ### Team
   get-team:
@@ -84,18 +92,23 @@ functions:
       - http:
           method: get
           path: api/v1/team/{teamId}
+          cors: true
+
   update-team:
     handler: src/controllers/team-controller.updateTeamById
     events:
       - http:
           method: put
           path: api/v1/team/{teamId}
+          cors: true
+
   create-team:
     handler: src/controllers/team-controller.createTeam
     events:
       - http:
           method: post
           path: api/v1/team/new
+          cors: true
 
   ### Customer
   get-customer: 
@@ -104,30 +117,39 @@ functions:
       - http:
           method: get
           path: api/v1/customer/single/{customerId}
+          cors: true
+
   update-customer: 
     handler: src/controllers/customer-controller.updateCustomerById
     events:
       - http:
           method: put
           path: api/v1/customer/single/{customerId}
+          cors: true
+
   create-customer: 
     handler: src/controllers/customer-controller.createCustomer
     events:
       - http:
           method: post
           path: api/v1/customer/single/new
+          cors: true
+
   get-customers-list: 
     handler: src/controllers/customer-controller.getCustomersListByIds
     events:
       - http:
           method: get
           path: api/v1/customer/list/{customerIds}
+          cors: true
+
   create-customers-list: 
     handler: src/controllers/customer-controller.createCustomersList
     events:
       - http:
           method: post
           path: api/v1/customer/list/new
+          cors: true
 
   ### Campaign
   get-campaign:
@@ -136,24 +158,31 @@ functions:
       - http:
           method: get
           path: api/v1/campaign/{campaignId}
+          cors: true
+
   update-campaign:
     handler: src/controllers/campaign-controller.updateCampaignById
     events:
       - http:
           method: put
           path: api/v1/campaign/{campaignId}
+          cors: true
+
   post-campaign:
     handler: src/controllers/campaign-controller.createCampaign
     events:
       - http:
           method: post
           path: api/v1/campaign/new
+          cors: true
+
   change-pipeline-stage:
     handler: src/controllers/campaign-controller.changePipelineStage
     events:
       - http:
           method: put
           path: api/v1/campaign/pipeline/stageChange
+          cors: true
 
 custom:
   webpack:
