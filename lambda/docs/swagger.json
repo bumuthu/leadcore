@@ -3,7 +3,7 @@
   "info": {
     "description": "Leadcore, the next-gen CRM",
     "version": "1.0.0",
-    "title": "Leadcore API"
+    "title": "Leadquo API"
   },
   "host": "1s3mhvyf5d.execute-api.us-east-2.amazonaws.com",
   "basePath": "/dev/api/v1",
@@ -60,7 +60,15 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "accessToken": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid username/password supplied"
@@ -83,37 +91,24 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          },
-          "400": {
-            "description": "Invalid username/password supplied"
-          }
-        }
-      }
-    },
-    "/auth/logout": {
-      "post": {
-        "tags": [
-          "auth"
-        ],
-        "summary": "Logout user from the system",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
+              "type": "object",
               "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "linkedinUrl": {
+                  "type": "string"
+                },
                 "username": {
+                  "type": "string"
+                },
+                "password": {
                   "type": "string"
                 }
               }
@@ -122,10 +117,54 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "databaseResponse": {
+                  "$ref": "#/definitions/User"
+                },
+                "cognitoResponse": {
+                  "type": "object"
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/auth/linkedinAccessToken": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get Linkedin access token",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "authToken",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "redirectUrl",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           }
         }
       }
@@ -168,22 +207,14 @@
         }
       }
     },
-    "/user/{userId}": {
+    "/user": {
       "get": {
         "tags": [
           "user"
         ],
-        "summary": "Get user by ID",
+        "summary": "Get user by Bearer Token",
         "produces": [
           "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
         ],
         "responses": {
           "200": {
@@ -204,30 +235,19 @@
         "tags": [
           "user"
         ],
-        "summary": "Update user",
+        "summary": "Update user by Bearer Token",
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Updated user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "responses": {
           "200": {
-            "description": "successful operation"
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
           }
         }
       }
@@ -308,7 +328,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Customer"
+              "$ref": "#/definitions/CustomerCreateUpdate"
             }
           }
         ],
@@ -337,7 +357,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Customer"
+              "$ref": "#/definitions/CustomerCreateUpdate"
             }
           }
         ],
@@ -550,7 +570,7 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Campaign"
+              "$ref": "#/definitions/CampaignUpdate"
             }
           }
         ],
@@ -579,7 +599,36 @@
             "name": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Campaign"
+              "$ref": "#/definitions/CampaignCreate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/campaign/pipline/stageChange": {
+      "put": {
+        "tags": [
+          "campaign"
+        ],
+        "summary": "Change pipeline stage of a customer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PipelineStageChange"
             }
           }
         ],
@@ -610,8 +659,19 @@
         "linkedinUrl": {
           "type": "string"
         },
-        "linkedinAccessToken": {
-          "type": "string"
+        "linkedinToken": {
+          "type": "object",
+          "properties": {
+            "accessToken": {
+              "type": "string"
+            },
+            "expiresIn": {
+              "type": "string"
+            },
+            "authorizedAt": {
+              "type": "string"
+            }
+          }
         },
         "teams": {
           "type": "array",
@@ -690,6 +750,14 @@
             "type": "string",
             "description": "User Ids"
           }
+        },
+        "customers": {
+          "type": "array",
+          "description": "Customers imported to a campaign within the team at least once",
+          "items": {
+            "type": "string",
+            "description": "Customer ID"
+          }
         }
       }
     },
@@ -721,8 +789,23 @@
           ],
           "default": "LINKEDIN"
         },
-        "stageIdx": {
-          "type": "integer"
+        "team": {
+          "type": "string",
+          "description": "Team ID of the customer"
+        },
+        "campaigns": {
+          "type": "array",
+          "description": "Campaign IDs of the campaigns",
+          "items": {
+            "properties": {
+              "campaign": {
+                "type": "string"
+              },
+              "stageId": {
+                "type": "string"
+              }
+            }
+          }
         },
         "email": {
           "type": "string"
@@ -859,6 +942,40 @@
         }
       }
     },
+    "CustomerCreateUpdate": {
+      "type": "object",
+      "properties": {
+        "fistName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number",
+          "format": "float"
+        },
+        "worth": {
+          "type": "integer"
+        },
+        "media": {
+          "type": "string",
+          "enum": [
+            "LINKEDIN",
+            "EMAIL",
+            "PHONE"
+          ],
+          "default": "LINKEDIN"
+        },
+        "team": {
+          "type": "string",
+          "description": "Team ID of the customer"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
     "Campaign": {
       "type": "object",
       "properties": {
@@ -887,7 +1004,15 @@
         "stages": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
           }
         },
         "analysis": {
@@ -941,8 +1066,8 @@
                 ],
                 "default": "LINKEDIN"
               },
-              "stageIdx": {
-                "type": "integer"
+              "stageId": {
+                "type": "string"
               }
             }
           }
@@ -952,6 +1077,133 @@
           "items": {
             "$ref": "#/definitions/Activity"
           }
+        }
+      }
+    },
+    "CampaignUpdate": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "One of states listed here",
+          "enum": [
+            "ACTIVE",
+            "INACTIVE",
+            "COMPLETED",
+            "SUSPENDED"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "string"
+              },
+              "roleId": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "addCustomers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "removeCustomers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CampaignCreate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "string"
+              },
+              "roleId": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "PipelineStageChange": {
+      "type": "object",
+      "properties": {
+        "campaignId": {
+          "type": "string"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "newStageId": {
+          "type": "string"
+        },
+        "doneBy": {
+          "type": "string",
+          "description": "User ID of the one who performed the change"
         }
       }
     },

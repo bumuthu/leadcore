@@ -61,6 +61,7 @@ export const getAccessToken = async (event, _context) => {
             },
             { new: true }
         ).catch(err => {
+            console.log("ERROR", err)
             return responseGenerator.handleCouldntInsert('User');
         })
 

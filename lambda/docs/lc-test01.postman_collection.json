@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "25fa48f2-0b19-412e-a14b-ce4612c996ef",
+		"_postman_id": "42f48e96-f193-46f7-b43e-57170adb633a",
 		"name": "lc-test01",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -164,7 +164,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJraWQiOiJJcEgxVXFrVm1tMXROV2QrRDFMZTNmeEdrdDFlZ09NWHllQ3piWWFKdit3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzY2JjOTQ1My00Yzc3LTRhYjEtYjJmNy05YWJkMDViMmVjODEiLCJhdWQiOiIxZ3RnanJtMm9qM3UwY25ra3MwajNoa25lZyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZXZlbnRfaWQiOiJmZmM5OTU0OS00MTdkLTQ5ZDUtODhmNy03NjEyZjAzYjU2ODYiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTYxODQyMzM1MSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfb0EzdkwwTlU2IiwiY29nbml0bzp1c2VybmFtZSI6ImJ1bXV0aHUiLCJleHAiOjE2MTg0MjY5NTEsImlhdCI6MTYxODQyMzM1MSwiZW1haWwiOiJidW11dGh1ZGlsc2hhbmhoa0BnbWFpbC5jb20ifQ.XfgRe2-kYQQMpB2fiRQ2c2MBHDz7y5d8siK-Qgvu4uZ2jJW8lRs2Knc_B-jGpNGE8UUGlQzeHh84PCn1coe1Z-sz68Yt2RuxGowkqnpIfo-waXjKZPphGBNCmfTRS4uAYNFP_gMn4En0tbCJpokdFwjLKL3vHMc21KZrKoTgXzn9qiKJhuazxjMd-jWFB1hJlzy_h0VsG9sLrvAFtFdu7ga85pFXoFi9Ft8TAeDqahyyg_TzsD3Y-jckKSd-XYJzA5M2EDOKFBgWy6txUBjI7Y8LWXGY4UtVsrEKEAQyDaPWKg6bzvQ7EAjCuJ4GTEZJAZIc3Uinrf90HKp_l5FzLg",
+							"value": "eyJraWQiOiJUWEExc1pCVzFTSDB6RU95NUN3dTYwSHZhaWtwOWRVTTlBMlpGTnBnYmRVPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJlNmM0OWM3ZS0xNzQ1LTRjMTAtYjNkNi0xMzMyZjdhNThiOWIiLCJldmVudF9pZCI6IjdiZDlkOGIwLTFkYTAtNDQ2ZS05MmZjLThjMDllMzJhMzM1ZCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MjI3Mjg4MjMsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTIuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0yX29BM3ZMME5VNiIsImV4cCI6MTYyMjgxNTIyMywiaWF0IjoxNjIyNzI4ODIzLCJqdGkiOiJlNGRlY2E5MC0wZmMzLTQ2ZmUtYWI3NC1kYTJjZDM0MTJhMDciLCJjbGllbnRfaWQiOiIxZ3RnanJtMm9qM3UwY25ra3MwajNoa25lZyIsInVzZXJuYW1lIjoiYnVtdXRodXRlc3QzIn0.lRk7WqQOVsF_U6RiiPjTebd2ziWw787anYYjdCapGQ_5jELdYOcZ8XIE0dM1fDTs1tIYhWfXeIeG774tgFpN2qCwX10mOcjvAtcrwHPzUbuE9YyD484Pktm04y7TYjqHtE8016QYB5RZZnLnM1NxEcJgiWSaZ3lmD5KHC8ymyITMMeMRK7F2AH7jMzsb3iUiUi8BNKZqdZN692sPg2tJSL5GiNZiQfj467CRfPYZTjl8nD4fZbR6x0jqipSABffjj3VsCncr8W0IuPSXY32yzcFvVCc0hZ1RFBD5HktzjiXb7d5YDKZVc-tFURjOyIb_fwHGP0QLMiLpaCvmNwsWGQ",
 							"type": "string"
 						}
 					]
@@ -181,7 +181,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/609a4cc83738b7000923e1e8",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -194,8 +194,7 @@
 						"dev",
 						"api",
 						"v1",
-						"user",
-						"609a4cc83738b7000923e1e8"
+						"user"
 					]
 				}
 			},
@@ -209,51 +208,16 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJraWQiOiJJcEgxVXFrVm1tMXROV2QrRDFMZTNmeEdrdDFlZ09NWHllQ3piWWFKdit3PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzY2JjOTQ1My00Yzc3LTRhYjEtYjJmNy05YWJkMDViMmVjODEiLCJhdWQiOiIxZ3RnanJtMm9qM3UwY25ra3MwajNoa25lZyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZXZlbnRfaWQiOiI2ZjQ1OTQzMS02ZTM2LTRlYTAtOWZlNi0wM2YzMjIzYzM3MGUiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTYxNzg5MDUxOSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfb0EzdkwwTlU2IiwiY29nbml0bzp1c2VybmFtZSI6ImJ1bXV0aHUiLCJleHAiOjE2MTc4OTQxMTksImlhdCI6MTYxNzg5MDUxOSwiZW1haWwiOiJidW11dGh1ZGlsc2hhbmhoa0BnbWFpbC5jb20ifQ.MN0oC2Oe9Y5WQlTVnHsH8iMMzF6UdEU8CdS2hCotPUKVTVmbwjwyL3kRl9pLu9ZlMMRvcC0PWve3ecnHoYEYBxkhRMq3cdUEpOhqMOo1pbjg54CFYS6Ui5AKxp5JsEhGWSmG5eCMF42XrgZP9D2fjND5LUp8aaCVFwozYgugNhr3XUTrbcrfRLAEuXiOXEcdK9EkH16awBoMHDGtyW9U6-mjJy7SMoOQjez0RcMzFUyB89brSFAv6QrjOwXvZSQUY8r9S0atxxNiNIstF5Xi2MoSISRrVwwdMcBsVxtIW19QYXahrH36n2udu1JvRo4NwY_YOcc6HoN4kIrJ2CQvGw",
+							"value": "eyJraWQiOiJUWEExc1pCVzFTSDB6RU95NUN3dTYwSHZhaWtwOWRVTTlBMlpGTnBnYmRVPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJlNmM0OWM3ZS0xNzQ1LTRjMTAtYjNkNi0xMzMyZjdhNThiOWIiLCJldmVudF9pZCI6IjdiZDlkOGIwLTFkYTAtNDQ2ZS05MmZjLThjMDllMzJhMzM1ZCIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MjI3Mjg4MjMsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTIuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0yX29BM3ZMME5VNiIsImV4cCI6MTYyMjgxNTIyMywiaWF0IjoxNjIyNzI4ODIzLCJqdGkiOiJlNGRlY2E5MC0wZmMzLTQ2ZmUtYWI3NC1kYTJjZDM0MTJhMDciLCJjbGllbnRfaWQiOiIxZ3RnanJtMm9qM3UwY25ra3MwajNoa25lZyIsInVzZXJuYW1lIjoiYnVtdXRodXRlc3QzIn0.lRk7WqQOVsF_U6RiiPjTebd2ziWw787anYYjdCapGQ_5jELdYOcZ8XIE0dM1fDTs1tIYhWfXeIeG774tgFpN2qCwX10mOcjvAtcrwHPzUbuE9YyD484Pktm04y7TYjqHtE8016QYB5RZZnLnM1NxEcJgiWSaZ3lmD5KHC8ymyITMMeMRK7F2AH7jMzsb3iUiUi8BNKZqdZN692sPg2tJSL5GiNZiQfj467CRfPYZTjl8nD4fZbR6x0jqipSABffjj3VsCncr8W0IuPSXY32yzcFvVCc0hZ1RFBD5HktzjiXb7d5YDKZVc-tFURjOyIb_fwHGP0QLMiLpaCvmNwsWGQ",
 							"type": "string"
 						}
 					]
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"string\",\r\n  \"linkedinUrl\": \"string\",\r\n  \"teams\": []\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/new",
-					"protocol": "https",
-					"host": [
-						"1s3mhvyf5d",
-						"execute-api",
-						"us-east-2",
-						"amazonaws",
-						"com"
-					],
-					"path": [
-						"dev",
-						"api",
-						"v1",
-						"user",
-						"new"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "User",
-			"request": {
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"firstName\": \"updated string\",\r\n  \"lastName\": \"updated string\"\r\n}",
+					"raw": "{\r\n  \"firstName\": \"Bumuthu Test3 updated\",\r\n  \"lastName\": \"Dilshan updated\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -261,7 +225,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user/609a4acf609e5a0008cef99c",
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/user",
 					"protocol": "https",
 					"host": [
 						"1s3mhvyf5d",
@@ -274,8 +238,7 @@
 						"dev",
 						"api",
 						"v1",
-						"user",
-						"609a4acf609e5a0008cef99c"
+						"user"
 					]
 				}
 			},
@@ -645,6 +608,76 @@
 							"key": "redirectUrl",
 							"value": "https://app-leadcore.netlify.app/authorization"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Bumuthu Test3\",\r\n  \"lastName\": \"Dilshan\",\r\n  \"email\": \"bumuthutest3@gmail.com\",\r\n  \"linkedinUrl\": \"\",\r\n  \"password\": \"Lq@12345\",\r\n  \"username\": \"bumuthutest3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/auth/register",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"Lq@12345\",\r\n    \"username\": \"bumuthutest3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://1s3mhvyf5d.execute-api.us-east-2.amazonaws.com/dev/api/v1/auth/login",
+					"protocol": "https",
+					"host": [
+						"1s3mhvyf5d",
+						"execute-api",
+						"us-east-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"api",
+						"v1",
+						"auth",
+						"login"
 					]
 				}
 			},
