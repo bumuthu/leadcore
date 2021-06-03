@@ -21,7 +21,7 @@ export default class ResponseGenerator {
         return this.getResponse();
     }
 
-    public handleDataNotFound(type: string, id: string) {
+    public handleDataNotFound(type: string, id?: string) {
         this.message = `${type} data with id ${id} not found`;
         this.code = 400;
         return this.getResponse();

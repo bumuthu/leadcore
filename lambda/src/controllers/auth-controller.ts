@@ -1,9 +1,15 @@
 import 'source-map-support/register';
+import axios from 'axios';
+import { Types } from 'mongoose';
+import jwt_decode from "jwt-decode";
+
 import ResponseGenerator from 'src/utils/ResponseGenerator';
 import connectToTheDatabase from '../utils/MongoConnection';
 import UserModel from 'src/models/user.model';
-import axios from 'axios';
-// import { Session } from 'src/services/auth-session';
+import PricingModel from 'src/models/pricing.model';
+import RoleModel from 'src/models/role.model';
+import TeamModel from 'src/models/team.model';
+import { AuthenticationService } from 'src/services/auth-service';
 
 const ACCESS_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
 const CLIENT_ID = '8611dl35uynhm6';
@@ -14,9 +20,12 @@ const responseGenerator = new ResponseGenerator();
 export const getAccessToken = async (event, _context) => {
     await connectToTheDatabase()
 
-    console.log('EVENT', event);
+    const accessToken = event.headers.Authorization;
+    console.log("TOKEN", accessToken)
 
-    const userId = event.queryStringParameters.userId;
+    const decodedUser: any = jwt_decode(accessToken);
+    console.log("DECODED USER", decodedUser);
+
     const authToken = event.queryStringParameters.authToken;
     const redirectUrl = event.queryStringParameters.redirectUrl;
 
@@ -42,7 +51,7 @@ export const getAccessToken = async (event, _context) => {
 
         console.log("ACCESS TOKEN", accessToken.data);
 
-        const user = await UserModel.findByIdAndUpdate(userId,
+        const user = await UserModel.findOneAndUpdate({ username: decodedUser.username },
             {
                 linkedinToken: {
                     accessToken: accessToken.data.access_token,
@@ -66,38 +75,68 @@ export const getAccessToken = async (event, _context) => {
 }
 
 
-// export const signIn = async (event, _context) => {
+export const signIn = async (event, _context) => {
 
-//     const authDetails = JSON.parse(event.body);
+    const authDetails = JSON.parse(event.body);
+    const authService = new AuthenticationService();
 
-//     try {
-//         const userSession = new Session();
-//         const token = userSession.signIn(authDetails.username, authDetails.password);
+    try {
+        const token = await authService.signIn(authDetails.username, authDetails.password)
+            .catch(err => {
+                console.log('ERROR', err);
+                responseGenerator.handleGenericError(JSON.stringify(err))
+            });
 
-//         return responseGenerator.handleSuccessfullResponse({
-//             message: {
-//                 token: token
-//             }
-//         });
+        return responseGenerator.handleSuccessfullResponse({
+            accessToken: token
+        });
 
-//     } catch (err) {
-//         responseGenerator.handleGenericError(JSON.stringify(err))
-//     }
-// }
+    } catch (err) {
+        responseGenerator.handleGenericError(JSON.stringify(err))
+    }
+}
 
 
-// export const signUp = async (event, _context) => {
+export const signUp = async (event, _context) => {
+    await connectToTheDatabase();
 
-//     const authDetails = JSON.parse(event.body);
+    const newUser = JSON.parse(event.body);
+    delete newUser.password;
+    const password = JSON.parse(event.body).password;
 
-//     try {
-//         const userSession = new Session();
-//         const userRes = userSession.signUp(authDetails.username, authDetails.email, authDetails.password);
+    const authService = new AuthenticationService();
 
-//         return responseGenerator.handleSuccessfullResponse(userRes);
+    try {
+        const basicPricing = await PricingModel.findOne({ name: "BASIC" });
+        const agentRole = await RoleModel.findOne({ name: "AGENT" });
 
-//     } catch (err) {
-//         responseGenerator.handleGenericError(JSON.stringify(err))
-//     }
-// }
+        const teamRes = await TeamModel.create({
+            users: [],
+            pricing: basicPricing['_id'],
+            type: "INDIVIDUAL",
+            customers: []
+        });
 
+        newUser['teams'] = [{
+            team: Types.ObjectId(teamRes['_id']),
+            role: Types.ObjectId(agentRole['_id']),
+            campaigns: []
+        }];
+
+        newUser.activityRecords = [];
+        newUser.notifications = [];
+
+        const userRes = await UserModel.create(newUser);
+
+        await TeamModel.findByIdAndUpdate(teamRes['_id'], { users: [Types.ObjectId(userRes['_id'])] }, { new: true });
+
+        // User registration        
+        const cognitoRes = await authService.signUp(newUser.username, newUser.email, password, userRes['_id']);
+
+        return responseGenerator.handleSuccessfullResponse({ databaseResponse: userRes, cognitoResponse: cognitoRes });
+
+    } catch (e) {
+        console.log(e);
+        return responseGenerator.handleCouldntInsert('User');
+    }
+}

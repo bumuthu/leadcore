@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import jwt_decode from "jwt-decode";
 import 'source-map-support/register';
 import PricingModel from 'src/models/pricing.model';
 import RoleModel from 'src/models/role.model';
@@ -12,6 +13,8 @@ const responseGenerator = new ResponseGenerator();
 export const getUserById = async (event, _context) => {
     await connectToTheDatabase();
 
+    console.log("EVENT", event)
+
     const id = event.pathParameters.userId;
 
     try {
@@ -24,6 +27,23 @@ export const getUserById = async (event, _context) => {
     }
 }
 
+export const getUserByToken = async (event, _context) => {
+    await connectToTheDatabase();
+
+    const accessToken = event.headers.Authorization;
+    console.log("TOKEN", accessToken)
+
+    const decodedUser: any = jwt_decode(accessToken);
+    console.log("DECODED USER", decodedUser);
+
+    try {
+        const user = await UserModel.findOne({ username: decodedUser.username });
+        return responseGenerator.handleSuccessfullResponse(user);
+    } catch (e) {
+        console.log(e);
+        return responseGenerator.handleDataNotFound('User');
+    }
+}
 
 export const updateUserById = async (event, _context) => {
     await connectToTheDatabase();
@@ -49,6 +69,39 @@ export const updateUserById = async (event, _context) => {
     } catch (e) {
         console.log(e);
         return responseGenerator.handleDataNotFound('User', id);
+    }
+}
+
+
+export const updateUserByToken = async (event, _context) => {
+    await connectToTheDatabase();
+
+    const accessToken = event.headers.Authorization;
+    console.log("TOKEN", accessToken);
+
+    const decodedUser2: any = jwt_decode(accessToken);
+    console.log("DECODED USER", decodedUser2);
+
+    const updateingUser = JSON.parse(event.body);
+
+    if (updateingUser.activityRecords) {
+        delete updateingUser.activityRecords;
+    }
+
+    if (updateingUser.notifications) {
+        delete updateingUser.notifications;
+    }
+
+    if (updateingUser.linkedinToken) {
+        delete updateingUser.linkedinToken;
+    }
+
+    try {
+        const user = await UserModel.findOneAndUpdate({ username: decodedUser2.username }, updateingUser, { new: true });
+        return responseGenerator.handleSuccessfullResponse(user);
+    } catch (e) {
+        console.log(e);
+        return responseGenerator.handleDataNotFound('User');
     }
 }
 
