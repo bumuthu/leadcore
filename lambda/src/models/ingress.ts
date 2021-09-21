@@ -5,6 +5,11 @@ export namespace ingress {
     }
 
     export interface SignUpInput {
-        
+        firstName: string,
+        lastName?: string,
+        email: string,
+        linkedinUrl?: string,
+        username: string,
+        password: string
     }
 }

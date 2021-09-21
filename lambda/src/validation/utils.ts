@@ -14,11 +14,11 @@ export function ValidateFields(data, model) {
 export function ValidateNotNullFields(data: any, fields: string[]) {
     let nullFields: string[] = [];
     let hasError: boolean = false;
-    for (let key in fields) {
+    for (let key of fields) {
         if (data[key] == undefined) {
             nullFields.push(key);
             hasError = true;
         }
     }
-    if (hasError) throw new Error(`Missing fields [${nullFields.join()}]`)
+    if (hasError) throw new Error(`Missing required fields, [${nullFields.join()}]`)
 }
