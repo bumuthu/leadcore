@@ -11,7 +11,7 @@ export default class ResponseGenerator {
             headers: {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Credentials": true,
-              }
+            }
         };
     }
 
@@ -28,20 +28,36 @@ export default class ResponseGenerator {
     }
 
     public handleCouldntInsert(type: string) {
-        this.message = `server couldn't insert ${type} data`;
+        this.message = `Server couldn't insert ${type} data`;
         this.code = 400;
         return this.getResponse();
     }
 
     public handleGenericError(err: string) {
-        this.message = `server returns error: \n${err}`;
+        this.message = `Server returns error: \n${err}`;
         this.code = 400;
         return this.getResponse();
     }
 
     public handleBusinessLoginError(err: string) {
-        this.message = `server returns error: \n${err}`;
+        this.message = `Server returns error: \n${err}`;
         this.code = 500;
+        return this.getResponse();
+    }
+
+    public handleAuthorizationError() {
+        this.message = `Invalid authorization token`;
+        this.code = 401;
+        return this.getResponse();
+    }
+
+    public handleAuthenticationError(err: any) {
+        this.message = {
+            message: "Authentication failed",
+            reason: err.message,
+            code: err.code
+        };
+        this.code = 401;
         return this.getResponse();
     }
 }

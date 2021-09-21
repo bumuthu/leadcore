@@ -1,8 +1,8 @@
 import 'source-map-support/register';
-import ResponseGenerator from 'src/utils/ResponseGenerator';
-import connectToTheDatabase from '../utils/MongoConnection';
-import CustomerModel from 'src/models/customer.model';
-import CampaignModel from 'src/models/campaign.model';
+import ResponseGenerator from 'src/utils/response-generator';
+import connectToTheDatabase from '../utils/mongo-connection';
+import CustomerModel from 'src/models/db/customer.model';
+import CampaignModel from 'src/models/db/campaign.model';
 
 const responseGenerator = new ResponseGenerator();
 

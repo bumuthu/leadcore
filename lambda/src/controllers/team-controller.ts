@@ -1,7 +1,7 @@
 import 'source-map-support/register';
-import TeamModel from 'src/models/team.model';
-import ResponseGenerator from 'src/utils/ResponseGenerator';
-import connectToTheDatabase from '../utils/MongoConnection';
+import TeamModel from 'src/models/db/team.model';
+import ResponseGenerator from 'src/utils/response-generator';
+import connectToTheDatabase from '../utils/mongo-connection';
 
 const responseGenerator = new ResponseGenerator();
 

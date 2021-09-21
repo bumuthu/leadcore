@@ -1,8 +1,8 @@
 import 'source-map-support/register';
-import PricingModel from 'src/models/pricing.model';
-import RoleModel from 'src/models/role.model';
-import ResponseGenerator from 'src/utils/ResponseGenerator';
-import connectToTheDatabase from '../utils/MongoConnection';
+import PricingModel from 'src/models/db/pricing.model';
+import RoleModel from 'src/models/db/role.model';
+import ResponseGenerator from 'src/utils/response-generator';
+import connectToTheDatabase from '../utils/mongo-connection';
 import rolesJSON from 'reference-data/lc-role.json';
 import pricingsJSON from 'reference-data/lc-pricing.json';
 

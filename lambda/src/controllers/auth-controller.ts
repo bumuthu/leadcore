@@ -3,13 +3,16 @@ import axios from 'axios';
 import { Types } from 'mongoose';
 import jwt_decode from "jwt-decode";
 
-import ResponseGenerator from 'src/utils/ResponseGenerator';
-import connectToTheDatabase from '../utils/MongoConnection';
-import UserModel from 'src/models/user.model';
-import PricingModel from 'src/models/pricing.model';
-import RoleModel from 'src/models/role.model';
-import TeamModel from 'src/models/team.model';
+import ResponseGenerator from 'src/utils/response-generator';
+import connectToTheDatabase from '../utils/mongo-connection';
+import UserModel from 'src/models/db/user.model';
+import PricingModel from 'src/models/db/pricing.model';
+import RoleModel from 'src/models/db/role.model';
+import TeamModel from 'src/models/db/team.model';
 import { AuthenticationService } from 'src/services/auth-service';
+import { egress } from 'src/models/egress';
+import { ingress } from 'src/models/ingress';
+import { ValidateNotNullFields } from 'src/validation/utils';
 
 const ACCESS_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
 const CLIENT_ID = '8611dl35uynhm6';
@@ -76,28 +79,34 @@ export const getAccessToken = async (event, _context) => {
 }
 
 
+// UserSignInHandler
 export const signIn = async (event, _context) => {
+    const authDetails: ingress.LoginInput = JSON.parse(event.body) as ingress.LoginInput;
+    const authService: AuthenticationService = new AuthenticationService();
 
-    const authDetails = JSON.parse(event.body);
-    const authService = new AuthenticationService();
+    try {
+        ValidateNotNullFields(authDetails, ["username", "password"]);
+    } catch (err) {
+        console.error("Validation Error", JSON.stringify(err))
+        return responseGenerator.handleAuthenticationError({
+            reason: err.message,
+            code: "MissingFieldException"
+        });
+    }
 
     try {
         const token = await authService.signIn(authDetails.username, authDetails.password)
-            .catch(err => {
-                console.log('ERROR', err);
-                responseGenerator.handleGenericError(JSON.stringify(err))
-            });
-
         return responseGenerator.handleSuccessfullResponse({
-            accessToken: token
-        });
-
+            accessToken: token,
+            username: authDetails.username
+        } as egress.LoginOutput);
     } catch (err) {
-        responseGenerator.handleGenericError(JSON.stringify(err))
+        return responseGenerator.handleAuthenticationError(err)
     }
 }
 
 
+// UserSignUpHandler
 export const signUp = async (event, _context) => {
     await connectToTheDatabase();
 

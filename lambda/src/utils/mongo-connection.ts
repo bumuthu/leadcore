@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 
 const connectToTheDatabase = async () => {
 
-    require('../models/pricing.model');
-    require('../models/role.model');
-    require('../models/user.model');
-    require('../models/team.model');
+    require('../models/db/pricing.model');
+    require('../models/db/role.model');
+    require('../models/db/user.model');
+    require('../models/db/team.model');
    
     const MONGO_PATH = 'mongodb+srv://root:Lc@12345@cluster1.ninyi.mongodb.net/lc-test1?retryWrites=true&w=majority';
 

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "serverless deploy",
-    "deploy-signup": "serverless deploy function --function sign-up"
+    "deploy-fun": "serverless deploy function --function",
+    "tail-lambda": "aws logs tail /aws/lambda/lq-dev1-get-user --follow"
   },
   "dependencies": {
     "@middy/core": "^1.5.0",

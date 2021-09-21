@@ -1,11 +1,18 @@
-service: lc
+service: lq
 
 provider:
   name: aws
   runtime: nodejs14.x
   region: us-east-2
-  stage: dev
+  stage: dev1
   lambdaHashingVersion: '20201221'
+  httpApi:
+    cors: true
+    authorizers:
+      serviceAuthorizer:
+        identitySource: $request.header.Authorization
+        issuerUrl: https://cognito-idp.us-east-2.amazonaws.com/us-east-2_oA3vL0NU6
+        audience: 1gtgjrm2oj3u0cnkks0j3hkneg
 
 plugins:
   - serverless-webpack
@@ -20,185 +27,189 @@ package:
     - .vscode/**/*
 
 functions:
-  ### Reference Data
-  get-refdata:
-    handler: src/controllers/refdata-controller.getRefData
-    events:
-      - http:
-          method: get
-          path: api/v1/refdata
-          cors: true
-
-  reset-refdata:
-    handler: src/controllers/refdata-controller.resetRefData
-    events:
-      - http:
-          method: get
-          path: api/v1/refdata/reset
-          cors: true
 
   ### Auth
-  get-access-token:
-    handler: src/controllers/auth-controller.getAccessToken
-    events:
-      - http:
-          method: get
-          path: api/v1/auth/linkedinAccessToken
-          cors: true
-
-  sign-in:
+  UserSignInHandler:
     handler: src/controllers/auth-controller.signIn
     events:
-      - http:
-          method: post
-          path: api/v1/auth/login
+      - httpApi:
+          method: POST
+          path: /api/v1/auth/login
 
-  sign-up:
+  UserSignUpHandler:
     handler: src/controllers/auth-controller.signUp
     events:
-      - http:
-          method: post
-          path: api/v1/auth/register
+      - httpApi:
+          method: POST
+          path: /api/v1/auth/register
+
+  AccessTokenRetrievalHandler:
+    handler: src/controllers/auth-controller.getAccessToken
+    events:
+      - httpApi:
+          method: GET
+          path: /api/v1/auth/linkedinAccessToken
+          authorizer: serviceAuthorizer
+
+
+  ### Reference Data
+  RefDataLoadHandler:
+    handler: src/controllers/refdata-controller.getRefData
+    events:
+      - httpApi:
+          method: GET
+          path: /api/v1/refdata
+          authorizer: serviceAuthorizer
+
+  RefDataResetHandler:
+    handler: src/controllers/refdata-controller.resetRefData
+    events:
+      - httpApi:
+          method: GET
+          path: /api/v1/refdata/reset
+          authorizer: serviceAuthorizer
+
 
   ### User
-  # get-user:
+  # UserRetrievalByIdHandler:
   #   handler: src/controllers/user-controller.getUserById
   #   events:
-  #     - http:
-  #         method: get
-  #         path: api/v1/user/{userId}
-  #         cors: true
+  #     - httpApi:
+  #         method: GET
+  #         path: /api/v1/user/{userId}
 
-  get-user:
+  UserRetrievalHandler:
     handler: src/controllers/user-controller.getUserByToken
     events:
-      - http:
-          method: get
-          path: api/v1/user
-          cors: true
+      - httpApi:
+          method: GET
+          path: /api/v1/user
+          authorizer: serviceAuthorizer
           
-  # update-user:
+  # UserUpdateByIdHandler:
   #   handler: src/controllers/user-controller.updateUserById
   #   events:
-  #     - http:
-  #         method: put
-  #         path: api/v1/user/{userId}
-  #         cors: true
+  #     - httpApi:
+  #         method: PUT
+  #         path: /api/v1/user/{userId}
 
-  update-user:
+  UserUpdateHandler:
     handler: src/controllers/user-controller.updateUserByToken
     events:
-      - http:
-          method: put
-          path: api/v1/user
-          cors: true
+      - httpApi:
+          method: PUT
+          path: /api/v1/user
+          authorizer: serviceAuthorizer
 
-  # create-user:
+  # NewUserHandler:
   #   handler: src/controllers/user-controller.createUser
   #   events:
-  #     - http:
-  #         method: post
-  #         path: api/v1/user/new
-  #         cors: true
+  #     - httpApi:
+  #         method: POST
+  #         path: /api/v1/user/new
+
 
   ### Team
-  get-team:
+  TeamRetrievalHandler:
     handler: src/controllers/team-controller.getTeamById
     events:
-      - http:
-          method: get
-          path: api/v1/team/{teamId}
-          cors: true
+      - httpApi:
+          method: GET
+          path: /api/v1/team/{teamId}
+          authorizer: serviceAuthorizer
 
-  update-team:
+  TeamUpdateHandler:
     handler: src/controllers/team-controller.updateTeamById
     events:
-      - http:
-          method: put
-          path: api/v1/team/{teamId}
-          cors: true
+      - httpApi:
+          method: PUT
+          path: /api/v1/team/{teamId}
+          authorizer: serviceAuthorizer
 
-  create-team:
+  NewTeamHandler:
     handler: src/controllers/team-controller.createTeam
     events:
-      - http:
-          method: post
-          path: api/v1/team/new
-          cors: true
+      - httpApi:
+          method: POST
+          path: /api/v1/team/new
+          authorizer: serviceAuthorizer
+
 
   ### Customer
-  get-customer: 
+  CustomerRetrievalHandler: 
     handler: src/controllers/customer-controller.getCustomerById
     events:
-      - http:
-          method: get
-          path: api/v1/customer/single/{customerId}
-          cors: true
+      - httpApi:
+          method: GET
+          path: /api/v1/customer/single/{customerId}
+          authorizer: serviceAuthorizer
 
-  update-customer: 
+  CustomerUpdateHandler: 
     handler: src/controllers/customer-controller.updateCustomerById
     events:
-      - http:
-          method: put
-          path: api/v1/customer/single/{customerId}
-          cors: true
+      - httpApi:
+          method: PUT
+          path: /api/v1/customer/single/{customerId}
+          authorizer: serviceAuthorizer
 
-  create-customer: 
+  NewCustomerHandler: 
     handler: src/controllers/customer-controller.createCustomer
     events:
-      - http:
-          method: post
-          path: api/v1/customer/single/new
-          cors: true
+      - httpApi:
+          method: POST
+          path: /api/v1/customer/single/new
+          authorizer: serviceAuthorizer
 
-  get-customers-list: 
+  CustomersListRetrievalHandler: 
     handler: src/controllers/customer-controller.getCustomersListByIds
     events:
-      - http:
-          method: get
-          path: api/v1/customer/list/{customerIds}
-          cors: true
+      - httpApi:
+          method: GET
+          path: /api/v1/customer/list/{customerIds}
+          authorizer: serviceAuthorizer
 
-  create-customers-list: 
+  NewCustomerListHandler: 
     handler: src/controllers/customer-controller.createCustomersList
     events:
-      - http:
-          method: post
-          path: api/v1/customer/list/new
-          cors: true
+      - httpApi:
+          method: POST
+          path: /api/v1/customer/list/new
+          authorizer: serviceAuthorizer
+
 
   ### Campaign
-  get-campaign:
+  CampaignRetrievalHandler:
     handler: src/controllers/campaign-controller.getCampaignById
     events:
-      - http:
-          method: get
-          path: api/v1/campaign/{campaignId}
-          cors: true
+      - httpApi:
+          method: GET
+          path: /api/v1/campaign/{campaignId}
+          authorizer: serviceAuthorizer
 
-  update-campaign:
+  CampaignUpdateHandler:
     handler: src/controllers/campaign-controller.updateCampaignById
     events:
-      - http:
-          method: put
-          path: api/v1/campaign/{campaignId}
-          cors: true
+      - httpApi:
+          method: PUT
+          path: /api/v1/campaign/{campaignId}
+          authorizer: serviceAuthorizer
 
-  post-campaign:
+  NewCampaignHandler:
     handler: src/controllers/campaign-controller.createCampaign
     events:
-      - http:
-          method: post
-          path: api/v1/campaign/new
-          cors: true
+      - httpApi:
+          method: POST
+          path: /api/v1/campaign/new
+          authorizer: serviceAuthorizer
 
-  change-pipeline-stage:
+  PipelineStageChangeHandler:
     handler: src/controllers/campaign-controller.changePipelineStage
     events:
-      - http:
-          method: put
-          path: api/v1/campaign/pipeline/stageChange
-          cors: true
+      - httpApi:
+          method: PUT
+          path: /api/v1/campaign/pipeline/stageChange
+          authorizer: serviceAuthorizer
+
 
 custom:
   webpack:

@@ -1,12 +1,12 @@
 import { Types } from 'mongoose';
 import jwt_decode from "jwt-decode";
 import 'source-map-support/register';
-import PricingModel from 'src/models/pricing.model';
-import RoleModel from 'src/models/role.model';
-import TeamModel from 'src/models/team.model';
-import UserModel from 'src/models/user.model';
-import ResponseGenerator from 'src/utils/ResponseGenerator';
-import connectToTheDatabase from '../utils/MongoConnection';
+import PricingModel from 'src/models/db/pricing.model';
+import RoleModel from 'src/models/db/role.model';
+import TeamModel from 'src/models/db/team.model';
+import UserModel from 'src/models/db/user.model';
+import ResponseGenerator from 'src/utils/response-generator';
+import connectToTheDatabase from '../utils/mongo-connection';
 
 const responseGenerator = new ResponseGenerator();
 
@@ -30,18 +30,19 @@ export const getUserById = async (event, _context) => {
 export const getUserByToken = async (event, _context) => {
     await connectToTheDatabase();
 
-    const accessToken = event.headers.Authorization;
-    console.log("TOKEN", accessToken)
-
-    const decodedUser: any = jwt_decode(accessToken);
-    console.log("DECODED USER", decodedUser);
+    const accessToken = event.headers.authorization;
+    console.log("TOKEN:", accessToken);
+    if (accessToken == undefined) return responseGenerator.handleAuthorizationError();
 
     try {
+        const decodedUser: any = jwt_decode(accessToken);
+        console.log("DECODED USER:", decodedUser);
+
         const user = await UserModel.findOne({ username: decodedUser.username });
         return responseGenerator.handleSuccessfullResponse(user);
     } catch (e) {
         console.log(e);
-        return responseGenerator.handleDataNotFound('User');
+        return responseGenerator.handleAuthorizationError();
     }
 }
 

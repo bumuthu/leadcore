@@ -1,4 +1,4 @@
-import HttpException from './HttpException';
+import HttpException from './http-exception';
 
 export class DataNotFoundException extends HttpException {
     constructor(type: string, id: string) {
