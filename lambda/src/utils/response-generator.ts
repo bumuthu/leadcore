@@ -54,7 +54,7 @@ export default class ResponseGenerator {
     public handleAuthenticationError(err: any) {
         this.response = {
             errorMessage: "Authentication failed",
-            reason: err.reason,
+            reason: err.message,
             code: err.code
         };
         this.code = 401;

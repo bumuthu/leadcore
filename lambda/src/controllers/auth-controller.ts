@@ -13,7 +13,7 @@ import { AuthenticationService } from 'src/services/auth-service';
 import { egress } from 'src/models/egress';
 import { ingress } from 'src/models/ingress';
 import { db } from 'src/models/db';
-import { ValidateNotNullFields } from 'src/validation/utils';
+import { validateNotNullFields } from 'src/validation/utils';
 
 const ACCESS_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
 const CLIENT_ID = '8611dl35uynhm6';
@@ -86,22 +86,15 @@ export const signIn = async (event, _context) => {
     const authService: AuthenticationService = new AuthenticationService();
 
     try {
-        ValidateNotNullFields(authDetails, ["username", "password"]);
-    } catch (err) {
-        console.error("Validation Error: " + err.message)
-        return responseGenerator.handleAuthenticationError({
-            reason: err.message,
-            code: "MissingFieldException"
-        });
-    }
+        validateNotNullFields(authDetails, ["username", "password"]);
 
-    try {
-        const token = await authService.signIn(authDetails.username, authDetails.password)
+        const token = await authService.signIn(authDetails.username, authDetails.password);
         return responseGenerator.handleSuccessfullResponse({
             accessToken: token,
             username: authDetails.username
         } as egress.LoginOutput);
     } catch (err) {
+        console.error(err);
         return responseGenerator.handleAuthenticationError(err)
     }
 }
@@ -118,6 +111,8 @@ export const signUp = async (event, _context) => {
     let newUserDB: db.User;
 
     try {
+        validateNotNullFields(newUser, ["firstName", "email", "username", "password"]);
+
         const basicPricing = await PricingModel.findOne({ name: "BASIC" });
         const agentRole = await RoleModel.findOne({ name: "AGENT" });
 

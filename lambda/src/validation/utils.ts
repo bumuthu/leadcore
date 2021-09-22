@@ -1,3 +1,5 @@
+import { ValidationError } from "src/utils/exceptions/validation-exception";
+
 export function ValidateFields(data, model) {
     type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & { [P in K]-?: Exclude<T[P], undefined> }
 
@@ -11,7 +13,7 @@ export function ValidateFields(data, model) {
     });
 }
 
-export function ValidateNotNullFields(data: any, fields: string[]) {
+export function validateNotNullFields(data: any, fields: string[]) {
     let nullFields: string[] = [];
     let hasError: boolean = false;
     for (let key of fields) {
@@ -20,5 +22,5 @@ export function ValidateNotNullFields(data: any, fields: string[]) {
             hasError = true;
         }
     }
-    if (hasError) throw new Error(`Missing required fields, [${nullFields.join()}]`)
+    if (hasError) throw new ValidationError(`Missing required fields, [${nullFields.join()}]`)
 }
