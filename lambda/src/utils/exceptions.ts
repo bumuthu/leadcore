@@ -49,13 +49,25 @@ export class DataNotFoundError extends KnownError {
 
 export class UserLoginError extends KnownError {
     constructor(message: string, code: ErrorCode) {
-        super(404, code, message);
+        super(401, code, message);
     }
 }
 
 export class UserSignUpError extends KnownError {
     constructor(message: string, code: ErrorCode) {
-        super(404, code, message);
+        super(401, code, message);
+    }
+}
+
+export class UserVerificationError extends KnownError {
+    constructor(message: string, code: ErrorCode) {
+        super(400, code, message);
+    }
+}
+
+export class UserVerificationResendError extends KnownError {
+    constructor(message: string, code: ErrorCode) {
+        super(400, code, message);
     }
 }
 

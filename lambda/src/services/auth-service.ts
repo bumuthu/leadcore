@@ -1,11 +1,6 @@
-import {
-    CognitoUserPool,
-    CognitoUserAttribute,
-    CognitoUser,
-    AuthenticationDetails
-} from 'amazon-cognito-identity-js';
 import axios from 'axios';
-import { LinkedinAccessTokenException } from 'src/utils/exceptions';
+import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
+import { LinkedinAccessTokenException, UserLoginError, UserSignUpError, UserVerificationError, UserVerificationResendError } from 'src/utils/exceptions';
 
 export enum PasswordChallenge {
     NEW_PASSWORD_REQUIRED = 'NEW_PASSWORD_REQUIRED',
@@ -52,7 +47,7 @@ export class AuthenticationService {
                         [emailAttr, userIdAttr],
                         null,
                         function (error, response) {
-                            console.log('ERROR', error, 'RESPONSE', response);
+                            console.log('Error:', error, 'Response:', response);
 
                             if (error) reject(error);
                             resolve(response);
@@ -60,11 +55,9 @@ export class AuthenticationService {
                     )
                 }
             );
-
         } catch (err) {
-            console.log('SIGN UP ERROR', err);
-
-            return err
+            console.error(err);
+            throw new UserSignUpError(err.message, err.code);
         }
     }
 
@@ -110,8 +103,8 @@ export class AuthenticationService {
             // }
 
         } catch (err) {
-            console.log('error: ' + JSON.stringify(err));
-            throw err;
+            console.error(err);
+            throw new UserLoginError(err.message, err.code);
         }
     }
 
@@ -124,6 +117,52 @@ export class AuthenticationService {
         } catch (err) {
             console.log('error: ' + JSON.stringify(err));
             return { error: err };
+        }
+    }
+
+    async verifyUser(email: string, code: string) {
+        const cognitoUser = new CognitoUser({
+            Username: email,
+            Pool: this.userPool
+        });
+
+        try {
+            return await new Promise(
+                (resolve, reject) => {
+                    cognitoUser.confirmRegistration(
+                        code, true, (err, result) => {
+                            if (err) {
+                                return reject(err);
+                            }
+                            return resolve(result);
+                        });
+                })
+        } catch (err) {
+            console.error(err);
+            throw new UserVerificationError(err.message, err.code)
+        }
+    }
+
+    async resendVerification(email:string) {
+        const cognitoUser = new CognitoUser({
+            Username: email,
+            Pool: this.userPool
+        });
+
+        try {
+            return await new Promise(
+                (resolve, reject) => {
+                    cognitoUser.resendConfirmationCode(
+                       (err, result) => {
+                            if (err) {
+                                return reject(err);
+                            }
+                            return resolve(result);
+                        });
+                })
+        } catch (err) {
+            console.error(err);
+            throw new UserVerificationResendError(err.message, err.code)
         }
     }
 

@@ -12,4 +12,9 @@ export namespace ingress {
         username: string,
         password: string
     }
+
+    export interface VerificationInput {
+        email: string,
+        code: string
+    }
 }

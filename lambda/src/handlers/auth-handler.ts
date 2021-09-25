@@ -8,36 +8,7 @@ import { egress } from 'src/models/egress';
 import { ingress } from 'src/models/ingress';
 import { validateNotNullFields } from 'src/validation/utils';
 import { UserService } from 'src/services/user-service';
-import { AccessTokenNullError, ErrorCode, UserSignUpError } from 'src/utils/exceptions';
-
-// AccessTokenRetrievalHandler
-export const getAccessToken = async (event, _context) => {
-    try {
-        const accessToken = event.headers.Authorization;
-        if (!accessToken) throw new AccessTokenNullError("Null access token found");
-
-        validateNotNullFields(event.queryStringParameters, ["authToken", "redirectUrl"]);
-
-        const authService = new AuthenticationService();
-        const userService: UserService = new UserService();
-
-        const decodedUser: any = jwt_decode(accessToken);
-        if (!decodedUser!.username) throw new AccessTokenNullError("Invalid access token");
-
-        await connectToTheDatabase()
-
-        const linkedinTokenRes = await authService.accessLinkedin(event.queryStringParameters);
-        const updatedUser = await userService.updateUserWithLinkedinToken(decodedUser.username, linkedinTokenRes);
-
-        console.log("Linkedin access token:", linkedinTokenRes.data);
-        console.log('Updated user:', updatedUser);
-
-        return respondSuccess(updatedUser)
-    }
-    catch (err) {
-        return respondError(err)
-    }
-}
+import { AccessTokenNullError, UserSignUpError } from 'src/utils/exceptions';
 
 
 // UserSignInHandler
@@ -69,12 +40,12 @@ export const signUp = async (event, _context) => {
         validateNotNullFields(newUser, ["firstName", "email", "username", "password"]);
 
         await connectToTheDatabase();
-        const userRes = await userService.createNewUser(newUser);
-        const cognitoRes = await authService.signUp(newUser.username, newUser.email, newUser.password, userRes['_id']);
+        const userRes: any = await userService.createNewUser(newUser);
+        const cognitoRes: any = await authService.signUp(newUser.username, newUser.email, newUser.password, userRes['_id']);
         console.log("Cognito Response:", cognitoRes)
 
         if (cognitoRes.user?.username != newUser.username) {
-            throw new UserSignUpError("Sign up failed in cognito", ErrorCode.USER_SIGN_UP_EXCEPTION);
+            throw new UserSignUpError(cognitoRes.message, cognitoRes.code);
         }
         return respondSuccess(userRes);
     } catch (err) {
@@ -82,3 +53,60 @@ export const signUp = async (event, _context) => {
     }
 }
 
+
+// UserVerificationHandler
+export const verifyUser = async (event, _context) => {
+    const authDetails: ingress.VerificationInput = JSON.parse(event.body) as ingress.VerificationInput;
+    const authService: AuthenticationService = new AuthenticationService();
+
+    try {
+        validateNotNullFields(authDetails, ["email", "code"]);
+        const response = await authService.verifyUser(authDetails.email, authDetails.code);
+        return respondSuccess(response);
+    } catch (err) {
+        return respondError(err)
+    }
+}
+
+
+// UserVerificationResendHandler
+export const resendVerification = async (event, _context) => {
+    const authDetails: ingress.VerificationInput = JSON.parse(event.body) as ingress.VerificationInput;
+    const authService: AuthenticationService = new AuthenticationService();
+
+    try {
+        validateNotNullFields(authDetails, ["email"]);
+        const response = await authService.resendVerification(authDetails.email);
+        return respondSuccess(response);
+    } catch (err) {
+        return respondError(err)
+    }
+}
+
+
+// AccessTokenRetrievalHandler
+export const getAccessToken = async (event, _context) => {
+    try {
+        const accessToken = event.headers.Authorization;
+        if (!accessToken) throw new AccessTokenNullError("Null access token found");
+
+        validateNotNullFields(event.queryStringParameters, ["authToken", "redirectUrl"]);
+
+        const authService = new AuthenticationService();
+        const userService: UserService = new UserService();
+        const decodedUser: any = jwt_decode(accessToken);
+        if (!decodedUser!.username) throw new AccessTokenNullError("Invalid access token");
+
+        await connectToTheDatabase()
+
+        const linkedinTokenRes = await authService.accessLinkedin(event.queryStringParameters);
+        const updatedUser = await userService.updateUserWithLinkedinToken(decodedUser.username, linkedinTokenRes);
+        console.log("Linkedin access token:", linkedinTokenRes.data);
+        console.log('Updated user:', updatedUser);
+
+        return respondSuccess(updatedUser)
+    }
+    catch (err) {
+        return respondError(err)
+    }
+}

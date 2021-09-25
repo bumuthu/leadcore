@@ -42,6 +42,21 @@ functions:
       - httpApi:
           method: POST
           path: /api/v1/auth/register
+          
+  UserVerificationHandler:
+    handler: src/handlers/auth-handler.verifyUser
+    events:
+      - httpApi:
+          method: POST
+          path: /api/v1/auth/verification
+
+          
+  UserVerificationResendHandler:
+    handler: src/handlers/auth-handler.resendVerification
+    events:
+      - httpApi:
+          method: POST
+          path: /api/v1/auth/resend-verification
 
   AccessTokenRetrievalHandler:
     handler: src/handlers/auth-handler.getAccessToken
