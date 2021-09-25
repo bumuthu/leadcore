@@ -2,14 +2,14 @@ import { Types } from "mongoose";
 
 export namespace db {
     export interface User {
-        firstName: String,
-        lastName?: String,
-        username: String,
-        email: String,
-        linkedinUrl?: String,
+        firstName: string,
+        lastName?: string,
+        username: string,
+        email: string,
+        linkedinUrl?: string,
         linkedinToken?: {
-            accessToken: String,
-            expiresIn: Number,
+            accessToken: string,
+            expiresIn: number,
             authorizedAt: Date
         },
         teams: {
@@ -20,69 +20,69 @@ export namespace db {
         activityRecords: {
             timestamp: Date,
             doneBy: User,
-            activityType: String
+            activityType: string
         }[],
         notifications: {
             timestamp: Date,
             doneBy: User,
-            activityType: String
+            activityType: string
         }[],
     }
 
     export interface Team {
         pricing: Pricing,
-        type: String,
+        type: string,
         users: Types.ObjectId[],
         customers: Types.ObjectId[]
     }
 
     export interface Role {
-        name: String,
+        name: string,
         permissions: {
-            name: String,
-            type: String,
-            description: String
+            name: string,
+            type: string,
+            description: string
         }[]
     }
 
     export interface Pricing {
-        name: String,
-        price: String,
+        name: string,
+        price: string,
         features: {
-            name: String,
+            name: string,
             value: any,
-            description: String
+            description: string
         }[]
     }
 
     export interface Customer {
-        firstName: String,
-        lastName: String,
-        score: Number,
-        worth: Number,
-        media: String,
+        firstName: string,
+        lastName: string,
+        score: number,
+        worth: number,
+        media: string,
         campaigns: {
             campaign: Types.ObjectId,
-            stageId: String
+            stageId: string
         }[],
         team: Team,
-        email: String,
+        email: string,
         conversation: {
             timestamp: Date,
             sender: User,
-            message: String
+            message: string
         }[],
-        nextMessageSuggestions: String[],
+        nextMessageSuggestions: string[],
         analysis: any,
         linkedinData: any
     }
 
     export interface Campaign {
-        status: String,
-        name: String,
-        keywords: String[],
+        status: string,
+        name: string,
+        keywords: string[],
         stages: {
-            name: String
+            name: string
         }[],
         analysis: any,
         roles: {
@@ -90,18 +90,18 @@ export namespace db {
             user: Types.ObjectId
         }[],
         customers: {
-            customer: String,
-            firstName: String,
-            lastName: String,
-            score: Number,
-            worth: Number,
-            media: String,
-            stageId: String
+            customer: string,
+            firstName: string,
+            lastName: string,
+            score: number,
+            worth: number,
+            media: string,
+            stageId: string
         }[],
         activityRecords: {
             timestamp: Date,
             doneBy: User,
-            activityType: String
+            activityType: string
         }[]
     }
 }

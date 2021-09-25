@@ -14,6 +14,7 @@ import { egress } from 'src/models/egress';
 import { ingress } from 'src/models/ingress';
 import { db } from 'src/models/db';
 import { validateNotNullFields } from 'src/validation/utils';
+import { UserService } from 'src/services/user-service';
 
 const ACCESS_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
 const CLIENT_ID = '8611dl35uynhm6';
@@ -102,47 +103,27 @@ export const signIn = async (event, _context) => {
 
 // UserSignUpHandler
 export const signUp = async (event, _context) => {
-    await connectToTheDatabase();
-
     const newUser: ingress.SignUpInput = JSON.parse(event.body) as ingress.SignUpInput;
-    const password = newUser.password;
+    const userService: UserService = new UserService();
     const authService = new AuthenticationService();
-
-    let newUserDB: db.User;
 
     try {
         validateNotNullFields(newUser, ["firstName", "email", "username", "password"]);
 
-        const basicPricing = await PricingModel.findOne({ name: "BASIC" });
-        const agentRole = await RoleModel.findOne({ name: "AGENT" });
+        await connectToTheDatabase();
+        const userRes = await userService.createNewUser(newUser);
+        const cognitoRes = await authService.signUp(newUser.username, newUser.email, newUser.password, userRes['_id']);
+        console.log("Cognito Response:", cognitoRes)
 
-        const teamRes = await TeamModel.create({
-            users: [],
-            pricing: basicPricing['_id'],
-            type: "INDIVIDUAL",
-            customers: []
-        });
+        if (cognitoRes.user?.username == newUser.username) {
+            return responseGenerator.handleSuccessfullResponse(userRes);
+        } else {
+            console.log("Sign up failed in cognito")
+            return responseGenerator.handleAuthenticationError(cognitoRes);
+        }
 
-        newUserDB.teams = [{
-            team: Types.ObjectId(teamRes['_id']),
-            role: Types.ObjectId(agentRole['_id']),
-            campaigns: []
-        }];
-
-        newUserDB.activityRecords = [];
-        newUserDB.notifications = [];
-
-        const userRes = await UserModel.create(newUser);
-
-        await TeamModel.findByIdAndUpdate(teamRes['_id'], { users: [Types.ObjectId(userRes['_id'])] }, { new: true });
-
-        // User registration        
-        const cognitoRes = await authService.signUp(newUser.username, newUser.email, password, userRes['_id']);
-
-        return responseGenerator.handleSuccessfullResponse({ databaseResponse: userRes, cognitoResponse: cognitoRes });
-
-    } catch (e) {
-        console.log(e);
-        return responseGenerator.handleCouldntInsert('User');
+    } catch (err) {
+        console.log(err);
+        return responseGenerator.handleAuthenticationError(err);
     }
 }

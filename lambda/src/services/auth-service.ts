@@ -25,7 +25,7 @@ export class AuthenticationService {
     }
 
     async signUp(username: string, email: string, password: string, userId: string) {
-        console.log('username=' + username + ', email=' + email + ', password=' + password + ' ,userId=' + userId)
+        console.log('username=' + username + ', email=' + email + ', password=' + password + ', userId=' + userId)
 
         try {
             const emailAttr = new CognitoUserAttribute({
@@ -90,8 +90,6 @@ export class AuthenticationService {
                         }
                     });
                 })
-
-
 
             // const cognitoUser = await this.userPool.signIn(username, password).catch(err => console.log(err));
 

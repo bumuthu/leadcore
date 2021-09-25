@@ -30,21 +30,21 @@ functions:
 
   ### Auth
   UserSignInHandler:
-    handler: src/controllers/auth-controller.signIn
+    handler: src/handlers/auth-handler.signIn
     events:
       - httpApi:
           method: POST
           path: /api/v1/auth/login
 
   UserSignUpHandler:
-    handler: src/controllers/auth-controller.signUp
+    handler: src/handlers/auth-handler.signUp
     events:
       - httpApi:
           method: POST
           path: /api/v1/auth/register
 
   AccessTokenRetrievalHandler:
-    handler: src/controllers/auth-controller.getAccessToken
+    handler: src/handlers/auth-handler.getAccessToken
     events:
       - httpApi:
           method: GET

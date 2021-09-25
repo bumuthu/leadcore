@@ -1,6 +1,8 @@
-export class ValidationError extends Error {
-    public code: string = "ValidationError";
+import { KnowError } from "./known-exception"
+
+export class ValidationError extends KnowError {
     constructor(message: string) {
         super(message)
+        this.code = "ValidationError"
     }
 }
