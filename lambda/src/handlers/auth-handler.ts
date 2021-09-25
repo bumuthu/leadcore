@@ -1,82 +1,41 @@
 import 'source-map-support/register';
-import axios from 'axios';
-import { Types } from 'mongoose';
-import jwt_decode from "jwt-decode";
 
-import ResponseGenerator from 'src/utils/response-generator';
+import { respondError, respondSuccess } from 'src/utils/response-generator';
 import connectToTheDatabase from '../utils/mongo-connection';
-import UserModel from 'src/models/db/user.model';
-import PricingModel from 'src/models/db/pricing.model';
-import RoleModel from 'src/models/db/role.model';
-import TeamModel from 'src/models/db/team.model';
+import jwt_decode from "jwt-decode";
 import { AuthenticationService } from 'src/services/auth-service';
 import { egress } from 'src/models/egress';
 import { ingress } from 'src/models/ingress';
-import { db } from 'src/models/db';
 import { validateNotNullFields } from 'src/validation/utils';
 import { UserService } from 'src/services/user-service';
+import { AccessTokenNullError, ErrorCode, UserSignUpError } from 'src/utils/exceptions';
 
-const ACCESS_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
-const CLIENT_ID = '8611dl35uynhm6';
-const CLIENT_SECRET = 'quH0kvxL1E5AAiNg';
-
-const responseGenerator = new ResponseGenerator();
-
+// AccessTokenRetrievalHandler
 export const getAccessToken = async (event, _context) => {
-    await connectToTheDatabase()
-
-    const accessToken = event.headers.Authorization;
-    console.log("TOKEN", accessToken)
-
-    const decodedUser: any = jwt_decode(accessToken);
-    console.log("DECODED USER", decodedUser);
-
-    const authToken = event.queryStringParameters.authToken;
-    const redirectUrl = event.queryStringParameters.redirectUrl;
-
-    const api = axios.create();
-
-    const options = {
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-    };
-
     try {
-        console.log('REQUEST', `grant_type=authorization_code&code=${authToken}&redirect_uri=${redirectUrl}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`);
+        const accessToken = event.headers.Authorization;
+        if (!accessToken) throw new AccessTokenNullError("Null access token found");
 
-        const accessToken: any = await api.post(
-            ACCESS_TOKEN_URL,
-            `grant_type=authorization_code&code=${authToken}&redirect_uri=${redirectUrl}&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`,
-            options
-        ).catch(err => {
-            console.log('ACCESS TOKEN ERROR', err.response.data);
-            return responseGenerator.handleBusinessLoginError(JSON.stringify(err.response.data));
-        });
+        validateNotNullFields(event.queryStringParameters, ["authToken", "redirectUrl"]);
 
-        console.log("ACCESS TOKEN", accessToken.data);
+        const authService = new AuthenticationService();
+        const userService: UserService = new UserService();
 
-        const user = await UserModel.findOneAndUpdate({ username: decodedUser.username },
-            {
-                linkedinToken: {
-                    accessToken: accessToken.data.access_token,
-                    expiresIn: accessToken.data.expires_in,
-                    authorizedAt: new Date()
-                }
-            },
-            { new: true }
-        ).catch(err => {
-            console.log("ERROR", err)
-            return responseGenerator.handleCouldntInsert('User');
-        })
+        const decodedUser: any = jwt_decode(accessToken);
+        if (!decodedUser!.username) throw new AccessTokenNullError("Invalid access token");
 
-        console.log('UPDATED USER', user);
+        await connectToTheDatabase()
 
-        return responseGenerator.handleSuccessfullResponse(user);
+        const linkedinTokenRes = await authService.accessLinkedin(event.queryStringParameters);
+        const updatedUser = await userService.updateUserWithLinkedinToken(decodedUser.username, linkedinTokenRes);
+
+        console.log("Linkedin access token:", linkedinTokenRes.data);
+        console.log('Updated user:', updatedUser);
+
+        return respondSuccess(updatedUser)
     }
-
     catch (err) {
-        responseGenerator.handleGenericError(JSON.stringify(err))
+        return respondError(err)
     }
 }
 
@@ -90,13 +49,12 @@ export const signIn = async (event, _context) => {
         validateNotNullFields(authDetails, ["username", "password"]);
 
         const token = await authService.signIn(authDetails.username, authDetails.password);
-        return responseGenerator.handleSuccessfullResponse({
+        return respondSuccess({
             accessToken: token,
             username: authDetails.username
         } as egress.LoginOutput);
     } catch (err) {
-        console.error(err);
-        return responseGenerator.handleAuthenticationError(err)
+        return respondError(err)
     }
 }
 
@@ -115,15 +73,12 @@ export const signUp = async (event, _context) => {
         const cognitoRes = await authService.signUp(newUser.username, newUser.email, newUser.password, userRes['_id']);
         console.log("Cognito Response:", cognitoRes)
 
-        if (cognitoRes.user?.username == newUser.username) {
-            return responseGenerator.handleSuccessfullResponse(userRes);
-        } else {
-            console.log("Sign up failed in cognito")
-            return responseGenerator.handleAuthenticationError(cognitoRes);
+        if (cognitoRes.user?.username != newUser.username) {
+            throw new UserSignUpError("Sign up failed in cognito", ErrorCode.USER_SIGN_UP_EXCEPTION);
         }
-
+        return respondSuccess(userRes);
     } catch (err) {
-        console.log(err);
-        return responseGenerator.handleAuthenticationError(err);
+        return respondError(err)
     }
 }
+

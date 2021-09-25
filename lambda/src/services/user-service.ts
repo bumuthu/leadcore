@@ -5,7 +5,7 @@ import RoleModel from "src/models/db/role.model";
 import TeamModel from "src/models/db/team.model";
 import UserModel from "src/models/db/user.model";
 import { ingress } from "src/models/ingress";
-import { KnowError } from "src/utils/exceptions/known-exception";
+import { ErrorCode, UserSignUpError } from "src/utils/exceptions";
 
 export class UserService {
 
@@ -59,22 +59,40 @@ export class UserService {
             return userRes
         } catch (e) {
             console.error(e);
+            await this.deleteNewUser();
 
             if (!userInserted) {
-                throw new KnowError("Error while user insertion");
+                throw new UserSignUpError("Error while user insertion", ErrorCode.DATABASE_OPERATION_ERROR);
             } else if (!teamInserted) {
-                throw new KnowError("Error while team insertion");
+                throw new UserSignUpError("Error while team insertion", ErrorCode.DATABASE_OPERATION_ERROR);
             }
         }
     }
 
     async deleteNewUser() {
         try {
-        if (this.userId) await UserModel.deleteOne({ _id: this.userId });
-        if (this.teamId) await TeamModel.deleteOne({ _id: this.teamId });
+            if (this.userId) await UserModel.deleteOne({ _id: this.userId });
+            if (this.teamId) await TeamModel.deleteOne({ _id: this.teamId });
         } catch (err) {
-            throw new KnowError("Error while user/team deletion");
+            throw new UserSignUpError("Error while user/team reverting", ErrorCode.DATABASE_OPERATION_ERROR);
         }
     }
 
+    async updateUserWithLinkedinToken(username: string, linkedinTokenRes: any) {
+        try {
+            return await UserModel.findOneAndUpdate(
+                { username },
+                {
+                    linkedinToken: {
+                        accessToken: linkedinTokenRes.data.access_token,
+                        expiresIn: linkedinTokenRes.data.expires_in,
+                        authorizedAt: new Date()
+                    }
+                },
+                { new: true }
+            )
+        } catch (err) {
+            throw new UserSignUpError("Error while updating user", ErrorCode.DATABASE_OPERATION_ERROR);
+        }
+    }
 }

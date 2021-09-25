@@ -4,6 +4,8 @@ import {
     CognitoUser,
     AuthenticationDetails
 } from 'amazon-cognito-identity-js';
+import axios from 'axios';
+import { LinkedinAccessTokenException } from 'src/utils/exceptions';
 
 export enum PasswordChallenge {
     NEW_PASSWORD_REQUIRED = 'NEW_PASSWORD_REQUIRED',
@@ -12,6 +14,10 @@ export enum PasswordChallenge {
 
 const POOL_ID = 'us-east-2_oA3vL0NU6';
 const CLIENT_ID = '1gtgjrm2oj3u0cnkks0j3hkneg';
+
+const LINKEDIN_ACCESS_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
+const LINKEDIN_CLIENT_ID = '8611dl35uynhm6';
+const LINKEDIN_CLIENT_SECRET = 'quH0kvxL1E5AAiNg';
 
 export class AuthenticationService {
 
@@ -119,5 +125,27 @@ export class AuthenticationService {
             console.log('error: ' + JSON.stringify(err));
             return { error: err };
         }
+    }
+
+    async accessLinkedin(parameters: { authToken: string, redirectUrl: string }) {
+        const authToken = parameters.authToken;
+        const redirectUrl = parameters.redirectUrl;
+        const authRequest = `grant_type=authorization_code&code=${authToken}&redirect_uri=${redirectUrl}&client_id=${LINKEDIN_CLIENT_ID}&client_secret=${LINKEDIN_CLIENT_SECRET}`;
+
+        console.log('Auth request', authRequest);
+
+        const api = axios.create();
+        return await api.post(
+            LINKEDIN_ACCESS_TOKEN_URL,
+            authRequest,
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            }
+        ).catch(err => {
+            console.error(err.response.data);
+            throw new LinkedinAccessTokenException(JSON.stringify(err.response.data))
+        });
     }
 }
