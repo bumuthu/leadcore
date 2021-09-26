@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
-import { LinkedinAccessTokenException, UserLoginError, UserSignUpError, UserVerificationError, UserVerificationResendError } from 'src/utils/exceptions';
+import { LinkedinAccessTokenException, UserAuthenticationError, UserLoginError, UserSignOutError, UserSignUpError, UserVerificationError, UserVerificationResendError } from 'src/utils/exceptions';
+import { respondSuccess } from 'src/utils/response-generator';
 
 export enum PasswordChallenge {
     NEW_PASSWORD_REQUIRED = 'NEW_PASSWORD_REQUIRED',
@@ -22,7 +23,7 @@ const LINKEDIN_CLIENT_SECRET = 'quH0kvxL1E5AAiNg';
 
 export class AuthenticationService {
 
-    private userPool;
+    private userPool: CognitoUserPool;
 
     constructor() {
         this.userPool = new CognitoUserPool({
@@ -48,8 +49,6 @@ export class AuthenticationService {
                         [userIdAttr],
                         null,
                         function (error, response) {
-                            console.log('Error:', error, 'Response:', response);
-
                             if (error) reject(error);
                             resolve(response);
                         }
@@ -84,7 +83,6 @@ export class AuthenticationService {
                             resolve(accessToken)
                         },
                         onFailure: function (err) {
-                            console.log(err.message || JSON.stringify(err));
                             reject(err)
                         }
                     });
@@ -108,15 +106,18 @@ export class AuthenticationService {
         }
     }
 
-    async signOut() {
-        console.log('sign-out');
+    async signOut(email: string) {
+        console.log('sign-out: email=', email);
 
         try {
-            await this.userPool.signOut();
-            return { error: undefined };
+            const cognitoUser = new CognitoUser({
+                Username: email,
+                Pool: this.userPool
+            });
+            cognitoUser.signOut();
+            return;
         } catch (err) {
-            console.log('error: ' + JSON.stringify(err));
-            return { error: err };
+            throw new UserSignOutError("User sign out exception")
         }
     }
 
@@ -131,9 +132,7 @@ export class AuthenticationService {
                 (resolve, reject) => {
                     cognitoUser.confirmRegistration(
                         code, true, (err, result) => {
-                            if (err) {
-                                return reject(err);
-                            }
+                            if (err) return reject(err);
                             return resolve(result);
                         });
                 })
@@ -143,7 +142,7 @@ export class AuthenticationService {
         }
     }
 
-    async resendVerification(email:string) {
+    async resendVerification(email: string) {
         const cognitoUser = new CognitoUser({
             Username: email,
             Pool: this.userPool
@@ -153,10 +152,8 @@ export class AuthenticationService {
             return await new Promise(
                 (resolve, reject) => {
                     cognitoUser.resendConfirmationCode(
-                       (err, result) => {
-                            if (err) {
-                                return reject(err);
-                            }
+                        (err, result) => {
+                            if (err) return reject(err);
                             return resolve(result);
                         });
                 })
@@ -165,6 +162,64 @@ export class AuthenticationService {
             throw new UserVerificationResendError(err.message, err.code)
         }
     }
+
+    async forgotPassword(email: string) {
+        const cognitoUser = new CognitoUser({
+            Username: email,
+            Pool: this.userPool
+        });
+
+        try {
+            return await new Promise(
+                (resolve, reject) => {
+                    cognitoUser.forgotPassword(
+                        {
+                            onSuccess: function (result) {
+                                resolve(result)
+                            },
+                            onFailure: function (err) {
+                                reject(err)
+                            }
+                        })
+                })
+        } catch (err) {
+            console.error(err);
+            throw new UserAuthenticationError(err.message, err.code)
+        }
+    }
+
+    async changePassword(email: string, oldPassword: string, newPassword: string) {
+        const cognitoUser = new CognitoUser({
+            Username: email,
+            Pool: this.userPool
+        });
+
+        try {
+            const cognitoSession = await new Promise(
+                (resolve, reject) => {
+                    cognitoUser.getSession((err, result) => {
+                        if (err) return reject(err);
+                        return resolve(result);
+                    })
+                });
+            console.log("Cognito session:", cognitoSession);
+
+            return await new Promise(
+                (resolve, reject) => {
+                    cognitoUser.changePassword(
+                        oldPassword,
+                        newPassword,
+                        (err, result) => {
+                            if (err) return reject(err);
+                            return resolve(result);
+                        });
+                })
+        } catch (err) {
+            console.error(err);
+            throw new UserAuthenticationError(err.message, err.code)
+        }
+    }
+
 
     async accessLinkedin(parameters: { authToken: string, redirectUrl: string }) {
         const authToken = parameters.authToken;

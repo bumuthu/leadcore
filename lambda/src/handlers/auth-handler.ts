@@ -78,12 +78,10 @@ export const signUp = async (event, _context) => {
 
 // UserVerificationHandler
 export const verifyUser = async (event, _context) => {
-    const authDetails = JSON.parse(event.queryStringParameters) as { email: string, code: string };
     const authService: AuthenticationService = new AuthenticationService();
-
     try {
-        validateNotNullFields(authDetails, ["email", "code"]);
-        const response = await authService.verifyUser(authDetails.email, authDetails.code);
+        validateNotNullFields(event.queryStringParameters, ["email", "code"]);
+        const response = await authService.verifyUser(event.queryStringParameters.email, event.queryStringParameters.code);
         return respondSuccess(response);
     } catch (err) {
         return respondError(err)
@@ -93,13 +91,39 @@ export const verifyUser = async (event, _context) => {
 
 // UserVerificationResendHandler
 export const resendVerification = async (event, _context) => {
-    const authDetails = JSON.parse(event.queryStringParameters) as { email: string };
     const authService: AuthenticationService = new AuthenticationService();
-
     try {
-        validateNotNullFields(authDetails, ["email"]);
-        const response = await authService.resendVerification(authDetails.email);
-        return respondSuccess(response);
+        validateNotNullFields(event.queryStringParameters, ["email"]);
+        const response = await authService.resendVerification(event.queryStringParameters.email);
+        return respondSuccess({ message: "Sent confirmation resend message successfully", response });
+    } catch (err) {
+        return respondError(err)
+    }
+}
+
+
+// UserForgotPasswordHandler
+export const forgotPassword = async (event, _context) => {
+    const forgotPasswordBody = JSON.parse(event.body);
+    const authService: AuthenticationService = new AuthenticationService();
+    try {
+        validateNotNullFields(forgotPasswordBody, ["email"]);
+        const response = await authService.forgotPassword(forgotPasswordBody.email);
+        return respondSuccess({ message: "Password reset message sent successfully", response });
+    } catch (err) {
+        return respondError(err)
+    }
+}
+
+
+// UserPasswordChangeHandler
+export const changePassword = async (event, _context) => {
+    const passwordResetBody = JSON.parse(event.body);
+    const authService: AuthenticationService = new AuthenticationService();
+    try {
+        validateNotNullFields(passwordResetBody, ["email", "oldPassword", "newPassword"]);
+        const response = await authService.changePassword(passwordResetBody.email, passwordResetBody.oldPassword, passwordResetBody.newPassword);
+        return respondSuccess({ message: "Password reset message sent successfully", response });
     } catch (err) {
         return respondError(err)
     }
@@ -109,7 +133,7 @@ export const resendVerification = async (event, _context) => {
 // AccessTokenRetrievalHandler
 export const getAccessToken = async (event, _context) => {
     try {
-        const accessToken = event.headers.Authorization;
+        const accessToken = event.headers.authorization;
         if (!accessToken) throw new AccessTokenNullError("Null access token found");
 
         validateNotNullFields(event.queryStringParameters, ["authToken", "redirectUrl"]);

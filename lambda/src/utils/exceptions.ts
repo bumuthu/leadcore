@@ -5,7 +5,8 @@ export enum ErrorCode {
     USERNAME_EXISTS_EXCEPTION = "UsernameExistsException",
     USER_NOT_CONFIRMED_EXCEPTION = "UserNotConfirmedException",
     DATABASE_OPERATION_ERROR = "DatabaseOperationError",
-    USER_SIGN_UP_EXCEPTION = "UserSignUpException",
+    USER_SIGN_UP_EXCEPTION = "UserSignUpException",  
+    USER_SIGN_OUT_EXCEPTION = "UserSignOutException",
     ACCESS_TOKEN_NULL_EXCEPTION = "AccessTokenNullException",
     LINKEDIN_TOKEN_EXCEPTION = "LinkedinTokenException",
     NOT_IMPLEMENTED_ERROR = "NotImplementedError"
@@ -66,7 +67,19 @@ export class UserSignUpError extends KnownError {
     }
 }
 
+export class UserSignOutError extends KnownError {
+    constructor(message: string) {
+        super(401, ErrorCode.USER_SIGN_OUT_EXCEPTION, message);
+    }
+}
+
 export class UserVerificationError extends KnownError {
+    constructor(message: string, code: ErrorCode) {
+        super(400, code, message);
+    }
+}
+
+export class UserAuthenticationError extends KnownError {
     constructor(message: string, code: ErrorCode) {
         super(400, code, message);
     }
