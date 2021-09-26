@@ -35,7 +35,6 @@ export class UserService {
                 lastName: newUser.lastName,
                 email: newUser.email,
                 linkedinUrl: newUser.linkedinUrl,
-                username: newUser.username,
                 activityRecords: [],
                 notifications: [],
                 teams: [{
@@ -78,10 +77,10 @@ export class UserService {
         }
     }
 
-    async updateUserWithLinkedinToken(username: string, linkedinTokenRes: any) {
+    async updateUserWithLinkedinToken(email: string, linkedinTokenRes: any) {
         try {
             return await UserModel.findOneAndUpdate(
-                { username },
+                { email },
                 {
                     linkedinToken: {
                         accessToken: linkedinTokenRes.data.access_token,

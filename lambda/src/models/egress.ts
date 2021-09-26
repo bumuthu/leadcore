@@ -1,6 +1,6 @@
 export namespace egress {
     export interface LoginOutput {
-        username: string,
+        email: string,
         accessToken: string
     }
 }

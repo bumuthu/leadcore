@@ -7,7 +7,8 @@ export enum ErrorCode {
     DATABASE_OPERATION_ERROR = "DatabaseOperationError",
     USER_SIGN_UP_EXCEPTION = "UserSignUpException",
     ACCESS_TOKEN_NULL_EXCEPTION = "AccessTokenNullException",
-    LINKEDIN_TOKEN_EXCEPTION = "LinkedinTokenException"
+    LINKEDIN_TOKEN_EXCEPTION = "LinkedinTokenException",
+    NOT_IMPLEMENTED_ERROR = "NotImplementedError"
 }
 
 class KnownError extends Error {
@@ -26,6 +27,12 @@ class KnownError extends Error {
 export class ValidationError extends KnownError {
     constructor(message: string) {
         super(400, ErrorCode.VALIDATION_ERROR, message)
+    }
+}
+
+export class NotImplementedError extends KnownError {
+    constructor(message: string) {
+        super(400, ErrorCode.NOT_IMPLEMENTED_ERROR, message);
     }
 }
 

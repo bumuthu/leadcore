@@ -3,27 +3,38 @@ import 'source-map-support/register';
 import { respondError, respondSuccess } from 'src/utils/response-generator';
 import connectToTheDatabase from '../utils/mongo-connection';
 import jwt_decode from "jwt-decode";
-import { AuthenticationService } from 'src/services/auth-service';
+import { AuthenticationService, AuthType } from 'src/services/auth-service';
 import { egress } from 'src/models/egress';
 import { ingress } from 'src/models/ingress';
 import { validateNotNullFields } from 'src/validation/utils';
 import { UserService } from 'src/services/user-service';
-import { AccessTokenNullError, UserSignUpError } from 'src/utils/exceptions';
+import { AccessTokenNullError, NotImplementedError, UserSignUpError, ValidationError } from 'src/utils/exceptions';
 
 
 // UserSignInHandler
 export const signIn = async (event, _context) => {
     const authDetails: ingress.LoginInput = JSON.parse(event.body) as ingress.LoginInput;
     const authService: AuthenticationService = new AuthenticationService();
+    let response: egress.LoginOutput;
 
     try {
-        validateNotNullFields(authDetails, ["username", "password"]);
+        validateNotNullFields(authDetails, ["type"]);
 
-        const token = await authService.signIn(authDetails.username, authDetails.password);
-        return respondSuccess({
-            accessToken: token,
-            username: authDetails.username
-        } as egress.LoginOutput);
+        if (authDetails.type == AuthType.EMAIL) {
+            validateNotNullFields(authDetails, ["email", "password"]);
+
+            const token = await authService.signIn(authDetails.email, authDetails.password);
+            response = {
+                accessToken: token,
+                email: authDetails.email
+            } as egress.LoginOutput;
+        } else if (authDetails.type == AuthType.LINKEDIN) {
+            throw new NotImplementedError("Linkedin sign in not implemented")
+        } else {
+            throw new ValidationError("Invalid authentication type")
+        }
+
+        return respondSuccess(response);
     } catch (err) {
         return respondError(err)
     }
@@ -35,19 +46,30 @@ export const signUp = async (event, _context) => {
     const newUser: ingress.SignUpInput = JSON.parse(event.body) as ingress.SignUpInput;
     const userService: UserService = new UserService();
     const authService = new AuthenticationService();
+    let response: any;
 
     try {
-        validateNotNullFields(newUser, ["firstName", "email", "username", "password"]);
+        validateNotNullFields(newUser, ["type"]);
 
-        await connectToTheDatabase();
-        const userRes: any = await userService.createNewUser(newUser);
-        const cognitoRes: any = await authService.signUp(newUser.username, newUser.email, newUser.password, userRes['_id']);
-        console.log("Cognito Response:", cognitoRes)
+        if (newUser.type == AuthType.EMAIL) {
+            validateNotNullFields(newUser, ["firstName", "email", "password"]);
 
-        if (cognitoRes.user?.username != newUser.username) {
-            throw new UserSignUpError(cognitoRes.message, cognitoRes.code);
+            await connectToTheDatabase();
+            const userRes: any = await userService.createNewUser(newUser);
+            const cognitoRes: any = await authService.signUp(newUser.email, newUser.password, userRes['_id']);
+            console.log("Cognito Response:", cognitoRes)
+
+            if (cognitoRes.user?.username != newUser.email) {
+                throw new UserSignUpError(cognitoRes.message, cognitoRes.code);
+            }
+            response = userRes;
+        } else if (newUser.type == AuthType.LINKEDIN) {
+            throw new NotImplementedError("Linkedin sign up not implemented")
+        } else {
+            throw new ValidationError("Invalid authentication type")
         }
-        return respondSuccess(userRes);
+
+        return respondSuccess(response);
     } catch (err) {
         return respondError(err)
     }
@@ -56,7 +78,7 @@ export const signUp = async (event, _context) => {
 
 // UserVerificationHandler
 export const verifyUser = async (event, _context) => {
-    const authDetails: ingress.VerificationInput = JSON.parse(event.body) as ingress.VerificationInput;
+    const authDetails = JSON.parse(event.queryStringParameters) as { email: string, code: string };
     const authService: AuthenticationService = new AuthenticationService();
 
     try {
@@ -71,7 +93,7 @@ export const verifyUser = async (event, _context) => {
 
 // UserVerificationResendHandler
 export const resendVerification = async (event, _context) => {
-    const authDetails: ingress.VerificationInput = JSON.parse(event.body) as ingress.VerificationInput;
+    const authDetails = JSON.parse(event.queryStringParameters) as { email: string };
     const authService: AuthenticationService = new AuthenticationService();
 
     try {
@@ -95,12 +117,12 @@ export const getAccessToken = async (event, _context) => {
         const authService = new AuthenticationService();
         const userService: UserService = new UserService();
         const decodedUser: any = jwt_decode(accessToken);
-        if (!decodedUser!.username) throw new AccessTokenNullError("Invalid access token");
+        if (!decodedUser!.email) throw new AccessTokenNullError("Invalid access token");
 
         await connectToTheDatabase()
 
         const linkedinTokenRes = await authService.accessLinkedin(event.queryStringParameters);
-        const updatedUser = await userService.updateUserWithLinkedinToken(decodedUser.username, linkedinTokenRes);
+        const updatedUser = await userService.updateUserWithLinkedinToken(decodedUser.email, linkedinTokenRes);
         console.log("Linkedin access token:", linkedinTokenRes.data);
         console.log('Updated user:', updatedUser);
 

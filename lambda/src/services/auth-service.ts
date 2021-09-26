@@ -7,8 +7,14 @@ export enum PasswordChallenge {
     SMS_MFA = 'SMS_MFA',
 }
 
-const POOL_ID = 'us-east-2_oA3vL0NU6';
-const CLIENT_ID = '1gtgjrm2oj3u0cnkks0j3hkneg';
+export enum AuthType {
+    EMAIL = "EMAIL",
+    LINKEDIN = "LINKEDIN"
+}
+
+
+const POOL_ID = 'us-east-2_KwE2BHUY1';
+const CLIENT_ID = '3agvvhnm9maoubjl5eb4jurrtt';
 
 const LINKEDIN_ACCESS_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken';
 const LINKEDIN_CLIENT_ID = '8611dl35uynhm6';
@@ -25,15 +31,10 @@ export class AuthenticationService {
         });
     }
 
-    async signUp(username: string, email: string, password: string, userId: string) {
-        console.log('username=' + username + ', email=' + email + ', password=' + password + ', userId=' + userId)
+    async signUp(email: string, password: string, userId: string) {
+        console.log('email=' + email + ', password=' + password + ', userId=' + userId)
 
         try {
-            const emailAttr = new CognitoUserAttribute({
-                Name: 'email',
-                Value: email
-            });
-
             const userIdAttr = new CognitoUserAttribute({
                 Name: 'custom:user_id',
                 Value: userId
@@ -42,9 +43,9 @@ export class AuthenticationService {
             return await new Promise(
                 (resolve, reject) => {
                     this.userPool.signUp(
-                        username,
+                        email,
                         password,
-                        [emailAttr, userIdAttr],
+                        [userIdAttr],
                         null,
                         function (error, response) {
                             console.log('Error:', error, 'Response:', response);
@@ -62,16 +63,15 @@ export class AuthenticationService {
     }
 
 
-    async signIn(username: string, password: string) {
-        console.log('sign-in username=' + username + ', password=' + password);
+    async signIn(email: string, password: string) {
+        console.log('sign-in: email=' + email + ', password=' + password);
 
         const authenticationDetails = new AuthenticationDetails({
-            Username: username,
+            Username: email,
             Password: password
         });
-
         const cognitoUser = new CognitoUser({
-            Username: username,
+            Username: email,
             Pool: this.userPool
         });
 

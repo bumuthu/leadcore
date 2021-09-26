@@ -1,20 +1,19 @@
+import { AuthType } from "src/services/auth-service";
+
 export namespace ingress {
+
     export interface LoginInput {
-        username: string,
-        password: string
+        type: AuthType,
+        email?: string,
+        password?: string
     }
 
     export interface SignUpInput {
+        type: AuthType,
         firstName: string,
         lastName?: string,
-        email: string,
+        email?: string,
         linkedinUrl?: string,
-        username: string,
-        password: string
-    }
-
-    export interface VerificationInput {
-        email: string,
-        code: string
+        password?: string
     }
 }
