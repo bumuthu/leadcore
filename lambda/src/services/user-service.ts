@@ -24,7 +24,7 @@ export class UserService {
 
             const teamRes = await TeamModel.create({
                 users: [],
-                pricing: basicPricing['_id'],
+                pricing: "BASIC",
                 type: "INDIVIDUAL",
                 customers: []
             });

@@ -98,44 +98,23 @@ functions:
           path: /api/v1/refdata/reset
           authorizer: serviceAuthorizer
 
-
+          
   ### User
-  # UserRetrievalByIdHandler:
-  #   handler: src/controllers/user-controller.getUserById
-  #   events:
-  #     - httpApi:
-  #         method: GET
-  #         path: /api/v1/user/{userId}
-
   UserRetrievalHandler:
-    handler: src/controllers/user-controller.getUserByToken
+    handler: src/handlers/user-handler.getUserByToken
     events:
       - httpApi:
           method: GET
           path: /api/v1/user
           authorizer: serviceAuthorizer
-          
-  # UserUpdateByIdHandler:
-  #   handler: src/controllers/user-controller.updateUserById
-  #   events:
-  #     - httpApi:
-  #         method: PUT
-  #         path: /api/v1/user/{userId}
 
   UserUpdateHandler:
-    handler: src/controllers/user-controller.updateUserByToken
+    handler: src/handlers/user-handler.updateUserByToken
     events:
       - httpApi:
           method: PUT
           path: /api/v1/user
           authorizer: serviceAuthorizer
-
-  # NewUserHandler:
-  #   handler: src/controllers/user-controller.createUser
-  #   events:
-  #     - httpApi:
-  #         method: POST
-  #         path: /api/v1/user/new
 
 
   ### Team

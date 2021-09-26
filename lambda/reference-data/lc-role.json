@@ -4,43 +4,44 @@
             "name": "MANAGER",
             "permissions": [
                 {
-                    "name": "LINKEDIN_CHAT_MANGEMENT",
-                    "type": "CHAT",
+                    "entity": "CHAT",
+                    "actions": [
+                        "MANAGE"
+                    ],
                     "description": ""
                 },
                 {
-                    "name": "CREATE_CAMPAIGN",
-                    "type": "CAMPAIGN",
+                    "entity": "CAMPAIGN",
+                    "actions": [
+                        "CREATE",
+                        "EDIT"
+                    ],
                     "description": ""
                 },
                 {
-                    "name": "EDIT_CAMPAIGN",
-                    "type": "CAMPAIGN",
-                    "description": ""
-                },
-                {
-                    "name": "CHANGE_CAMPAIGN_STATUS",
-                    "type": "CAMPAIGN",
-                    "description": ""
-                },
-                {
-                    "name": "PIPELINE_MANAGEMENT",
-                    "type": "PIPELINE",
+                    "entity": "PIPELINE",
+                    "actions": [
+                        "MANAGE"
+                    ],
                     "description": ""
                 }
             ]
         },
         {
             "name": "AGENT",
-            "features": [
+            "permissions": [
                 {
-                    "name": "LINKEDIN_CHAT_MANGEMENT",
-                    "type": "CHAT",
+                    "entity": "CHAT",
+                    "actions": [
+                        "MANAGE"
+                    ],
                     "description": ""
                 },
                 {
-                    "name": "PIPELINE_MANAGEMENT",
-                    "type": "PIPELINE",
+                    "entity": "PIPELINE",
+                    "actions": [
+                        "MANAGE"
+                    ],
                     "description": ""
                 }
             ]
