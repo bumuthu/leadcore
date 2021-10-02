@@ -9,6 +9,7 @@ import { ingress } from 'src/models/ingress';
 import { validateNotNullFields } from 'src/validation/utils';
 import { UserService } from 'src/services/user-service';
 import { AccessTokenNullError, NotImplementedError, UserSignUpError, ValidationError } from 'src/utils/exceptions';
+import { getDatabaseKey } from 'src/utils/utils';
 
 
 // UserSignInHandler
@@ -56,12 +57,15 @@ export const signUp = async (event, _context) => {
 
             await connectToTheDatabase();
             const userRes: any = await userService.createNewUser(newUser);
-            const cognitoRes: any = await authService.signUp(newUser.email, newUser.password, userRes['_id']);
+            const userId = getDatabaseKey(userRes);
+
+            const cognitoRes: any = await authService.signUp(newUser.email, newUser.password, userId);
             console.log("Cognito Response:", cognitoRes)
 
-            if (cognitoRes.user?.username != newUser.email) {
-                throw new UserSignUpError(cognitoRes.message, cognitoRes.code);
-            }
+            if (cognitoRes.user?.username != newUser.email) throw new UserSignUpError(cognitoRes.message, cognitoRes.code);
+
+            await userService.updateUser(userId, { cognitoUserSub: cognitoRes.userSub });
+
             response = userRes;
         } else if (newUser.type == AuthType.LINKEDIN) {
             throw new NotImplementedError("Linkedin sign up not implemented")
@@ -71,6 +75,7 @@ export const signUp = async (event, _context) => {
 
         return respondSuccess(response);
     } catch (err) {
+        await userService.deleteNewUser();
         return respondError(err)
     }
 }

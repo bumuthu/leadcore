@@ -6,6 +6,7 @@ export namespace db {
         firstName: string,
         lastName?: string,
         email: string,
+        cognitoUserSub: string,
         linkedinUrl?: string,
         linkedinToken?: {
             accessToken: string,

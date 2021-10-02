@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import UserModel from 'src/models/db/user.model';
 import { respondError, respondSuccess } from 'src/utils/response-generator';
 import connectToTheDatabase from '../utils/mongo-connection';
-import { AccessTokenNullError } from 'src/utils/exceptions';
+import { AccessTokenNullError, DataNotFoundError } from 'src/utils/exceptions';
 
 
 // UserRetrievalHandler
@@ -20,9 +20,9 @@ export const getUserByToken = async (event, _context) => {
 
         await connectToTheDatabase();
 
-        // Problem Here. User Id should included
-        
-        const user = await UserModel.findOne({ email: decodedUser.email });
+        const user = await UserModel.findOne({ cognitoUserSub: decodedUser.sub });
+        if (!user) throw new DataNotFoundError("User not found in the system");
+
         return respondSuccess(user)
     } catch (err) {
         return respondError(err)

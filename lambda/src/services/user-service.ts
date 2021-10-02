@@ -8,27 +8,28 @@ import { getDatabaseKey } from "src/utils/utils";
 
 export class UserService {
 
+    private teamId: string;
+    private userId: string;
+
     constructor() { }
 
     async createNewUser(newUser: ingress.SignUpInput) {
-        let teamId: string;
-        let userId: string;
         try {
             const teamResponse = await this.insertNewTeam();
-            teamId = getDatabaseKey(teamResponse);
+            this.teamId = getDatabaseKey(teamResponse);
 
-            const userResponse = await this.insertNewUser(newUser, teamId)
-            userId = getDatabaseKey(userResponse);
+            const userResponse = await this.insertNewUser(newUser, this.teamId)
+            this.userId = getDatabaseKey(userResponse);
 
-            await this.updateTeam(userId, { users: [Types.ObjectId(userId)] })
+            await this.updateTeam(this.teamId, { users: [Types.ObjectId(this.userId)] })
 
             console.log("New User DB Response:", userResponse);
 
             return userResponse
         } catch (e) {
             console.error(e);
-            
-            await this.deleteNewUser(teamId, userId);
+
+            await this.deleteNewUser();
             throw new UserSignUpError("Error while user insertion", ErrorCode.DATABASE_OPERATION_ERROR);
         }
     }
@@ -66,10 +67,16 @@ export class UserService {
         return await UserModel.create(newUserDB);
     }
 
-    async deleteNewUser(teamId?: string, userId?: string) {
+    async updateUser(userId: string, update: any) {
+        return await UserModel.findByIdAndUpdate(userId, update, { new: true });
+    }
+
+    async deleteNewUser() {
         try {
-            if (userId) await UserModel.deleteOne({ _id: Types.ObjectId(userId) });
-            if (teamId) await TeamModel.deleteOne({ _id: Types.ObjectId(teamId) });
+            console.log("UserId:", this.userId, "TeamId:", this.teamId);
+
+            if (this.userId) await UserModel.deleteOne({ _id: Types.ObjectId(this.userId) });
+            if (this.teamId) await TeamModel.deleteOne({ _id: Types.ObjectId(this.teamId) });
         } catch (err) {
             throw new UserSignUpError("Error while user/team reverting", ErrorCode.DATABASE_OPERATION_ERROR);
         }
