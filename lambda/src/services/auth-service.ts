@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import { LinkedinAccessTokenException, UserAuthenticationError, UserLoginError, UserSignOutError, UserSignUpError, UserVerificationError, UserVerificationResendError } from 'src/utils/exceptions';
-import { respondSuccess } from 'src/utils/response-generator';
 
 export enum PasswordChallenge {
     NEW_PASSWORD_REQUIRED = 'NEW_PASSWORD_REQUIRED',
@@ -13,7 +12,6 @@ export enum AuthType {
     LINKEDIN = "LINKEDIN"
 }
 
-
 const POOL_ID = 'us-east-2_KwE2BHUY1';
 const CLIENT_ID = '3agvvhnm9maoubjl5eb4jurrtt';
 
@@ -24,6 +22,7 @@ const LINKEDIN_CLIENT_SECRET = 'quH0kvxL1E5AAiNg';
 export class AuthenticationService {
 
     private userPool: CognitoUserPool;
+    private cognitoUser: CognitoUser;
 
     constructor() {
         this.userPool = new CognitoUserPool({
@@ -69,7 +68,7 @@ export class AuthenticationService {
             Username: email,
             Password: password
         });
-        const cognitoUser = new CognitoUser({
+        this.cognitoUser = new CognitoUser({
             Username: email,
             Pool: this.userPool
         });
@@ -77,7 +76,7 @@ export class AuthenticationService {
         try {
             return await new Promise(
                 (resolve, reject) => {
-                    cognitoUser.authenticateUser(authenticationDetails, {
+                    this.cognitoUser.authenticateUser(authenticationDetails, {
                         onSuccess: function (result) {
                             const accessToken = result.getAccessToken().getJwtToken();
                             resolve(accessToken)
@@ -110,11 +109,11 @@ export class AuthenticationService {
         console.log('sign-out: email=', email);
 
         try {
-            const cognitoUser = new CognitoUser({
+            this.cognitoUser = new CognitoUser({
                 Username: email,
                 Pool: this.userPool
             });
-            cognitoUser.signOut();
+            this.cognitoUser.signOut();
             return;
         } catch (err) {
             throw new UserSignOutError("User sign out exception")
@@ -122,7 +121,7 @@ export class AuthenticationService {
     }
 
     async verifyUser(email: string, code: string) {
-        const cognitoUser = new CognitoUser({
+        this.cognitoUser = new CognitoUser({
             Username: email,
             Pool: this.userPool
         });
@@ -130,7 +129,7 @@ export class AuthenticationService {
         try {
             return await new Promise(
                 (resolve, reject) => {
-                    cognitoUser.confirmRegistration(
+                    this.cognitoUser.confirmRegistration(
                         code, true, (err, result) => {
                             if (err) return reject(err);
                             return resolve(result);
@@ -143,7 +142,7 @@ export class AuthenticationService {
     }
 
     async resendVerification(email: string) {
-        const cognitoUser = new CognitoUser({
+        this.cognitoUser = new CognitoUser({
             Username: email,
             Pool: this.userPool
         });
@@ -151,7 +150,7 @@ export class AuthenticationService {
         try {
             return await new Promise(
                 (resolve, reject) => {
-                    cognitoUser.resendConfirmationCode(
+                    this.cognitoUser.resendConfirmationCode(
                         (err, result) => {
                             if (err) return reject(err);
                             return resolve(result);
@@ -164,7 +163,7 @@ export class AuthenticationService {
     }
 
     async forgotPassword(email: string) {
-        const cognitoUser = new CognitoUser({
+        this.cognitoUser = new CognitoUser({
             Username: email,
             Pool: this.userPool
         });
@@ -172,7 +171,7 @@ export class AuthenticationService {
         try {
             return await new Promise(
                 (resolve, reject) => {
-                    cognitoUser.forgotPassword(
+                    this.cognitoUser.forgotPassword(
                         {
                             onSuccess: function (result) {
                                 resolve(result)
@@ -189,24 +188,12 @@ export class AuthenticationService {
     }
 
     async changePassword(email: string, oldPassword: string, newPassword: string) {
-        const cognitoUser = new CognitoUser({
-            Username: email,
-            Pool: this.userPool
-        });
-
         try {
-            const cognitoSession = await new Promise(
-                (resolve, reject) => {
-                    cognitoUser.getSession((err, result) => {
-                        if (err) return reject(err);
-                        return resolve(result);
-                    })
-                });
-            console.log("Cognito session:", cognitoSession);
+            await this.signIn(email, oldPassword);
 
             return await new Promise(
                 (resolve, reject) => {
-                    cognitoUser.changePassword(
+                    this.cognitoUser.changePassword(
                         oldPassword,
                         newPassword,
                         (err, result) => {
