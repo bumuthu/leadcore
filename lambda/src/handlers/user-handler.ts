@@ -5,6 +5,8 @@ import UserModel from 'src/models/db/user.model';
 import { respondError, respondSuccess } from 'src/utils/response-generator';
 import connectToTheDatabase from '../utils/mongo-connection';
 import { AccessTokenNullError, DataNotFoundError } from 'src/utils/exceptions';
+import { ingress } from 'src/models/ingress';
+import { validateNotNullFields, validateUnnecessaryFields } from 'src/validation/utils';
 
 
 // UserRetrievalHandler
@@ -41,14 +43,14 @@ export const updateUserByToken = async (event, _context) => {
         console.log("Decoded user:", decodedUser);
         if (!decodedUser!.username) throw new AccessTokenNullError("Invalid access token");
 
-        const modifiedUser = JSON.parse(event.body);
+        const userModificationReq: ingress.UserModificationRequest = JSON.parse(event.body) as ingress.UserModificationRequest;
+        console.log("Modification request:", userModificationReq)
 
-        if (modifiedUser.activityRecords) delete modifiedUser.activityRecords;
-        if (modifiedUser.notifications) delete modifiedUser.notifications;
-        if (modifiedUser.linkedinToken) delete modifiedUser.linkedinToken;
+        validateUnnecessaryFields(userModificationReq, ["firstName", "lastName", "linkedinUrl", "linkedinToken"]);
+        if (userModificationReq.linkedinToken) validateNotNullFields(userModificationReq.linkedinToken, ["accessToken", "expiresIn", "authorizedAt"])
 
         await connectToTheDatabase();
-        const user = await UserModel.findOneAndUpdate({ email: decodedUser.email }, modifiedUser, { new: true });
+        const user = await UserModel.findOneAndUpdate({ cognitoUserSub: decodedUser.sub }, userModificationReq, { new: true });
         return respondSuccess(user)
     } catch (err) {
         return respondError(err)

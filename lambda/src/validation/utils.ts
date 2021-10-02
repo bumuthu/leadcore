@@ -1,4 +1,5 @@
 import { ValidationError } from "src/utils/exceptions";
+import { keys } from 'ts-transformer-keys';
 
 export function ValidateFields(data, model) {
     type MakeRequired<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>> & { [P in K]-?: Exclude<T[P], undefined> }
@@ -23,4 +24,16 @@ export function validateNotNullFields(data: any, fields: string[]) {
         }
     }
     if (hasError) throw new ValidationError(`Missing required fields, [${nullFields.join()}]`)
+}
+
+export function validateUnnecessaryFields(data: any, fields: string[]) {
+    let unknownFields: string[] = [];
+    let hasError: boolean = false;
+    Object.keys(data).forEach(key => {
+        if (!fields.includes(key)) {
+            unknownFields.push(key);
+            hasError = true;
+        }
+    });
+    if (hasError) throw new ValidationError(`Contains invalid fields, [${unknownFields.join()}]`)
 }

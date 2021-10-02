@@ -16,4 +16,15 @@ export namespace ingress {
         linkedinUrl?: string,
         password?: string
     }
+
+    export interface UserModificationRequest {
+        firstName?: string,
+        lastName?: string,
+        linkedinUrl?: string,
+        linkedinToken?: {
+            accessToken: string,
+            expiresIn: number,
+            authorizedAt: Date
+        }
+    }
 }
