@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { PricingType, RoleType, TeamType } from "./common";
 
 export namespace db {
     export interface User {
@@ -13,7 +14,7 @@ export namespace db {
         },
         teams: {
             team: Types.ObjectId,
-            role: Types.ObjectId,
+            role: RoleType,
             campaigns: Types.ObjectId[]
         }[],
         activityRecords: {
@@ -29,8 +30,8 @@ export namespace db {
     }
 
     export interface Team {
-        pricing: Pricing,
-        type: string,
+        pricing: PricingType,
+        type: TeamType,
         users: Types.ObjectId[],
         customers: Types.ObjectId[]
     }
@@ -64,7 +65,7 @@ export namespace db {
             campaign: Types.ObjectId,
             stageId: string
         }[],
-        team: Team,
+        team: Types.ObjectId,
         email: string,
         conversation: {
             timestamp: Date,

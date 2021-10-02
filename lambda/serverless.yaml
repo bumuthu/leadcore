@@ -83,7 +83,7 @@ functions:
           
   ### Reference Data
   RefDataLoadHandler:
-    handler: src/controllers/refdata-controller.getRefData
+    handler: src/handlers/refdata-handler.getRefData
     events:
       - httpApi:
           method: GET
@@ -91,12 +91,12 @@ functions:
           authorizer: serviceAuthorizer
 
   RefDataResetHandler:
-    handler: src/controllers/refdata-controller.resetRefData
+    handler: src/handlers/refdata-handler.resetRefData
     events:
       - httpApi:
           method: GET
           path: /api/v1/refdata/reset
-          authorizer: serviceAuthorizer
+          # authorizer: serviceAuthorizer
 
           
   ### User

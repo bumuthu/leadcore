@@ -1,5 +1,5 @@
 {
-    "lc-pricing": [
+    "lq-pricings": [
         {
             "name": "BASIC",
             "price": "19.99",
@@ -47,7 +47,7 @@
             ]
         },
         {
-            "name": "PERSANAL",
+            "name": "PERSONAL",
             "price": "29.99",
             "features": [
                 {

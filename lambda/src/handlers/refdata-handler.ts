@@ -1,13 +1,14 @@
 import 'source-map-support/register';
 import PricingModel from 'src/models/db/pricing.model';
 import RoleModel from 'src/models/db/role.model';
-import ResponseGenerator from 'src/utils/response-generator';
 import connectToTheDatabase from '../utils/mongo-connection';
-import rolesJSON from 'reference-data/lc-role.json';
-import pricingsJSON from 'reference-data/lc-pricing.json';
+import rolesJSON from 'reference-data/lq-role.json';
+import pricingsJSON from 'reference-data/lq-pricing.json';
+import { respondError, respondSuccess } from 'src/utils/response-generator';
+import { RefDataOperationError } from 'src/utils/exceptions';
 
-const responseGenerator = new ResponseGenerator();
 
+// RefDataLoadHandler
 export const getRefData = async (event, _context) => {
     await connectToTheDatabase();
 
@@ -15,16 +16,19 @@ export const getRefData = async (event, _context) => {
         let roles = await RoleModel.find();
         let pricings = await PricingModel.find();
 
-        return responseGenerator.handleSuccessfullResponse({
+        return respondSuccess({
             roles: roles,
             pricing: pricings
         });
-    } catch (e) {
-        console.log(e);        
-        return responseGenerator.handleDataNotFound('RefData', 'refadata');
+
+    } catch (err) {
+        console.log(err);
+        return respondError(err);
     }
 }
 
+
+// RefDataResetHandler
 export const resetRefData = async (event, _context) => {
     await connectToTheDatabase();
 
@@ -32,21 +36,21 @@ export const resetRefData = async (event, _context) => {
         await RoleModel.deleteMany();
         await PricingModel.deleteMany();
 
-        let rolesArr = [];
-        let pricingsArr = [];
+        const rolesArr = rolesJSON['lq-roles'] as Array<any>
+        const pricingsArr = pricingsJSON['lq-pricings'] as Array<any>
 
-        rolesJSON['lc-roles'].forEach(r => rolesArr.push(r));
-        pricingsJSON['lc-pricing'].forEach(p => pricingsArr.push(p));
+        if (rolesArr == null || pricingsArr == null) throw new RefDataOperationError("Reference data not found locally");
 
         let roles = await RoleModel.insertMany(rolesArr);
         let pricings = await PricingModel.insertMany(pricingsArr);
 
-        return responseGenerator.handleSuccessfullResponse({
+        return respondSuccess({
             roles: roles,
             pricing: pricings
         });
-    } catch (e) {
-        console.log(e);
-        return responseGenerator.handleDataNotFound('RefData', 'refadata');
+
+    } catch (err) {
+        console.log(err);
+        return respondError(err)
     }
 }

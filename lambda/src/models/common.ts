@@ -17,6 +17,11 @@ export enum RoleEventEntity {
     PIPELINE = "PIPELINE"
 }
 
+export enum TeamType {
+    INDIVIDUAL = "INDIVIDUAL",
+    TEAM = "TEAM"
+}
+
 export interface RolePermissionModel {
     entity: RoleEventEntity,
     actions: RoleActionType[],

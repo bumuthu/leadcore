@@ -13,7 +13,7 @@ const userSchema = new Schema({
     teams: [
         new Schema({
             team: { type: Schema.Types.ObjectId, ref: 'Team' },
-            role: { type: Schema.Types.ObjectId, ref: 'Role' },
+            role: String,
             campaigns: [new Schema({
                 campaign: { type: Schema.Types.ObjectId, ref: 'Campaign' },
                 role: { type: Schema.Types.ObjectId, ref: 'Role' }

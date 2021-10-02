@@ -19,6 +19,9 @@ export const getUserByToken = async (event, _context) => {
         if (!decodedUser!.username) throw new AccessTokenNullError("Invalid access token");
 
         await connectToTheDatabase();
+
+        // Problem Here. User Id should included
+        
         const user = await UserModel.findOne({ email: decodedUser.email });
         return respondSuccess(user)
     } catch (err) {
