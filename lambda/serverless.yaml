@@ -119,7 +119,7 @@ functions:
 
   ### Team
   TeamRetrievalHandler:
-    handler: src/controllers/team-controller.getTeamById
+    handler: src/handlers/team-handler.getTeamById
     events:
       - httpApi:
           method: GET
@@ -127,7 +127,7 @@ functions:
           authorizer: serviceAuthorizer
 
   TeamUpdateHandler:
-    handler: src/controllers/team-controller.updateTeamById
+    handler: src/handlers/team-handler.updateTeamById
     events:
       - httpApi:
           method: PUT
@@ -135,7 +135,7 @@ functions:
           authorizer: serviceAuthorizer
 
   NewTeamHandler:
-    handler: src/controllers/team-controller.createTeam
+    handler: src/handlers/team-handler.createTeam
     events:
       - httpApi:
           method: POST

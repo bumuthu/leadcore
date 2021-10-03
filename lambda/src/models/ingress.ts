@@ -1,4 +1,5 @@
 import { AuthType } from "src/services/auth-service";
+import { PricingType, TeamType } from "./common";
 
 export namespace ingress {
 
@@ -26,5 +27,18 @@ export namespace ingress {
             expiresIn: number,
             authorizedAt: Date
         }
+    }
+
+    export interface TeamModificationRequest {
+        pricing?: PricingType,
+        users?: string[],
+        customers?: string[]
+    }
+
+    export interface TeamCreateRequest {
+        pricing: PricingType,
+        type: TeamType,
+        users?: string[],
+        customers?: string[]
     }
 }

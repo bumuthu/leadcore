@@ -37,3 +37,8 @@ export function validateUnnecessaryFields(data: any, fields: string[]) {
     });
     if (hasError) throw new ValidationError(`Contains invalid fields, [${unknownFields.join()}]`)
 }
+
+export function validationWithEnum<T>(type: T, data: any, field: string) {
+    const keys = Object.keys(type);
+    if (!data[field] && !keys.includes(data[field])) throw new ValidationError(`Invalid value for, [${field}]`)
+}
