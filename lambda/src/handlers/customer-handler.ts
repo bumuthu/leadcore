@@ -22,9 +22,16 @@ export const getCustomerById = async (event, _context) => {
 
         const customerId = event.pathParameters.customerId;
         if (customerId == null) throw new ValidationError("Invalid customer ID");
+        let customer: any;
 
-        const customer = await CustomerModel.findById(customerId);
-        if (customer == null) throw new ValidationError("Invalid customer ID");
+        try {
+            customer = await CustomerModel.findById(customerId);
+        } catch (err) {
+            throw new ValidationError("Invalid customer ID");
+        }
+
+        if (customer == null) throw new ValidationError("Data not found for the customer ID");
+        console.log("Customer DB:", customer);
 
         const userService = new UserService();
         const user: db.User = await userService.getUserByToken(event.headers.authorization);
@@ -47,9 +54,9 @@ export const createCustomer = async (event, _context) => {
         console.log(customerCreateRequest);
 
         validateNotNullFields(customerCreateRequest, ["firstName", "teamId"]);
-        validateUnnecessaryFields(customerCreateRequest, ["pricing", "type", "users", "customers"]);
         validationWithEnum(MediaType, customerCreateRequest, "media");
 
+        if (!customerCreateRequest.campaigns) customerCreateRequest.campaigns = [];
         if (!Array.isArray(customerCreateRequest.campaigns)) throw new ValidationError("Invalid type for [campaign]");
 
         const team = await TeamModel.findById(customerCreateRequest.teamId);
@@ -72,7 +79,7 @@ export const createCustomer = async (event, _context) => {
             stageIds.push(camp.stageId);
         }
 
-        const customer = await CustomerModel.create(customerCreateRequest);
+        const customer = await CustomerModel.create({ ...customerCreateRequest, team: customerCreateRequest.teamId });
 
         for (let i = 0; i < campaigns.length; i++) {
             let campUpdated = (campaigns[i] as any)
