@@ -20,7 +20,7 @@ export const getTeamById = async (event, _context) => {
         const user: db.User = await userService.getUserByToken(event.headers.authorization);
 
         const teamId = event.pathParameters.teamId;
-        if (user.teams.filter(team => team.team == teamId).length == 0) throw new NotAuthorizedError("You are not authorized to access the team")
+        userService.validateUserWithTeamId(user, teamId)
 
         const team = await TeamModel.findById(teamId).populate('users');
         if (!team) throw new DataNotFoundError("Team not fond in the system");
@@ -39,12 +39,11 @@ export const updateTeamById = async (event, _context) => {
         await connectToTheDatabase();
 
         const teamModificationReq: ingress.TeamModificationRequest = JSON.parse(event.body) as ingress.TeamModificationRequest;
+        const teamId = event.pathParameters.teamId;
 
         const userService = new UserService();
         const user: db.User = await userService.getUserByToken(event.headers.authorization);
-
-        const teamId = event.pathParameters.teamId;
-        if (user.teams.filter(team => team.team == teamId).length == 0) throw new NotAuthorizedError("You are not authorized to access the team")
+        userService.validateUserWithTeamId(user, teamId)
 
         validateUnnecessaryFields(teamModificationReq, ["pricing", "users", "customers"]);
         validationWithEnum(PricingType, teamModificationReq, "pricing");
@@ -69,13 +68,12 @@ export const createTeam = async (event, _context) => {
 
         validateNotNullFields(teamCreateRequest, ["pricing", "type"]);
         validateUnnecessaryFields(teamCreateRequest, ["pricing", "type", "users", "customers"]);
-        validateNotNullFields(teamCreateRequest, ["pricing", "type"]);
         validationWithEnum(PricingType, teamCreateRequest, "pricing");
         validationWithEnum(TeamType, teamCreateRequest, "type");
 
         if (!teamCreateRequest.users) teamCreateRequest.users = [];
         if (!teamCreateRequest.users.includes(getDatabaseKey(user))) teamCreateRequest.users.push(getDatabaseKey(user));
-        
+
         if (!teamCreateRequest.customers) teamCreateRequest.customers = [];
 
         const team = await TeamModel.create(teamCreateRequest);

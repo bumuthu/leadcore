@@ -19,6 +19,7 @@ const customerSchema = new Schema({
     })],
     nextMessageSuggestions: [String],
     analysis: Schema.Types.Mixed,
+    linkedinUrl: String,
     linkedinData: Schema.Types.Mixed
 });
 

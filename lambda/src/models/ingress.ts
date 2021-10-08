@@ -1,5 +1,5 @@
 import { AuthType } from "src/services/auth-service";
-import { PricingType, TeamType } from "./common";
+import { MediaType, PricingType, TeamType } from "./common";
 
 export namespace ingress {
 
@@ -41,4 +41,20 @@ export namespace ingress {
         users?: string[],
         customers?: string[]
     }
+
+    export interface CustomerCreateRequest {
+        firstName: string,
+        lastName?: string,
+        score?: number,
+        worth?: number,
+        media?: MediaType,
+        campaigns?: {
+            stageId: string,
+            campaignId: string
+        }[],
+        teamId: string,
+        email?: string,
+        linkedinUrl?: string
+    }
+
 }

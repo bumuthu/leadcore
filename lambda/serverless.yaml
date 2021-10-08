@@ -145,7 +145,7 @@ functions:
 
   ### Customer
   CustomerRetrievalHandler: 
-    handler: src/controllers/customer-controller.getCustomerById
+    handler: src/handlers/customer-handler.getCustomerById
     events:
       - httpApi:
           method: GET
@@ -153,7 +153,7 @@ functions:
           authorizer: serviceAuthorizer
 
   CustomerUpdateHandler: 
-    handler: src/controllers/customer-controller.updateCustomerById
+    handler: src/handlers/customer-handler.updateCustomerById
     events:
       - httpApi:
           method: PUT
@@ -161,7 +161,7 @@ functions:
           authorizer: serviceAuthorizer
 
   NewCustomerHandler: 
-    handler: src/controllers/customer-controller.createCustomer
+    handler: src/handlers/customer-handler.createCustomer
     events:
       - httpApi:
           method: POST
@@ -169,7 +169,7 @@ functions:
           authorizer: serviceAuthorizer
 
   CustomersListRetrievalHandler: 
-    handler: src/controllers/customer-controller.getCustomersListByIds
+    handler: src/handlers/customer-handler.getCustomersListByIds
     events:
       - httpApi:
           method: GET
@@ -177,7 +177,7 @@ functions:
           authorizer: serviceAuthorizer
 
   NewCustomerListHandler: 
-    handler: src/controllers/customer-controller.createCustomersList
+    handler: src/handlers/customer-handler.createCustomersList
     events:
       - httpApi:
           method: POST

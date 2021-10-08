@@ -53,3 +53,12 @@ export interface PricingModel {
     price: string,
     features: PricingFeatureModel[]
 }
+
+
+// Customer related
+
+export enum MediaType {
+    LINKEDIN = "LINKEDIN",
+    EMAIL = "EMAIL",
+    PHONE = "PHONE"
+}

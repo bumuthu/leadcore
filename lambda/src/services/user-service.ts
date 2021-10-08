@@ -4,7 +4,7 @@ import { db } from "src/models/db";
 import TeamModel from "src/models/db/team.model";
 import UserModel from "src/models/db/user.model";
 import { ingress } from "src/models/ingress";
-import { AccessTokenNullError, DataNotFoundError, ErrorCode, UserSignUpError } from "src/utils/exceptions";
+import { AccessTokenNullError, DataNotFoundError, ErrorCode, NotAuthorizedError, UserSignUpError } from "src/utils/exceptions";
 import { getDatabaseKey } from "src/utils/utils";
 
 export class UserService {
@@ -14,7 +14,7 @@ export class UserService {
 
     constructor() { }
 
-    async getUserByToken(accessToken: string): Promise<db.User>{
+    async getUserByToken(accessToken: string): Promise<db.User> {
         if (!accessToken) throw new AccessTokenNullError("Null access token found");
 
         const decodedUser: any = jwt_decode(accessToken);
@@ -22,7 +22,7 @@ export class UserService {
 
         const user: any = await UserModel.findOne({ cognitoUserSub: decodedUser.sub });
         if (!user) throw new DataNotFoundError("User not found in the system");
-        
+
         return user;
     }
 
@@ -110,6 +110,12 @@ export class UserService {
             )
         } catch (err) {
             throw new UserSignUpError("Error while updating user", ErrorCode.DATABASE_OPERATION_ERROR);
+        }
+    }
+
+    async validateUserWithTeamId(user: db.User, teamId: string) {
+        if (user.teams.filter(team => team.team.toString() == teamId.toString()).length == 0) {
+            throw new NotAuthorizedError("You are not authorized to access the team")
         }
     }
 }
