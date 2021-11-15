@@ -13,6 +13,7 @@ provider:
         identitySource: $request.header.Authorization
         issuerUrl: https://cognito-idp.us-east-2.amazonaws.com/us-east-2_KwE2BHUY1
         audience: 3agvvhnm9maoubjl5eb4jurrtt
+  websocketsApiRouteSelectionExpression: $request.body.action
 
 plugins:
   - serverless-webpack
@@ -218,6 +219,27 @@ functions:
           path: /api/v1/campaign/pipeline/stageChange
           authorizer: serviceAuthorizer
 
+
+  ### Websocket
+  WSConnectionHandler:
+    handler: src/handlers/websocket/connection-handler.connectionHandler
+    events:
+      - websocket:
+          route: $connect
+          # authorizer: serviceAuthorizer
+      - websocket:
+          route: $disconnect
+          # authorizer: serviceAuthorizer
+      - websocket:
+          route: $default
+          # authorizer: serviceAuthorizer
+
+  ScapperWSHandler:
+    handler: src/handlers/websocket/scraper-handler.scraperHandler
+    events:
+      - websocket:
+          route: scrap
+          # authorizer: serviceAuthorizer
 
 custom:
   webpack:

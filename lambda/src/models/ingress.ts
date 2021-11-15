@@ -57,4 +57,23 @@ export namespace ingress {
         linkedinUrl?: string
     }
 
+    export interface CustomerUpdateRequest {
+        firstName?: string,
+        lastName?: string,
+        score?: number,
+        worth?: number,
+        media?: MediaType,
+        addCampaign?: {
+            stageId: string,
+            campaignId: string
+        },
+        removeCampaign?: {
+            stageId: string,
+            campaignId: string
+        },
+        addTeamId?: string,
+        removeTeamId?: string,
+        email?: string,
+        linkedinUrl?: string
+    }
 }
