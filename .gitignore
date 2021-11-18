@@ -9,6 +9,12 @@ auth-client/node_modules
 
 ml/relevancy-score/models
 
+chromium-package.zip
+
 .idea
 
 .env
+
+.build
+
+.webpack

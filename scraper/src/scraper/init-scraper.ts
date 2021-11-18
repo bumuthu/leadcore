@@ -1,11 +1,13 @@
-import puppeteer, { Page, Browser } from "puppeteer";
 import treeKill from "tree-kill";
-
 import blockedHostsList from "../utils/blocked-hosts";
-
 import { statusLog, getHostname } from "../utils/location";
 import { SessionExpired } from "../utils/errors";
 import { ScraperUserDefinedOptions, ScraperOptions } from "../utils/models";
+import Chromium from "chrome-aws-lambda";
+import { Browser, Page } from "../utils/puppeteer-import";
+
+const chromiumPath = "mnt/node/node_modules/puppeteer-core/.local-chromium/linux-901912/chrome-linux/chrome"; // Linux
+// const chromiumPath = "D:/_LeadQuo/leadcore/scraper/node_modules/puppeteer-core/.local-chromium/win64-901912/chrome-win/chrome.exe" // Windows
 
 export async function autoScroll(page: Page) {
   await page.evaluate(() => {
@@ -110,8 +112,9 @@ export default class InitLinkedInScraper {
         }...`
       );
 
-      this.browser = await puppeteer.launch({
+      this.browser = await Chromium.puppeteer.launch({
         headless: this.options.headless,
+        executablePath: chromiumPath,
         args: [
           ...(this.options.headless
             ? "---single-process"
@@ -351,13 +354,13 @@ export default class InitLinkedInScraper {
         }
       }
 
-      if (this.browser) {
+      if (this.browser != null) {
         try {
           statusLog(loggerPrefix, "Closing browser...");
           await this.browser.close();
           statusLog(loggerPrefix, "Closed browser!");
 
-          const browserProcessPid = this.browser.process().pid;
+          const browserProcessPid = this.browser.process()?.pid;
 
           // Completely kill the browser process to prevent zombie processes
           // https://docs.browserless.io/blog/2019/03/13/more-observations.html#tip-2-when-you-re-done-kill-it-with-fire
