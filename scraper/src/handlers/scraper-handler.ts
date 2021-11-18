@@ -4,7 +4,7 @@ import { send } from '../utils/websocket';
 
 export const endpoint = "ws-api.leadquo.com/dev1"
 
-// ScrapInvocationHandler
+// ScrapHandler
 export const scraperHandler = async (event, _context) => {
     console.log("Event:", event);
 

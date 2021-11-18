@@ -220,6 +220,16 @@ functions:
           authorizer: serviceAuthorizer
 
 
+  ### Scraper
+  ScraperTriggerHandler:
+    handler: src/handlers/scraper-handler.scraperTriggerHandler
+    events:
+      - httpApi:
+          method: POST
+          path: /api/v1/scrap
+          # authorizer: serviceAuthorizer
+
+
   ### Websocket
   WSConnectionHandler:
     handler: src/handlers/websocket/connection-handler.connectionHandler
@@ -234,8 +244,8 @@ functions:
           route: $default
           # authorizer: serviceAuthorizer
 
-  ScapperWSHandler:
-    handler: src/handlers/websocket/scraper-handler.scraperHandler
+  ScapperConnectionHandler:
+    handler: src/handlers/websocket/scraper-connection-handler.scraperConnectionHandler
     events:
       - websocket:
           route: scrap

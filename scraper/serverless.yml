@@ -4,17 +4,8 @@ provider:
   name: aws
   runtime: nodejs14.x
   memorySize: 1024
-  # timeout: 15
   stage: dev1
   region: us-east-2
-  httpApi:
-    cors: true
-    authorizers:
-      serviceAuthorizer:
-        identitySource: $request.header.Authorization
-        issuerUrl: https://cognito-idp.us-east-2.amazonaws.com/us-east-2_KwE2BHUY1
-        audience: 3agvvhnm9maoubjl5eb4jurrtt
-  websocketsApiRouteSelectionExpression: $request.body.action
 
 plugins:
   - serverless-webpack
@@ -27,21 +18,9 @@ package:
     - src/**
 
 functions:
-  ### Scrap
-  # ScrapInvocationTriggerHandler:
-  #   handler: src/handlers/scraper-handler.scraperHandler
-  #   events:
-  #     - httpApi:
-  #         method: POST
-  #         path: /api/v1/scrap
-
-  ScrapInvocationHandler:
+  ScrapHandler:
     handler: src/handlers/scraper-handler.scraperHandler
     timeout: 900
-    events:
-      - httpApi:
-          method: POST
-          path: /api/v1/scrap
 
 custom:
   webpack:
