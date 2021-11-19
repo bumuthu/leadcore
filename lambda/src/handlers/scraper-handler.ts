@@ -1,9 +1,9 @@
+import { Lambda } from 'aws-sdk';
 import { ErrorCode } from 'src/utils/exceptions';
 import { respondError, respondSuccess } from '../utils/response-generator';
-const AWS = require('aws-sdk');
 
 // AWS region
-const lambda = new AWS.Lambda();
+const lambda = new Lambda();
 
 // @TODO ARN is to be a variable
 const lambdaArn = "arn:aws:lambda:us-east-2:001002431347:function:lq-scraper-dev1-ScrapHandler";
