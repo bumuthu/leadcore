@@ -10,7 +10,8 @@ export enum ErrorCode {
     ACCESS_TOKEN_NULL_EXCEPTION = "AccessTokenNullException",
     LINKEDIN_TOKEN_EXCEPTION = "LinkedinTokenException",
     NOT_IMPLEMENTED_ERROR = "NotImplementedError",
-    REF_DATA_EXCEPTION = "RefDataException"
+    REF_DATA_EXCEPTION = "RefDataException",
+    SCRAPER_INVOCATION_ERROR = "ScraperInvocationError"
 }
 
 class KnownError extends Error {

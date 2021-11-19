@@ -3,7 +3,6 @@ service: lq-scraper
 provider: 
   name: aws
   runtime: nodejs14.x
-  memorySize: 1024
   stage: dev1
   region: us-east-2
 
@@ -21,6 +20,7 @@ functions:
   ScrapHandler:
     handler: src/handlers/scraper-handler.scraperHandler
     timeout: 900
+    memorySize: 1024
 
 custom:
   webpack:
