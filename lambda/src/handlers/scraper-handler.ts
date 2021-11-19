@@ -1,10 +1,9 @@
+import { Lambda } from 'aws-sdk';
 import { ErrorCode } from 'src/utils/exceptions';
 import { respondError, respondSuccess } from '../utils/response-generator';
-const AWS = require('aws-sdk');
 
 // AWS region
-AWS.config.region = 'us-east-2';
-const lambda = new AWS.Lambda();
+const lambda: Lambda = new Lambda();
 
 // @TODO ARN is to be a variable
 const lambdaArn = "arn:aws:lambda:us-east-2:001002431347:function:lq-scraper-dev1-ScrapHandler";
@@ -31,6 +30,8 @@ export const scraperTriggerHandler = async (event, _context) => {
                 console.log("SUCCESS:", data);
             }
         });
+        await new Promise(resolve => setTimeout(resolve, 10000))
+
         return respondSuccess({ message: "Scraping request submitted successfully", params });
     } catch (e) {
         return respondError({ status: 400, code: ErrorCode.SCRAPER_INVOCATION_ERROR, message: `Failed to invoke lambda: [${lambdaArn}]` });
