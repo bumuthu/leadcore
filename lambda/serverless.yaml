@@ -224,6 +224,7 @@ functions:
   ### Scraper
   ScraperTriggerHandler:
     handler: src/handlers/scraper-handler.scraperTriggerHandler
+    timeout: 30
     events:
       - httpApi:
           method: POST

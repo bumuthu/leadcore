@@ -1,9 +1,9 @@
-import { Lambda } from 'aws-sdk';
 import { ErrorCode } from 'src/utils/exceptions';
 import { respondError, respondSuccess } from '../utils/response-generator';
+const AWS = require('aws-sdk');
 
 // AWS region
-const lambda: Lambda = new Lambda();
+const lambda = new AWS.Lambda();
 
 // @TODO ARN is to be a variable
 const lambdaArn = "arn:aws:lambda:us-east-2:001002431347:function:lq-scraper-dev1-ScrapHandler";
@@ -21,13 +21,16 @@ export const scraperTriggerHandler = async (event, _context) => {
     };
 
     try {
+        const startTime = Date.now();
         lambda.invokeAsync(params, function (err, data) {
             if (err) {
                 console.log("ERROR:", err, err.stack);
                 throw Error("Invocation failed")
             }
             else {
+                const endTime = Date.now();
                 console.log("SUCCESS:", data);
+                console.log("Time to invoke:", endTime - startTime)
             }
         });
         await new Promise(resolve => setTimeout(resolve, 10000))

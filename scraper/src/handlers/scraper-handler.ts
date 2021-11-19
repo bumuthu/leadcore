@@ -8,7 +8,7 @@ export const endpoint = "ws-api.leadquo.com/dev1"
 export const scraperHandler = async (event, _context) => {
     console.log("Event:", event);
 
-    const message = JSON.parse(event).body;
+    const message = event.body;
     const connectionId = message.connectionId;
 
     const scraper = new LinkedInProfileScraper({
