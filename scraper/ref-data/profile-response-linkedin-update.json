@@ -1,0 +1,75 @@
+{
+    "userProfile": {
+        "fullName": "500+ connections",
+        "title": "Yaala Labs",
+        "location": null,
+        "photo": null,
+        "description": null,
+        "url": "https://www.linkedin.com/in/bumuthudilshan/"
+    },
+    "experiences": [
+        {
+            "title": "Company Name Yaala Labs",
+            "company": null,
+            "employmentType": null,
+            "location": {
+                "city": "Colombo",
+                "province": "Western",
+                "country": "Sri Lanka"
+            },
+            "startDate": "2021-06-01T00:00:00+05:30",
+            "endDate": "2021-11-16T01:40:30+05:30",
+            "endDateIsPresent": true,
+            "description": null,
+            "durationInDays": 169
+        },
+        {
+            "title": "Software Engineering Trainee",
+            "company": "CodeGen International",
+            "employmentType": null,
+            "location": {
+                "city": null,
+                "province": null,
+                "country": "Sri Lanka"
+            },
+            "startDate": "2019-06-01T00:00:00+05:30",
+            "endDate": "2019-12-01T00:00:00+05:30",
+            "endDateIsPresent": false,
+            "description": null,
+            "durationInDays": 184
+        }
+    ],
+    "education": [
+        {
+            "schoolName": "University of Moratuwa",
+            "degreeName": "Bachelor of Science - BSc",
+            "fieldOfStudy": "Electronic and Telecommunication",
+            "startDate": "2016-01-01T00:00:00+05:30",
+            "endDate": "2020-01-01T00:00:00+05:30",
+            "durationInDays": 1462
+        },
+        {
+            "schoolName": "Bandaranayake College, Gampaha",
+            "degreeName": null,
+            "fieldOfStudy": null,
+            "startDate": "2007-01-01T00:00:00+05:30",
+            "endDate": "2015-01-01T00:00:00+05:30",
+            "durationInDays": 2923
+        }
+    ],
+    "volunteerExperiences": [],
+    "skills": [
+        {
+            "skillName": "Artificial Intelligence (AI)",
+            "endorsementCount": 5
+        },
+        {
+            "skillName": "Back-End Web Development",
+            "endorsementCount": 6
+        },
+        {
+            "skillName": "Front-end Development",
+            "endorsementCount": 6
+        }
+    ]
+}

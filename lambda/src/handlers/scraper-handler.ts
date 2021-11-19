@@ -16,13 +16,13 @@ export const scraperTriggerHandler = async (event, _context) => {
 
     const params = {
         FunctionName: lambdaArn,
-        InvocationType: 'RequestResponse',
-        LogType: 'Tail',
-        Payload: JSON.stringify({ body: payload })
+        // InvocationType: 'RequestResponse',
+        // LogType: 'Tail',
+        InvokeArgs: JSON.stringify({ body: payload })
     };
 
     try {
-        lambda.invoke(params, function (err, data) {
+        lambda.invokeAsync(params, function (err, data) {
             if (err) {
                 console.log("ERROR:", err, err.stack);
                 throw Error("Invocation failed")

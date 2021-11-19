@@ -1,10 +1,10 @@
 {
     "linkedin": {
-        "session-token": "AQEDASfVQNkAUEKCAAABdy93ttgAAAF3U4Q62FYAfJFcapiN2NhQJ0f2f6JJL5uNgT0ZQtwmuO9zMmNMu-bnSOei1EOpWALFo92UgcmnQrC2aCnda7ndR7piCQZYdk0ogdVOj6FebEjG_jouwt6ttDqf",
+        "session-token": "AQEDASO2tVQF4TJJAAABfSUnK0UAAAF9STOvRU0ARHloZpJKokx9I-N2tiVWY4MkmsyHYXk1y-qfoyrEs6Mgc66ijjx4JTTV7zLNpc6Y-mJpcXeDabzlIyAFps9Csnoq0kp90HsQ1mVRuee_wesDcOMj",
         "user-profile": "https://www.linkedin.com/in/bumuthudilshan/"
     },
     "scrapping": {
-        "profile-url": "https://www.linkedin.com/in/anna-zimmermann-madureira-5baa7742/",
+        "profile-url": "https://www.linkedin.com/in/bumuthudilshan/",
         "search-url": "https://www.linkedin.com/search/results/all/?keywords=john&origin=GLOBAL_SEARCH_HEADER"
     },
     "api": {
