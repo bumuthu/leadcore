@@ -6,7 +6,7 @@ import { ScraperUserDefinedOptions, ScraperOptions } from "../utils/models";
 import Chromium from "chrome-aws-lambda";
 import { Browser, Page } from "../utils/puppeteer-import";
 
-const chromiumPath = "mnt/node/node_modules/puppeteer-core/.local-chromium/linux-901912/chrome-linux/chrome"; // Linux
+// const chromiumPath = "mnt/node/node_modules/puppeteer-core/.local-chromium/linux-901912/chrome-linux/chrome"; // Linux
 // const chromiumPath = "D:/_LeadQuo/leadcore/scraper/node_modules/puppeteer-core/.local-chromium/win64-901912/chrome-win/chrome.exe" // Windows
 
 export async function autoScroll(page: Page) {
@@ -114,7 +114,6 @@ export default class InitLinkedInScraper {
 
       this.browser = await Chromium.puppeteer.launch({
         headless: this.options.headless,
-        executablePath: chromiumPath,
         args: [
           ...(this.options.headless
             ? "---single-process"
