@@ -12,8 +12,8 @@ COPY src /wrk/src/
 
 RUN npm install && node node_modules/puppeteer-core/install.js
 
-RUN npm run tsc
+RUN tsc
 
 EXPOSE 3000
 
-CMD ["src/handlers/scraper-handler.scraperHandler"]
+CMD ["dist/handlers/scraper-handler.scraperHandler"]
