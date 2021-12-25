@@ -6,7 +6,7 @@ WORKDIR /wrk
 
 COPY package*.json /wrk/
 
-COPY tsconfig.json /wrk/
+COPY tsconfig*.json /wrk/
 
 COPY src /wrk/src/
 
