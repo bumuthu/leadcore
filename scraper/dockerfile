@@ -10,9 +10,7 @@ COPY tsconfig.json /wrk/
 
 COPY src /wrk/src/
 
-RUN npm install && node node_modules/puppeteer-core/install.js
-
-RUN tsc
+RUN npm install && node node_modules/puppeteer-core/install.js && npm run build
 
 EXPOSE 3000
 
