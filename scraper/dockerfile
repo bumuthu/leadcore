@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["src/handlers/scraper-handler.scraperHandler"]
+CMD ["./src/handlers/scraper-handler.scraperHandler"]
