@@ -4,11 +4,11 @@ RUN yum update -y && yum install -y gconf-service libasound2 libatk1.0-0 libc6 l
 
 RUN mkdir -p /nodejs
 
-COPY package*.json /nodejs
+COPY package*.json /nodejs/
 
-COPY tsconfig*.json /nodejs
+COPY tsconfig*.json /nodejs/
 
-COPY src /nodejs/src
+COPY src /nodejs/src/
 
 RUN npm install && node node_modules/puppeteer-core/install.js && npm run build
 
