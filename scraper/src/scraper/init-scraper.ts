@@ -119,54 +119,40 @@ export default class InitLinkedInScraper {
             : "---start-maximized"),
           "--no-sandbox",
           "--disable-setuid-sandbox",
-          "--proxy-server='direct://",
-          "--proxy-bypass-list=*",
-          "--disable-dev-shm-usage",
-          "--disable-accelerated-2d-canvas",
-          "--disable-gpu",
-          "--disable-features=site-per-process",
-          "--enable-features=NetworkService",
-          "--allow-running-insecure-content",
-          "--enable-automation",
-          "--disable-background-timer-throttling",
-          "--disable-backgrounding-occluded-windows",
-          "--disable-renderer-backgrounding",
-          "--disable-web-security",
-          "--autoplay-policy=user-gesture-required",
-          "--disable-background-networking",
-          "--disable-breakpad",
-          "--disable-client-side-phishing-detection",
-          "--disable-component-update",
-          "--disable-default-apps",
-          "--disable-domain-reliability",
-          "--disable-extensions",
-          "--disable-features=AudioServiceOutOfProcess",
-          "--disable-hang-monitor",
-          "--disable-ipc-flooding-protection",
-          "--disable-notifications",
-          "--disable-offer-store-unmasked-wallet-cards",
-          "--disable-popup-blocking",
-          "--disable-print-preview",
-          "--disable-prompt-on-repost",
-          "--disable-speech-api",
-          "--disable-sync",
-          "--disk-cache-size=33554432",
-          "--hide-scrollbars",
-          "--ignore-gpu-blacklist",
-          "--metrics-recording-only",
-          "--mute-audio",
-          "--no-default-browser-check",
-          "--no-first-run",
-          "--no-pings",
-          "--no-zygote",
-          "--password-store=basic",
-          "--use-gl=swiftshader",
-          "--use-mock-keychain",
+          ...Chromium.args
         ],
         defaultViewport: Chromium.defaultViewport,
         headless: this.options.headless,
         ignoreHTTPSErrors: true,
       });
+
+      /*
+      FLAGS in Chromium.args
+
+        '--allow-running-insecure-content',
+        '--autoplay-policy=user-gesture-required',
+        '--disable-component-update',
+        '--disable-domain-reliability',
+        '--disable-features=AudioServiceOutOfProcess,IsolateOrigins,site-per-process',
+        '--disable-print-preview',
+        '--disable-setuid-sandbox',
+        '--disable-site-isolation-trials',
+        '--disable-speech-api',
+        '--disable-web-security',
+        '--disk-cache-size=33554432',
+        '--enable-features=SharedArrayBuffer',
+        '--hide-scrollbars',
+        '--ignore-gpu-blocklist',
+        '--in-process-gpu',
+        '--mute-audio',
+        '--no-default-browser-check',
+        '--no-pings',
+        '--no-sandbox',
+        '--no-zygote',
+        '--use-gl=swiftshader',
+        '--window-size=1920,1080',
+        '--start-maximized'
+      */
 
       statusLog(logSection, "Puppeteer launched!");
 
@@ -189,7 +175,7 @@ export default class InitLinkedInScraper {
   public createPage = async (): Promise<Page> => {
     const logSection = "setup page";
 
-    console.log("AAAA", this.browser);
+    console.log("AAAA");
 
     if (!this.browser) {
       throw new Error("Browser not set.");
