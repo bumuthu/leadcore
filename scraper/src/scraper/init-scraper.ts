@@ -107,8 +107,7 @@ export default class InitLinkedInScraper {
     try {
       statusLog(
         logSection,
-        `Launching puppeteer in the ${
-          this.options.headless ? "background" : "foreground"
+        `Launching puppeteer in the ${this.options.headless ? "background" : "foreground"
         }...`
       );
 
@@ -188,9 +187,13 @@ export default class InitLinkedInScraper {
   public createPage = async (): Promise<Page> => {
     const logSection = "setup page";
 
+    console.log("AAAA", this.browser);
+
     if (!this.browser) {
       throw new Error("Browser not set.");
     }
+
+    console.log("BBBB")
 
     // Important: Do not block "stylesheet", makes the crawler not work for LinkedIn
     const blockedResources = [
@@ -205,12 +208,16 @@ export default class InitLinkedInScraper {
     ];
 
     try {
+      console.log("CCCC")
+
       const page = await this.browser.newPage();
 
       // Use already open page
       // This makes sure we don't have an extra open tab consuming memory
       const firstPage = (await this.browser.pages())[0];
       await firstPage.close();
+
+      console.log("DDDD")
 
       // Method to create a faster Page
       // From: https://github.com/shirshak55/scrapper-tools/blob/master/src/fastPage/index.ts#L113
@@ -234,8 +241,7 @@ export default class InitLinkedInScraper {
 
       statusLog(
         logSection,
-        `Should block scripts from ${
-          Object.keys(blockedHosts).length
+        `Should block scripts from ${Object.keys(blockedHosts).length
         } unwanted hosts to speed up the crawling.`
       );
 

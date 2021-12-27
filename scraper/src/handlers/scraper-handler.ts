@@ -11,15 +11,16 @@ export const scraperHandler = async (event, _context) => {
     const message = event.body;
     const connectionId = message.connectionId;
 
-    await send(endpoint, connectionId, { message: "Setup started" })
+    await send(endpoint, connectionId, { message: "Srapping request recieved" })
 
     const scraper = new LinkedInProfileScraper({
         sessionCookieValue: message.sessionToken,
         keepAlive: false,
     })
 
-    await send(endpoint, connectionId, { message: "Setup started" })
+    await send(endpoint, connectionId, { message: "Setting up started" })
     await scraper.scraper.setup()
+    await send(endpoint, connectionId, { message: "Setting up done" })
 
     await send(endpoint, connectionId, { message: "Scraper started" })
     const result = await scraper.run(message.profileUrl)
