@@ -4,6 +4,8 @@ RUN yum update -y && yum install -y gconf-service libasound2 libatk1.0-0 libc6 l
 
 RUN mkdir -p /nodejs
 
+WORKDIR /nodejs
+
 COPY package*.json /nodejs/
 
 COPY tsconfig*.json /nodejs/
