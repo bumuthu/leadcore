@@ -6,7 +6,7 @@ const AWS = require('aws-sdk');
 const lambda = new AWS.Lambda();
 
 // @TODO ARN is to be a variable
-const lambdaArn = "arn:aws:lambda:us-east-2:001002431347:function:lq-scraper-dev1-ScrapHandler";
+const lambdaArn = "arn:aws:lambda:us-east-2:001002431347:function:lq-test-scraper";
 
 // ScraperTriggerHandler
 export const scraperTriggerHandler = async (event, _context) => {
@@ -33,7 +33,7 @@ export const scraperTriggerHandler = async (event, _context) => {
                 console.log("Time to invoke:", endTime - startTime)
             }
         });
-        await new Promise(resolve => setTimeout(resolve, 10000))
+        await new Promise(resolve => setTimeout(resolve, 5000))
 
         return respondSuccess({ message: "Scraping request submitted successfully", params });
     } catch (e) {

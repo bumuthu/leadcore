@@ -11,6 +11,8 @@ export const scraperHandler = async (event, _context) => {
     const message = event.body;
     const connectionId = message.connectionId;
 
+    await send(endpoint, connectionId, { message: "Setup started" })
+
     const scraper = new LinkedInProfileScraper({
         sessionCookieValue: message.sessionToken,
         keepAlive: false,

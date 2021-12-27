@@ -1,15 +1,13 @@
-docker stop $(docker ps -aq)
-docker rm $(docker ps -aq)
+sudo docker stop $(sudo docker ps -aq)
+sudo docker rm $(sudo docker ps -aq)
 
 cd ../scraper
-docker build -t leadcore/scraper .
-cd ../backend
-docker build -t leadcore/backend . 
+sudo docker build -t leadquo/scraper .
 
-docker run -p 5002:3000 -d leadcore/scraper
-docker run -p 5001:3000 -d leadcore/api
-docker ps
+sudo docker run -p 3000:3000 -d leadquo/scraper
 
-docker logs <container_id>
+sudo docker ps
 
-docker exec -it <container_id> /bin/bash
+sudo docker logs <container_id> --follow
+
+sudo docker exec -it <container_id> /bin/bash
