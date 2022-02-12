@@ -1,8 +1,16 @@
 import { Types } from "mongoose";
 import { PricingType, RoleType, TeamType } from "./common";
 
-export namespace db {
-    export interface User {
+export namespace entity {
+    export class Entity {
+        _id?: any;
+
+        getKey(): any {
+            return this._id;
+        }
+    }
+
+    export interface User extends Entity {
         firstName: string,
         lastName?: string,
         email: string,
@@ -30,14 +38,14 @@ export namespace db {
         }[],
     }
 
-    export interface Team {
+    export interface Team extends Entity {
         pricing: PricingType,
         type: TeamType,
         users: Types.ObjectId[],
         customers: Types.ObjectId[]
     }
 
-    export interface Role {
+    export interface Role extends Entity {
         name: string,
         permissions: {
             name: string,
@@ -46,7 +54,7 @@ export namespace db {
         }[]
     }
 
-    export interface Pricing {
+    export interface Pricing extends Entity {
         name: string,
         price: string,
         features: {
@@ -56,7 +64,7 @@ export namespace db {
         }[]
     }
 
-    export interface Customer {
+    export interface Customer extends Entity {
         firstName: string,
         lastName: string,
         score: number,
@@ -78,13 +86,11 @@ export namespace db {
         linkedinData: any
     }
 
-    export interface Campaign {
+    export interface Campaign extends Entity {
         status: string,
         name: string,
         keywords: string[],
-        stages: {
-            name: string
-        }[],
+        stages: string[],
         analysis: any,
         roles: {
             role: Types.ObjectId,

@@ -1,4 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
+import { entity } from '../entities';
+
+export interface UserDocument extends Document, entity.User { }
 
 const userSchema = new Schema({
     firstName: String,
@@ -49,6 +52,6 @@ const userSchema = new Schema({
 //     foreignField: 'author',
 // });
 
-const UserModel = mongoose.model('User', userSchema);
+const UserDBModel = mongoose.model<UserDocument>('User', userSchema);
 
-export default UserModel;
+export default UserDBModel;

@@ -1,4 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
+import { entity } from '../entities';
+
+export interface CampaignDocument extends Document, entity.Campaign { }
 
 const campaignSchema = new mongoose.Schema({
     status: String,
@@ -37,6 +40,6 @@ const campaignSchema = new mongoose.Schema({
     })]
 });
 
-const CampaignModel = mongoose.model('Campaign', campaignSchema);
+const CampaignDBModel = mongoose.model<CampaignDocument>('Campaign', campaignSchema);
 
-export default CampaignModel;
+export default CampaignDBModel;

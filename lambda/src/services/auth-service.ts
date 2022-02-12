@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import { LinkedinAccessTokenException, UserAuthenticationError, UserLoginError, UserSignOutError, UserSignUpError, UserVerificationError, UserVerificationResendError } from 'src/utils/exceptions';
+import { EntityService } from './entity-service';
 
 export enum PasswordChallenge {
     NEW_PASSWORD_REQUIRED = 'NEW_PASSWORD_REQUIRED',
@@ -19,12 +20,13 @@ const LINKEDIN_ACCESS_TOKEN_URL = 'https://www.linkedin.com/oauth/v2/accessToken
 const LINKEDIN_CLIENT_ID = '8611dl35uynhm6';
 const LINKEDIN_CLIENT_SECRET = 'quH0kvxL1E5AAiNg';
 
-export class AuthenticationService {
+export class AuthenticationService extends EntityService {
 
     private userPool: CognitoUserPool;
     private cognitoUser: CognitoUser;
 
     constructor() {
+        super();
         this.userPool = new CognitoUserPool({
             UserPoolId: POOL_ID,
             ClientId: CLIENT_ID,
@@ -33,6 +35,11 @@ export class AuthenticationService {
 
     async signUp(email: string, password: string, userId: string) {
         console.log('email=' + email + ', password=' + password + ', userId=' + userId)
+
+        this.cognitoUser = new CognitoUser({
+            Username: email,
+            Pool: this.userPool
+        });
 
         try {
             const userIdAttr = new CognitoUserAttribute({
@@ -228,5 +235,19 @@ export class AuthenticationService {
             console.error(err.response.data);
             throw new LinkedinAccessTokenException(JSON.stringify(err.response.data))
         });
+    }
+
+    async deleteNewUser() {
+        await new Promise(
+            (resolve, reject) => {
+                this.cognitoUser.deleteUser((err) => {
+                    if (err) {
+                        console.error("ERROR", err)
+                        reject();
+                    }
+                    resolve("Deleted");
+                });
+            }
+        );
     }
 }

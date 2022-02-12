@@ -1,4 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
+import { entity } from "../entities";
+
+export interface CustomerDocument extends Document, entity.Customer { }
 
 const customerSchema = new Schema({
     firstName: String,
@@ -23,6 +26,6 @@ const customerSchema = new Schema({
     linkedinData: Schema.Types.Mixed
 });
 
-const CustomerModel = mongoose.model('Customer', customerSchema);
+const CustomerDBModel = mongoose.model<CustomerDocument>('Customer', customerSchema);
 
-export default CustomerModel;
+export default CustomerDBModel;

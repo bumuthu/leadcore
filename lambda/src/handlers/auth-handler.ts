@@ -1,15 +1,13 @@
 import 'source-map-support/register';
 
 import { respondError, respondSuccess } from 'src/utils/response-generator';
-import connectToTheDatabase from '../utils/mongo-connection';
-import jwt_decode from "jwt-decode";
+import { entity } from 'src/models/entities';
 import { AuthenticationService, AuthType } from 'src/services/auth-service';
 import { egress } from 'src/models/egress';
 import { ingress } from 'src/models/ingress';
 import { validateNotNullFields } from 'src/validation/utils';
 import { UserService } from 'src/services/user-service';
 import { AccessTokenNullError, NotImplementedError, UserSignUpError, ValidationError } from 'src/utils/exceptions';
-import { getDatabaseKey } from 'src/utils/utils';
 
 
 // UserSignInHandler
@@ -55,9 +53,8 @@ export const signUp = async (event, _context) => {
         if (newUser.type == AuthType.EMAIL) {
             validateNotNullFields(newUser, ["firstName", "email", "password"]);
 
-            await connectToTheDatabase();
-            const userRes: any = await userService.createNewUser(newUser);
-            const userId = getDatabaseKey(userRes);
+            const userRecord: entity.User = await userService.createNewUser(newUser);
+            const userId = userRecord.getKey();
 
             const cognitoRes: any = await authService.signUp(newUser.email, newUser.password, userId);
             console.log("Cognito Response:", cognitoRes)
@@ -66,7 +63,7 @@ export const signUp = async (event, _context) => {
 
             await userService.updateUser(userId, { cognitoUserSub: cognitoRes.userSub });
 
-            response = userRes;
+            response = userRecord;
         } else if (newUser.type == AuthType.LINKEDIN) {
             throw new NotImplementedError("Linkedin sign up not implemented")
         } else {
@@ -75,8 +72,13 @@ export const signUp = async (event, _context) => {
 
         return respondSuccess(response);
     } catch (err) {
-        await userService.deleteNewUser();
-        return respondError(err)
+        try {
+            await userService.deleteNewUser();
+            await authService.deleteNewUser();
+        } catch (e) {
+            console.error("ERROR", e);
+        }
+        return respondError(err);
     }
 }
 
@@ -145,13 +147,16 @@ export const getAccessToken = async (event, _context) => {
 
         const authService = new AuthenticationService();
         const userService: UserService = new UserService();
-        const decodedUser: any = jwt_decode(accessToken);
-        if (!decodedUser!.email) throw new AccessTokenNullError("Invalid access token");
-
-        await connectToTheDatabase()
+        const user: entity.User = await userService.getUserByToken(event.headers.authorization);
 
         const linkedinTokenRes = await authService.accessLinkedin(event.queryStringParameters);
-        const updatedUser = await userService.updateUserWithLinkedinToken(decodedUser.email, linkedinTokenRes);
+        const updatedUser = await userService.updateUser(user.getKey(), {
+            linkedinToken: {
+                accessToken: linkedinTokenRes.data.access_token,
+                expiresIn: linkedinTokenRes.data.expires_in,
+                authorizedAt: new Date()
+            }
+        });
         console.log("Linkedin access token:", linkedinTokenRes.data);
         console.log('Updated user:', updatedUser);
 

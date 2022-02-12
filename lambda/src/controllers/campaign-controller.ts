@@ -1,9 +1,9 @@
 import 'source-map-support/register';
 import ResponseGenerator from 'src/utils/response-generator';
 import connectToTheDatabase from '../utils/mongo-connection';
-import CampaignModel from 'src/models/db/campaign.model';
+import CampaignDBModel from 'src/models/db/campaign.model';
 import { Types } from 'mongoose';
-import CustomerModel from 'src/models/db/customer.model';
+import CustomerDBModel from 'src/models/db/customer.model';
 
 const responseGenerator = new ResponseGenerator();
 
@@ -13,7 +13,7 @@ export const getCampaignById = async (event, _context) => {
     const id = event.pathParameters.campaignId;
 
     try {
-        const campaign = await CampaignModel.findById(id);
+        const campaign = await CampaignDBModel.findById(id);
         return responseGenerator.handleSuccessfullResponse(campaign);
     } catch (e) {
         console.log(e);
@@ -30,7 +30,7 @@ export const updateCampaignById = async (event, _context) => {
     const updatedCampaign = JSON.parse(event.body);
 
     try {
-        const orgCampaign: any = await CampaignModel.findById(campaignId);
+        const orgCampaign: any = await CampaignDBModel.findById(campaignId);
 
         if (updatedCampaign.roles) {
             Object.assign({}, updatedCampaign).roles.forEach((rol, i) => {
@@ -45,7 +45,7 @@ export const updateCampaignById = async (event, _context) => {
 
         if (updatedCampaign.addCustomers && updatedCampaign.addCustomers.length > 0) {
             for (let i = 0; i < updatedCampaign.addCustomers; i++) {
-                const customer: any = await CustomerModel.findById(updatedCampaign.addCustomers[i]);
+                const customer: any = await CustomerDBModel.findById(updatedCampaign.addCustomers[i]);
 
                 const customerLite = {
                     customer: Types.ObjectId(customer['_id']),
@@ -78,7 +78,7 @@ export const updateCampaignById = async (event, _context) => {
             }
         }
 
-        const campaignRes = await CampaignModel.findByIdAndUpdate(campaignId, updatedCampaign, { new: true });
+        const campaignRes = await CampaignDBModel.findByIdAndUpdate(campaignId, updatedCampaign, { new: true });
         return responseGenerator.handleSuccessfullResponse(campaignRes);
     }
     catch (e) {
@@ -106,7 +106,7 @@ export const createCampaign = async (event, _context) => {
     newCampaign.customers = [];
 
     try {
-        const campaign = await CampaignModel.create(newCampaign);
+        const campaign = await CampaignDBModel.create(newCampaign);
         return responseGenerator.handleSuccessfullResponse(campaign);
     }
     catch (e) {
@@ -123,16 +123,16 @@ export const changePipelineStage = async (event, _context) => {
     const stageChange = JSON.parse(event.body);
 
     try {
-        let campaign = await CampaignModel.findById(stageChange.campaignId);
+        let campaign = await CampaignDBModel.findById(stageChange.campaignId);
         const customerIdx = (campaign as any).customers.findIndex(cus => cus.customer == stageChange.customerId);
 
         (campaign as any).customers[customerIdx].stageId = Types.ObjectId(stageChange.newStageId);
-        campaign = await CampaignModel.findByIdAndUpdate(stageChange.campaignId, campaign, { new: true });
+        campaign = await CampaignDBModel.findByIdAndUpdate(stageChange.campaignId, campaign, { new: true });
 
-        const customer = await CustomerModel.findById(stageChange.customerId);
+        const customer = await CustomerDBModel.findById(stageChange.customerId);
 
         (customer as any).stageId = Types.ObjectId(stageChange.newStageId);
-        await CustomerModel.findByIdAndUpdate((campaign as any).customers[customerIdx].customer, customer, { new: true });
+        await CustomerDBModel.findByIdAndUpdate((campaign as any).customers[customerIdx].customer, customer, { new: true });
 
         return responseGenerator.handleSuccessfullResponse(campaign);
 

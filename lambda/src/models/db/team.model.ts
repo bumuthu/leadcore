@@ -1,4 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
+import { entity } from '../entities';
+
+export interface TeamDocument extends Document, entity.Team { }
 
 const teamSchema = new mongoose.Schema({
     pricing: String,
@@ -7,6 +10,6 @@ const teamSchema = new mongoose.Schema({
     customers: [{ type: Schema.Types.ObjectId, ref: 'Customer' }]
 });
 
-const TeamModel = mongoose.model('Team', teamSchema);
+const TeamDBModel = mongoose.model<TeamDocument>('Team', teamSchema);
 
-export default TeamModel;
+export default TeamDBModel;

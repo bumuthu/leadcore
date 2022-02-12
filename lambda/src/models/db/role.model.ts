@@ -1,4 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
+import { entity } from '../entities';
+
+export interface RoleDocument extends Document, entity.Role { }
 
 const roleSchema = new mongoose.Schema({
     name: String,
@@ -11,6 +14,6 @@ const roleSchema = new mongoose.Schema({
     ]
 });
 
-const RoleModel = mongoose.model('Role', roleSchema);
+const RoleDBModel = mongoose.model<RoleDocument>('Role', roleSchema);
 
-export default RoleModel;
+export default RoleDBModel;

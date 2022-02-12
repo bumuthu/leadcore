@@ -1,4 +1,7 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
+import { entity } from '../entities';
+
+export interface PricingDocument extends Document, entity.Pricing { }
 
 const pricingSchema = new mongoose.Schema({
     name: String,
@@ -12,6 +15,6 @@ const pricingSchema = new mongoose.Schema({
     ]
 });
 
-const PricingModel = mongoose.model('Pricing', pricingSchema);
+const PricingDBModel = mongoose.model<PricingDocument>('Pricing', pricingSchema);
 
-export default PricingModel;
+export default PricingDBModel;

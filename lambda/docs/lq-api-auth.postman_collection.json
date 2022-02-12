@@ -1,0 +1,232 @@
+{
+	"info": {
+		"_postman_id": "1c9f144c-0006-444b-9b72-679d4fc1842c",
+		"name": "lq-api-auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"bumuthu.dilshan@gmail.com\",\r\n    \"password\": \"Lq@12345\",\r\n    \"type\": \"EMAIL\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.leadquo.com/dev1/api/v1/auth/login",
+					"protocol": "https",
+					"host": [
+						"api",
+						"leadquo",
+						"com"
+					],
+					"path": [
+						"dev1",
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signup",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Bumuthu\",\r\n    \"email\": \"bumuthu.dilshan@gmail.com\",\r\n    \"password\": \"Lq@12345\",\r\n    \"type\": \"EMAIL\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.leadquo.com/dev1/api/v1/auth/register",
+					"protocol": "https",
+					"host": [
+						"api",
+						"leadquo",
+						"com"
+					],
+					"path": [
+						"dev1",
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verification",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.leadquo.com/dev1/api/v1/auth/verification?email=bumuthu.dilshan@gmail.com&code=395706",
+					"protocol": "https",
+					"host": [
+						"api",
+						"leadquo",
+						"com"
+					],
+					"path": [
+						"dev1",
+						"api",
+						"v1",
+						"auth",
+						"verification"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "bumuthu.dilshan@gmail.com"
+						},
+						{
+							"key": "code",
+							"value": "395706"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verification Resend",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"bumuthudilshanhhk@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.leadquo.com/dev1/api/v1/auth/resend-verification?email=bumuthudilshanhhk@gmail.com",
+					"protocol": "https",
+					"host": [
+						"api",
+						"leadquo",
+						"com"
+					],
+					"path": [
+						"dev1",
+						"api",
+						"v1",
+						"auth",
+						"resend-verification"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "bumuthudilshanhhk@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forgot Password",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"bumuthu.dilshan@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.leadquo.com/dev1/api/v1/auth/forgot-password",
+					"protocol": "https",
+					"host": [
+						"api",
+						"leadquo",
+						"com"
+					],
+					"path": [
+						"dev1",
+						"api",
+						"v1",
+						"auth",
+						"forgot-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Password Change",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"bumuthu.dilshan@gmail.com\",\r\n    \"oldPassword\": \"Lq@12345\",\r\n    \"newPassword\": \"Lq@12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.leadquo.com/dev1/api/v1/auth/change-password",
+					"protocol": "https",
+					"host": [
+						"api",
+						"leadquo",
+						"com"
+					],
+					"path": [
+						"dev1",
+						"api",
+						"v1",
+						"auth",
+						"change-password"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,8 +1,11 @@
 import axios from "axios";
+import { EntityService } from "./entity-service";
 // import config from 'config';
 
-export default class CustomerService {
-    constructor() { }
+export default class CustomerService extends EntityService {
+    constructor() {
+        super();
+     }
 
     scrapeCustomer(profileUrl: string) {
         // const token = config.get("scrapping.session-token")

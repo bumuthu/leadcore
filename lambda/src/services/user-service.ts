@@ -1,44 +1,50 @@
 import { Types } from "mongoose";
 import jwt_decode from "jwt-decode";
-import { db } from "src/models/db";
-import TeamModel from "src/models/db/team.model";
-import UserModel from "src/models/db/user.model";
+import { entity } from "src/models/entities";
+import TeamDBModel from "src/models/db/team.model";
+import UserDBModel from "src/models/db/user.model";
 import { ingress } from "src/models/ingress";
 import { AccessTokenNullError, DataNotFoundError, ErrorCode, NotAuthorizedError, UserSignUpError } from "src/utils/exceptions";
-import { getDatabaseKey } from "src/utils/utils";
+import { EntityService } from "./entity-service";
 
-export class UserService {
+export class UserService extends EntityService {
 
     private teamId: string;
     private userId: string;
 
-    constructor() { }
+    constructor() {
+        super();
+    }
 
-    async getUserByToken(accessToken: string): Promise<db.User> {
+    async getUserByToken(accessToken: string): Promise<entity.User> {
+        await this.before();
+
         if (!accessToken) throw new AccessTokenNullError("Null access token found");
 
         const decodedUser: any = jwt_decode(accessToken);
         console.log("Decoded user:", decodedUser);
 
-        const user: any = await UserModel.findOne({ cognitoUserSub: decodedUser.sub });
+        const user: entity.User = await UserDBModel.findOne({ cognitoUserSub: decodedUser.sub });
         if (!user) throw new DataNotFoundError("User not found in the system");
 
         return user;
     }
 
-    async createNewUser(newUser: ingress.SignUpInput) {
-        try {
-            const teamResponse = await this.insertNewTeam();
-            this.teamId = getDatabaseKey(teamResponse);
+    async createNewUser(newUser: ingress.SignUpInput): Promise<entity.User> {
+        await this.before();
 
-            const userResponse = await this.insertNewUser(newUser, this.teamId)
-            this.userId = getDatabaseKey(userResponse);
+        try {
+            const teamEntry: entity.Team= await this.insertNewTeam();
+            this.teamId = teamEntry.getKey() as string;
+
+            const userEntry: entity.User = await this.insertNewUser(newUser, this.teamId)
+            this.userId = userEntry.getKey() as string;
 
             await this.updateTeam(this.teamId, { users: [Types.ObjectId(this.userId)] })
 
-            console.log("New User DB Response:", userResponse);
+            console.log("New User DB Response:", userEntry);
 
-            return userResponse
+            return userEntry
         } catch (e) {
             console.error(e);
 
@@ -47,23 +53,29 @@ export class UserService {
         }
     }
 
-    async insertNewTeam() {
-        const newTeam: db.Team = {
+    async insertNewTeam(): Promise<entity.Team> {
+        await this.before();
+
+        const newTeam: entity.Team = {
             users: [],
             pricing: "BASIC",
             type: "INDIVIDUAL",
             customers: []
-        } as db.Team;
+        } as entity.Team;
 
-        return await TeamModel.create(newTeam)
+        return await TeamDBModel.create(newTeam)
     }
 
-    async updateTeam(teamId: string, update: any) {
-        return await TeamModel.findByIdAndUpdate(teamId, update, { new: true });
+    async updateTeam(teamId: string, update: any): Promise<entity.Team> {
+        await this.before();
+
+        return await TeamDBModel.findByIdAndUpdate(teamId, update, { new: true });
     }
 
-    async insertNewUser(newUser: ingress.SignUpInput, teamId: string) {
-        const newUserDB: db.User = {
+    async insertNewUser(newUser: ingress.SignUpInput, teamId: string): Promise<entity.User> {
+        await this.before();
+
+        const newUserDB: entity.User = {
             firstName: newUser.firstName,
             lastName: newUser.lastName,
             email: newUser.email,
@@ -75,45 +87,49 @@ export class UserService {
                 role: "AGENT",
                 campaigns: []
             }]
-        } as db.User;
+        } as entity.User;
 
-        return await UserModel.create(newUserDB);
+        return await UserDBModel.create(newUserDB);
     }
 
-    async updateUser(userId: string, update: any) {
-        return await UserModel.findByIdAndUpdate(userId, update, { new: true });
+    async updateUser(userId: string, update: any): Promise<entity.User> {
+        await this.before();
+
+        return await UserDBModel.findByIdAndUpdate(userId, update, { new: true });
     }
 
-    async deleteNewUser() {
+    async deleteNewUser(): Promise<void> {
+        await this.before();
+
         try {
             console.log("UserId:", this.userId, "TeamId:", this.teamId);
 
-            if (this.userId) await UserModel.deleteOne({ _id: Types.ObjectId(this.userId) });
-            if (this.teamId) await TeamModel.deleteOne({ _id: Types.ObjectId(this.teamId) });
+            if (this.userId) await UserDBModel.deleteOne({ _id: Types.ObjectId(this.userId) });
+            if (this.teamId) await TeamDBModel.deleteOne({ _id: Types.ObjectId(this.teamId) });
         } catch (err) {
             throw new UserSignUpError("Error while user/team reverting", ErrorCode.DATABASE_OPERATION_ERROR);
         }
     }
 
-    async updateUserWithLinkedinToken(email: string, linkedinTokenRes: any) {
-        try {
-            return await UserModel.findOneAndUpdate(
-                { email },
-                {
-                    linkedinToken: {
-                        accessToken: linkedinTokenRes.data.access_token,
-                        expiresIn: linkedinTokenRes.data.expires_in,
-                        authorizedAt: new Date()
-                    }
-                },
-                { new: true }
-            )
-        } catch (err) {
-            throw new UserSignUpError("Error while updating user", ErrorCode.DATABASE_OPERATION_ERROR);
-        }
-    }
+    // async updateUserWithLinkedinToken(email: string, linkedinTokenRes: any) {
+    //     try {
+    //         return await UserDBModel.findOneAndUpdate(
+    //             { email },
+    //             {
+    //                 linkedinToken: {
+    //                     accessToken: linkedinTokenRes.data.access_token,
+    //                     expiresIn: linkedinTokenRes.data.expires_in,
+    //                     authorizedAt: new Date()
+    //                 }
+    //             },
+    //             { new: true }
+    //         )
+    //     } catch (err) {
+    //         throw new UserSignUpError("Error while updating user", ErrorCode.DATABASE_OPERATION_ERROR);
+    //     }
+    // }
 
-    async validateUserWithTeamId(user: db.User, teamId: string) {
+    async validateUserWithTeamId(user: entity.User, teamId: string) {
         if (user.teams.filter(team => team.team.toString() == teamId.toString()).length == 0) {
             throw new NotAuthorizedError("You are not authorized to access the team")
         }
