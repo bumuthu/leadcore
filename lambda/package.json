@@ -5,6 +5,7 @@
   "main": "serverless.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
     "deploy": "serverless deploy",
     "deploy-fun": "serverless deploy function --function",
     "tail-lambda": "aws logs tail /aws/lambda/lq-dev1-get-user --follow"

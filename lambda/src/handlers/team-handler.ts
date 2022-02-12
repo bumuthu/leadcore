@@ -1,12 +1,11 @@
 import 'source-map-support/register';
-import TeamDBModel from 'src/models/db/team.model';
+import TeamDBModel, { TeamDocument } from 'src/models/db/team.model';
 import { DataNotFoundError, NotAuthorizedError } from 'src/utils/exceptions';
 import { respondError, respondSuccess } from 'src/utils/response-generator';
 import { entity } from 'src/models/entities';
 import { UserService } from 'src/services/user-service';
 import { ingress } from 'src/models/ingress';
 import { validateNotNullFields, validateUnnecessaryFields, validationWithEnum } from 'src/validation/utils';
-import { getDatabaseKey } from 'src/utils/utils';
 import { PricingType, TeamType } from 'src/models/common';
 
 
@@ -43,7 +42,8 @@ export const updateTeamById = async (event, _context) => {
         validateUnnecessaryFields(teamModificationReq, ["pricing", "users", "customers"]);
         validationWithEnum(PricingType, teamModificationReq, "pricing");
 
-        const team = await TeamDBModel.findByIdAndUpdate(teamId, teamModificationReq, { new: true });
+        const teamUpdated: any = { ...teamModificationReq };
+        const team = await TeamDBModel.findByIdAndUpdate(teamId, teamUpdated, { new: true });
         return respondSuccess(team)
     } catch (err) {
         return respondError(err)
@@ -65,7 +65,7 @@ export const createTeam = async (event, _context) => {
         validationWithEnum(TeamType, teamCreateRequest, "type");
 
         if (!teamCreateRequest.users) teamCreateRequest.users = [];
-        if (!teamCreateRequest.users.includes(getDatabaseKey(user))) teamCreateRequest.users.push(getDatabaseKey(user));
+        if (!teamCreateRequest.users.includes(user.getKey())) teamCreateRequest.users.push(user.getKey());
 
         if (!teamCreateRequest.customers) teamCreateRequest.customers = [];
 
