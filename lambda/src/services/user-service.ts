@@ -34,11 +34,11 @@ export class UserService extends EntityService {
         await this.before();
 
         try {
-            const teamEntry: entity.Team= await this.insertNewTeam();
-            this.teamId = teamEntry.getKey() as string;
+            const teamEntry: entity.Team = await this.insertNewTeam();
+            this.teamId = UserService.getEntityKey(teamEntry);
 
-            const userEntry: entity.User = await this.insertNewUser(newUser, this.teamId)
-            this.userId = userEntry.getKey() as string;
+            const userEntry: entity.User = await this.insertNewUser(newUser, this.teamId);
+            this.userId = UserService.getEntityKey(userEntry);
 
             await this.updateTeam(this.teamId, { users: [Types.ObjectId(this.userId)] })
 
@@ -63,13 +63,13 @@ export class UserService extends EntityService {
             customers: []
         } as entity.Team;
 
-        return await TeamDBModel.create(newTeam)
+        return TeamDBModel.create(newTeam);
     }
 
     async updateTeam(teamId: string, update: any): Promise<entity.Team> {
         await this.before();
 
-        return await TeamDBModel.findByIdAndUpdate(teamId, update, { new: true });
+        return TeamDBModel.findByIdAndUpdate(teamId, update, { new: true });
     }
 
     async insertNewUser(newUser: ingress.SignUpInput, teamId: string): Promise<entity.User> {
@@ -89,13 +89,13 @@ export class UserService extends EntityService {
             }]
         } as entity.User;
 
-        return await UserDBModel.create(newUserDB);
+        return UserDBModel.create(newUserDB);
     }
 
     async updateUser(userId: string, update: any): Promise<entity.User> {
         await this.before();
 
-        return await UserDBModel.findByIdAndUpdate(userId, update, { new: true });
+        return UserDBModel.findByIdAndUpdate(userId, update, { new: true });
     }
 
     async deleteNewUser(): Promise<void> {

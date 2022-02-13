@@ -65,7 +65,7 @@ export const createTeam = async (event, _context) => {
         validationWithEnum(TeamType, teamCreateRequest, "type");
 
         if (!teamCreateRequest.users) teamCreateRequest.users = [];
-        if (!teamCreateRequest.users.includes(user.getKey())) teamCreateRequest.users.push(user.getKey());
+        if (!teamCreateRequest.users.includes(UserService.getEntityKey(user))) teamCreateRequest.users.push(UserService.getEntityKey(user));
 
         if (!teamCreateRequest.customers) teamCreateRequest.customers = [];
 

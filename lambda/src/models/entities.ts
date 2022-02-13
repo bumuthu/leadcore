@@ -4,10 +4,6 @@ import { PricingType, RoleType, TeamType } from "./common";
 export namespace entity {
     export class Entity {
         _id?: any;
-
-        getKey(): any {
-            return this._id;
-        }
     }
 
     export interface User extends Entity {

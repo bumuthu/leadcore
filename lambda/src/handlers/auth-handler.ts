@@ -54,7 +54,7 @@ export const signUp = async (event, _context) => {
             validateNotNullFields(newUser, ["firstName", "email", "password"]);
 
             const userRecord: entity.User = await userService.createNewUser(newUser);
-            const userId = userRecord.getKey();
+            const userId = UserService.getEntityKey(userRecord);
 
             const cognitoRes: any = await authService.signUp(newUser.email, newUser.password, userId);
             console.log("Cognito Response:", cognitoRes)
@@ -150,7 +150,7 @@ export const getAccessToken = async (event, _context) => {
         const user: entity.User = await userService.getUserByToken(event.headers.authorization);
 
         const linkedinTokenRes = await authService.accessLinkedin(event.queryStringParameters);
-        const updatedUser = await userService.updateUser(user.getKey(), {
+        const updatedUser = await userService.updateUser(UserService.getEntityKey(user), {
             linkedinToken: {
                 accessToken: linkedinTokenRes.data.access_token,
                 expiresIn: linkedinTokenRes.data.expires_in,

@@ -9,6 +9,7 @@ import { NotAuthorizedError, ValidationError } from 'src/utils/exceptions';
 import TeamDBModel from 'src/models/db/team.model';
 import { entity } from 'src/models/entities';
 import { UserService } from 'src/services/user-service';
+import CustomerService from 'src/services/customer.service';
 
 const responseGenerator = new ResponseGenerator();
 
@@ -78,7 +79,7 @@ export const createCustomer = async (event, _context) => {
         for (let i = 0; i < campaigns.length; i++) {
             let campUpdated = (campaigns[i] as any)
             campUpdated.customers.push({
-                customer: customer.getKey(),
+                customer: CustomerService.getEntityKey(customer),
                 firstName: customerCreateRequest.firstName,
                 lastName: customerCreateRequest.lastName,
                 score: customerCreateRequest.score,
@@ -86,7 +87,7 @@ export const createCustomer = async (event, _context) => {
                 media: customerCreateRequest.media,
                 stageId: stageIds[i],
             })
-            await CampaignDBModel.findByIdAndUpdate(campaigns[i].getKey(), campUpdated, { new: true });
+            await CampaignDBModel.findByIdAndUpdate( CustomerService.getEntityKey(campaigns[i]), campUpdated, { new: true });
         }
 
         return respondSuccess(customer)
@@ -174,7 +175,7 @@ export const createCustomersList = async (event, _context) => {
 
                 let campaign = await CampaignDBModel.findById(campaignId);
                 (campaign as any).customers.push({
-                    customer: customer.getKey(),
+                    customer: CustomerService.getEntityKey(customer),
                     firstName: customer.firstName,
                     lastName: customer.lastName,
                     score: customer.score,
