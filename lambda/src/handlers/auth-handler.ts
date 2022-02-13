@@ -2,7 +2,7 @@ import 'source-map-support/register';
 
 import { respondError, respondSuccess } from 'src/utils/response-generator';
 import { entity } from 'src/models/entities';
-import { AuthenticationService, AuthType } from 'src/services/auth-service';
+import { AuthenticationService, AuthType } from 'src/services/authentication.service';
 import { egress } from 'src/models/egress';
 import { ingress } from 'src/models/ingress';
 import { validateNotNullFields } from 'src/validation/utils';

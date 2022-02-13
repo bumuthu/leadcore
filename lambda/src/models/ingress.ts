@@ -1,4 +1,4 @@
-import { AuthType } from "src/services/auth-service";
+import { AuthType } from "src/services/authentication.service";
 import { MediaType, PricingType, TeamType } from "./common";
 
 export namespace ingress {

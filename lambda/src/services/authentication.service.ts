@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 import { LinkedinAccessTokenException, UserAuthenticationError, UserLoginError, UserSignOutError, UserSignUpError, UserVerificationError, UserVerificationResendError } from 'src/utils/exceptions';
-import { EntityService } from './entity-service';
+import { EntityService } from './entity.service';
 
 export enum PasswordChallenge {
     NEW_PASSWORD_REQUIRED = 'NEW_PASSWORD_REQUIRED',

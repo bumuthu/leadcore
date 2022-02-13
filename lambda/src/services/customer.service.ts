@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EntityService } from "./entity-service";
+import { EntityService } from "./entity.service";
 // import config from 'config';
 
 export default class CustomerService extends EntityService {

@@ -5,7 +5,8 @@ import TeamDBModel from "src/models/db/team.model";
 import UserDBModel from "src/models/db/user.model";
 import { ingress } from "src/models/ingress";
 import { AccessTokenNullError, DataNotFoundError, ErrorCode, NotAuthorizedError, UserSignUpError } from "src/utils/exceptions";
-import { EntityService } from "./entity-service";
+import { EntityService } from "./entity.service";
+import { TeamService } from "./team.service";
 
 export class UserService extends EntityService {
 
@@ -35,7 +36,9 @@ export class UserService extends EntityService {
 
         try {
             const teamEntry: entity.Team = await this.insertNewTeam();
-            this.teamId = UserService.getEntityKey(teamEntry);
+            console.log("TEAM KEY TYPE before", typeof teamEntry._id, teamEntry._id);
+            this.teamId = TeamService.getEntityKey(teamEntry);
+            console.log("TEAM KEY TYPE after", typeof this.teamId, this.teamId);
 
             const userEntry: entity.User = await this.insertNewUser(newUser, this.teamId);
             this.userId = UserService.getEntityKey(userEntry);
